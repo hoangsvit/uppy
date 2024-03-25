@@ -1,5 +1,22 @@
 # @uppy/companion-client
 
+## 3.7.4
+
+Released: 2024-02-28
+Included in: Uppy v3.23.0
+
+- @uppy/companion-client,@uppy/utils,@uppy/xhr-upload: improvements for #4922 (Mikael Finstad / #4960)
+
+## 3.7.3
+
+Released: 2024-02-22
+Included in: Uppy v3.22.2
+
+- @uppy/companion-client: fix body/url on upload-success (Merlijn Vos / #4922)
+- @uppy/companion-client: remove unnecessary `'use strict'` directives (Antoine du Hamel / #4943)
+- @uppy/companion-client: type changes for provider-views (Antoine du Hamel / #4938)
+- @uppy/companion-client: update types (Antoine du Hamel / #4927)
+
 ## 3.7.1
 
 Released: 2024-02-19

@@ -1,32 +1,24 @@
-import type { Uppy, BasePlugin } from '@uppy/core'
-import type { Body, Meta, UppyFile } from '@uppy/utils/lib/UppyFile'
+import type { Uppy } from '@uppy/core'
+import type { Body, Meta } from '@uppy/utils/lib/UppyFile'
 import type { PluginOpts } from '@uppy/core/lib/BasePlugin.ts'
-import RequestClient, {
-  authErrorStatusCode,
-  type RequestOptions,
-} from './RequestClient.ts'
-import * as tokenStorage from './tokenStorage.ts'
+import type {
+  RequestOptions,
+  CompanionClientProvider,
+} from '@uppy/utils/lib/CompanionClientProvider'
+import type { UnknownProviderPlugin } from '@uppy/core/lib/Uppy.ts'
+import RequestClient, { authErrorStatusCode } from './RequestClient.ts'
+import type { CompanionPluginOptions } from '.'
 
 // TODO: remove deprecated options in next major release
-export interface Opts extends PluginOpts {
+export interface Opts extends PluginOpts, CompanionPluginOptions {
   /** @deprecated */
   serverUrl?: string
   /** @deprecated */
   serverPattern?: string
-  companionUrl: string
-  companionAllowedHosts?: string | RegExp | Array<string | RegExp>
-  storage?: typeof tokenStorage
   pluginId: string
   name?: string
   supportsRefreshToken?: boolean
   provider: string
-}
-
-interface ProviderPlugin<M extends Meta, B extends Body>
-  extends BasePlugin<Opts, M, B> {
-  files: UppyFile<M, B>[]
-
-  storage: typeof tokenStorage
 }
 
 const getName = (id: string) => {
@@ -64,10 +56,10 @@ function isOriginAllowed(
   ) // allowing for trailing '/'
 }
 
-export default class Provider<
-  M extends Meta,
-  B extends Body,
-> extends RequestClient<M, B> {
+export default class Provider<M extends Meta, B extends Body>
+  extends RequestClient<M, B>
+  implements CompanionClientProvider
+{
   #refreshingTokenPromise: Promise<void> | undefined
 
   provider: string
@@ -141,7 +133,10 @@ export default class Provider<
   }
 
   #getPlugin() {
-    const plugin = this.uppy.getPlugin(this.pluginId) as ProviderPlugin<M, B>
+    const plugin = this.uppy.getPlugin(this.pluginId) as UnknownProviderPlugin<
+      M,
+      B
+    >
     if (plugin == null) throw new Error('Plugin was nullish')
     return plugin
   }
@@ -375,63 +370,16 @@ export default class Provider<
     }
   }
 
-  list<ResBody extends Record<string, unknown>>(
+  list<ResBody>(
     directory: string | undefined,
     options: RequestOptions,
   ): Promise<ResBody> {
     return this.get<ResBody>(`${this.id}/list/${directory || ''}`, options)
   }
 
-  async logout<ResBody extends Record<string, unknown>>(
-    options: RequestOptions,
-  ): Promise<ResBody> {
+  async logout<ResBody>(options?: RequestOptions): Promise<ResBody> {
     const response = await this.get<ResBody>(`${this.id}/logout`, options)
     await this.removeAuthToken()
     return response
-  }
-
-  static initPlugin(
-    plugin: ProviderPlugin<any, any>, // any because static methods cannot use class generics
-    opts: Opts,
-    defaultOpts: Record<string, unknown>,
-  ): void {
-    /* eslint-disable no-param-reassign */
-    plugin.type = 'acquirer'
-    plugin.files = []
-    if (defaultOpts) {
-      plugin.opts = { ...defaultOpts, ...opts }
-    }
-
-    if (opts.serverUrl || opts.serverPattern) {
-      throw new Error(
-        '`serverUrl` and `serverPattern` have been renamed to `companionUrl` and `companionAllowedHosts` respectively in the 0.30.5 release. Please consult the docs (for example, https://uppy.io/docs/instagram/ for the Instagram plugin) and use the updated options.`',
-      )
-    }
-
-    if (opts.companionAllowedHosts) {
-      const pattern = opts.companionAllowedHosts
-      // validate companionAllowedHosts param
-      if (
-        typeof pattern !== 'string' &&
-        !Array.isArray(pattern) &&
-        !(pattern instanceof RegExp)
-      ) {
-        throw new TypeError(
-          `${plugin.id}: the option "companionAllowedHosts" must be one of string, Array, RegExp`,
-        )
-      }
-      plugin.opts.companionAllowedHosts = pattern
-    } else if (/^(?!https?:\/\/).*$/i.test(opts.companionUrl)) {
-      // does not start with https://
-      plugin.opts.companionAllowedHosts = `https://${opts.companionUrl?.replace(
-        /^\/\//,
-        '',
-      )}`
-    } else {
-      plugin.opts.companionAllowedHosts = new URL(opts.companionUrl).origin
-    }
-
-    plugin.storage = plugin.opts.storage || tokenStorage
-    /* eslint-enable no-param-reassign */
   }
 }
