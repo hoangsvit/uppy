@@ -1,11 +1,10 @@
 {
   "name": "@uppy/image-editor",
   "description": "Image editor and cropping UI",
-  "version": "2.4.4",
+  "version": "3.3.2",
   "license": "MIT",
   "main": "lib/index.js",
   "style": "dist/style.min.css",
-  "types": "types/index.d.ts",
   "type": "module",
   "keywords": [
     "file uploader",
@@ -28,7 +27,7 @@
   },
   "dependencies": {
     "@uppy/utils": "workspace:^",
-    "cropperjs": "1.5.7",
+    "cropperjs": "^1.6.2",
     "preact": "^10.5.13"
   },
   "peerDependencies": {

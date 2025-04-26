@@ -56,9 +56,9 @@ nb_NO.strings = {
   dropPasteFiles: 'Dra filer hit eller %{browseFiles}',
   dropPasteFolders: 'Dra filer hit eller %{browseFolders}',
   dropPasteImportBoth:
-    'Dra filer hit %{browseFiles}, %{browseFolders} eller importer fra:',
-  dropPasteImportFiles: 'Dra filer hit %{browseFiles} eller importer fra:',
-  dropPasteImportFolders: 'Dra filer hit %{browseFolders} eller importer fra:',
+    'Dra filer hit, %{browseFiles}, %{browseFolders} eller importer fra:',
+  dropPasteImportFiles: 'Dra filer hit, %{browseFiles} eller importer fra:',
+  dropPasteImportFolders: 'Dra filer hit, %{browseFolders} eller importer fra:',
   editFile: 'Rediger fil',
   editImage: 'Rediger bilde',
   editing: 'Redigerer %{file}',
@@ -175,13 +175,6 @@ nb_NO.strings = {
   },
   zoomIn: 'Zoom inn',
   zoomOut: 'Zoom ut',
-}
-
-// TODO: remove this in the next major?
-// @ts-expect-error Uppy can be a global in legacy bundle
-if (typeof Uppy !== 'undefined') {
-  // @ts-expect-error Uppy can be a global in legacy bundle
-  globalThis.Uppy.locales.nb_NO = nb_NO
 }
 
 export default nb_NO

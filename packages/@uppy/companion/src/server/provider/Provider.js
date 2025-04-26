@@ -6,21 +6,21 @@ const { MAX_AGE_24H } = require('../helpers/jwt')
 class Provider {
   /**
    *
-   * @param {{providerName: string, allowLocalUrls: boolean, providerGrantConfig?: object}} options
+   * @param {{providerName: string, allowLocalUrls: boolean, providerGrantConfig?: object, secret: string}} options
    */
-  constructor ({ allowLocalUrls, providerGrantConfig }) {
+  constructor ({ allowLocalUrls, providerGrantConfig, secret }) {
     // Some providers might need cookie auth for the thumbnails fetched via companion
     this.needsCookieAuth = false
     this.allowLocalUrls = allowLocalUrls
     this.providerGrantConfig = providerGrantConfig
+    this.secret = secret
     return this
   }
 
   /**
    * config to extend the grant config
-   * todo major: rename to getExtraGrantConfig
    */
-  static getExtraConfig () {
+  static getExtraGrantConfig () {
     return {}
   }
 
@@ -58,14 +58,16 @@ class Provider {
   }
 
   /**
-   * get the size of a certain file in the provider account
+   * first Companion will try to get the size from the content-length response header,
+   * if that fails, it will call this method to get the size.
+   * So if your provider has a different method for getting the size, you can return the size here
    *
    * @param {object} options
    * @returns {Promise}
    */
   // eslint-disable-next-line class-methods-use-this,no-unused-vars
   async size (options) {
-    throw new Error('method not implemented')
+    return undefined
   }
 
   /**
@@ -102,8 +104,7 @@ class Provider {
    *
    * @returns {string}
    */
-  // todo next major: rename authProvider to oauthProvider (we have other non-oauth auth types too now)
-  static get authProvider () {
+  static get oauthProvider () {
     return undefined
   }
 
@@ -122,5 +123,5 @@ class Provider {
 }
 
 module.exports = Provider
-// OAuth providers are those that have an `authProvider` set. It means they require OAuth authentication to work
-module.exports.isOAuthProvider = (authProvider) => typeof authProvider === 'string' && authProvider.length > 0
+// OAuth providers are those that have an `oauthProvider` set. It means they require OAuth authentication to work
+module.exports.isOAuthProvider = (oauthProvider) => typeof oauthProvider === 'string' && oauthProvider.length > 0

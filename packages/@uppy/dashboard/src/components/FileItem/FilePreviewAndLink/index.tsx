@@ -1,11 +1,11 @@
-import { h, type ComponentChild } from 'preact'
-import FilePreview from '../../FilePreview.tsx'
-import MetaErrorMessage from '../MetaErrorMessage.tsx'
-import getFileTypeIcon from '../../../utils/getFileTypeIcon.tsx'
+import { h } from 'preact'
+import FilePreview from '../../FilePreview.jsx'
+import MetaErrorMessage from '../MetaErrorMessage.jsx'
+import getFileTypeIcon from '../../../utils/getFileTypeIcon.jsx'
 
 type $TSFixMe = any
 
-export default function FilePreviewAndLink(props: $TSFixMe): ComponentChild {
+export default function FilePreviewAndLink(props: $TSFixMe) {
   const { file, i18n, toggleFileCard, metaFields, showLinkToFileUploadResult } =
     props
   const white = 'rgba(255, 255, 255, 0.5)'

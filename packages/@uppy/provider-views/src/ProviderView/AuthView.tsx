@@ -1,18 +1,17 @@
-/* eslint-disable react/require-default-props */
 import { h } from 'preact'
 import { useCallback } from 'preact/hooks'
-import type { Body, Meta } from '@uppy/utils/lib/UppyFile'
-import type Translator from '@uppy/utils/lib/Translator'
-import type { ProviderViewOptions } from './ProviderView'
-import type ProviderViews from './ProviderView'
+import type { Body, Meta } from '@uppy/core'
+import type { I18n } from '@uppy/utils/lib/Translator'
+import type { Opts } from './ProviderView.js'
+import type ProviderViews from './ProviderView.js'
 
 type AuthViewProps<M extends Meta, B extends Body> = {
   loading: boolean | string
   pluginName: string
-  pluginIcon: () => JSX.Element
-  i18n: Translator['translateArray']
+  pluginIcon: () => h.JSX.Element
+  i18n: I18n
   handleAuth: ProviderViews<M, B>['handleAuth']
-  renderForm?: ProviderViewOptions<M, B>['renderAuthForm']
+  renderForm?: Opts<M, B>['renderAuthForm']
 }
 
 function GoogleIcon() {
@@ -57,7 +56,7 @@ function DefaultForm<M extends Meta, B extends Body>({
   onAuth,
 }: {
   pluginName: string
-  i18n: Translator['translateArray']
+  i18n: I18n
   onAuth: AuthViewProps<M, B>['handleAuth']
 }) {
   // In order to comply with Google's brand we need to create a different button
@@ -101,22 +100,18 @@ const defaultRenderForm = ({
   onAuth,
 }: {
   pluginName: string
-  i18n: Translator['translateArray']
+  i18n: I18n
   onAuth: AuthViewProps<Meta, Body>['handleAuth']
 }) => <DefaultForm pluginName={pluginName} i18n={i18n} onAuth={onAuth} />
 
-export default function AuthView<M extends Meta, B extends Body>(
-  props: AuthViewProps<M, B>,
-): JSX.Element {
-  const {
-    loading,
-    pluginName,
-    pluginIcon,
-    i18n,
-    handleAuth,
-    renderForm = defaultRenderForm,
-  } = props
-
+export default function AuthView<M extends Meta, B extends Body>({
+  loading,
+  pluginName,
+  pluginIcon,
+  i18n,
+  handleAuth,
+  renderForm = defaultRenderForm,
+}: AuthViewProps<M, B>) {
   return (
     <div className="uppy-Provider-auth">
       <div className="uppy-Provider-authIcon">{pluginIcon()}</div>
@@ -126,9 +121,7 @@ export default function AuthView<M extends Meta, B extends Body>(
         })}
       </div>
 
-      <div className="uppy-Provider-authForm">
-        {renderForm({ pluginName, i18n, loading, onAuth: handleAuth })}
-      </div>
+      {renderForm({ pluginName, i18n, loading, onAuth: handleAuth })}
     </div>
   )
 }

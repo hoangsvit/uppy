@@ -16,10 +16,11 @@ const defaultOptions = {
     getKey: defaultGetKey,
     expires: 800, // seconds
   },
-  enableUrlEndpoint: true, // todo next major make this default false
+  enableUrlEndpoint: false,
+  enableGooglePickerEndpoint: false,
   allowLocalUrls: false,
   periodicPingUrls: [],
-  streamingUpload: false,
+  streamingUpload: true,
   clientSocketConnectTimeout: 60000,
   metrics: true,
 }
@@ -106,6 +107,14 @@ const validateConfig = (companionOptions) => {
   if (companionOptions.uploadUrls == null || companionOptions.uploadUrls.length === 0) {
     if (process.env.NODE_ENV === 'production') throw new Error('uploadUrls is required')
     logger.error('Running without uploadUrls is a security risk and Companion will refuse to start up when running in production (NODE_ENV=production)', 'startup.uploadUrls')
+  }
+
+  if (companionOptions.corsOrigins == null) {
+    throw new TypeError('Option corsOrigins is required. To disable security, pass true')
+  }
+
+  if (companionOptions.corsOrigins === '*') {
+    throw new TypeError('Option corsOrigins cannot be "*". To disable security, pass true')
   }
 
   if (periodicPingUrls != null && (

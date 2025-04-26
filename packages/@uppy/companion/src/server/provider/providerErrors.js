@@ -1,5 +1,5 @@
 const logger = require('../logger')
-const { ProviderApiError, ProviderUserError, ProviderAuthError } = require('./error')
+const { ProviderApiError, ProviderUserError, ProviderAuthError, parseHttpError } = require('./error')
 
 /**
  * 
@@ -37,18 +37,11 @@ async function withProviderErrorHandling({
   try {
     return await fn()
   } catch (err) {
-    let statusCode
-    let body
+    const httpError = parseHttpError(err)
 
-    if (err?.name === 'HTTPError') {
-      statusCode = err.response?.statusCode
-      body = err.response?.body
-    } else if (err?.name === 'StreamHttpJsonError') {
-      statusCode = err.statusCode
-      body = err.responseJson
-    }
-
-    if (statusCode != null) {
+    // Wrap all HTTP errors according to the provider's desired error handling
+    if (httpError) {
+      const { statusCode, body } = httpError
       let knownErr
       if (isAuthError({ statusCode, body })) {
         knownErr = new ProviderAuthError()
@@ -62,10 +55,23 @@ async function withProviderErrorHandling({
       throw knownErr
     }
 
+    // non HTTP errors will be passed through
     logger.error(err, tag)
-
     throw err
   }
 }
 
-module.exports = { withProviderErrorHandling }
+async function withGoogleErrorHandling (providerName, tag, fn) {
+  return withProviderErrorHandling({
+    fn,
+    tag,
+    providerName,
+    isAuthError: (response) => (
+      response.statusCode === 401
+      || (response.statusCode === 400 && response.body?.error === 'invalid_grant') // Refresh token has expired or been revoked
+    ),
+    getJsonErrorMessage: (body) => body?.error?.message,
+  })
+}
+
+module.exports = { withProviderErrorHandling, withGoogleErrorHandling, parseHttpError }

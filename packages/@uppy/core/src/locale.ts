@@ -12,6 +12,8 @@ export default {
       0: 'You have to select at least %{smart_count} file',
       1: 'You have to select at least %{smart_count} files',
     },
+    aggregateExceedsSize:
+      'You selected %{size} of files, but maximum allowed size is %{sizeAllowed}',
     exceedsSize: '%{file} exceeds maximum allowed size of %{size}',
     missingRequiredMetaField: 'Missing required meta fields',
     missingRequiredMetaFieldOnFile:
@@ -39,6 +41,9 @@ export default {
     openFolderNamed: 'Open folder %{name}',
     cancel: 'Cancel',
     logOut: 'Log out',
+    logIn: 'Log in',
+    pickFiles: 'Pick files',
+    pickPhotos: 'Pick photos',
     filter: 'Filter',
     resetFilter: 'Reset filter',
     loading: 'Loading...',
@@ -60,5 +65,7 @@ export default {
     },
     additionalRestrictionsFailed:
       '%{count} additional restrictions were not fulfilled',
+    unnamed: 'Unnamed',
+    pleaseWait: 'Please wait',
   },
 }

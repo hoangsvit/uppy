@@ -1,9 +1,8 @@
 {
   "name": "@uppy/utils",
   "description": "Shared utility functions for Uppy Core and plugins maintained by the Uppy team.",
-  "version": "5.7.4",
+  "version": "6.1.3",
   "license": "MIT",
-  "types": "types/index.d.ts",
   "type": "module",
   "keywords": [
     "file uploader",
@@ -28,7 +27,6 @@
     "./lib/dataURItoBlob": "./lib/dataURItoBlob.js",
     "./lib/dataURItoFile": "./lib/dataURItoFile.js",
     "./lib/emaFilter": "./lib/emaFilter.js",
-    "./lib/emitSocketProgress": "./lib/emitSocketProgress.js",
     "./lib/findAllDOMElements": "./lib/findAllDOMElements.js",
     "./lib/findDOMElement": "./lib/findDOMElement.js",
     "./lib/generateFileID": "./lib/generateFileID.js",
@@ -47,7 +45,6 @@
     "./lib/isTouchDevice": "./lib/isTouchDevice.js",
     "./lib/prettyETA": "./lib/prettyETA.js",
     "./lib/secondsToTime": "./lib/secondsToTime.js",
-    "./lib/settle": "./lib/settle.js",
     "./lib/toArray": "./lib/toArray.js",
     "./lib/FOCUSABLE_ELEMENTS": "./lib/FOCUSABLE_ELEMENTS.js",
     "./lib/AbortController": "./lib/AbortController.js",
@@ -70,7 +67,9 @@
     "./lib/CompanionClientProvider": "./lib/CompanionClientProvider.js",
     "./lib/FileProgress": "./lib/FileProgress.js",
     "./src/microtip.scss": "./src/microtip.scss",
-    "./lib/UserFacingApiError": "./lib/UserFacingApiError.js"
+    "./lib/UserFacingApiError": "./lib/UserFacingApiError.js",
+    "./lib/getAllowedMetaFields": "./lib/getAllowedMetaFields.js",
+    "./lib/fetcher": "./lib/fetcher.js"
   },
   "dependencies": {
     "lodash": "^4.17.21",
@@ -78,6 +77,6 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.199",
-    "vitest": "^1.2.1"
+    "vitest": "^1.6.1"
   }
 }

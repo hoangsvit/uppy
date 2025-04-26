@@ -12,5 +12,11 @@ module.exports = {
         semi: true,
       },
     },
+    {
+      files: ['tsconfig.json'],
+      options: {
+        parser: 'jsonc',
+      },
+    },
   ],
 }

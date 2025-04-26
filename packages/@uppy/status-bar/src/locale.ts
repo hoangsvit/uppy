@@ -1,5 +1,3 @@
-import type { Locale } from '@uppy/utils/lib/Translator'
-
 export default {
   strings: {
     // Shown in the status bar while files are being uploaded.
@@ -27,6 +25,7 @@ export default {
     },
     // When `showProgressDetails` is set, shows the amount of bytes that have been uploaded so far.
     dataUploadedOfTotal: '%{complete} of %{total}',
+    dataUploadedOfUnknown: '%{complete} of unknown',
     // When `showProgressDetails` is set, shows an estimation of how long the upload will take to complete.
     xTimeLeft: '%{time} left',
     // Used as the label for the button that starts an upload.
@@ -47,5 +46,5 @@ export default {
       1: '%{smart_count} more files added',
     },
     showErrorDetails: 'Show error details',
-  } as Locale<0 | 1>['strings'],
-} as any as Locale
+  },
+}

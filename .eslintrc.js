@@ -54,11 +54,7 @@ module.exports = {
       ignore: svgPresentationAttributes,
     }],
 
-    // Special rules for CI:
-    ...(process.env.CI && {
-      // Some imports are available only after a full build, which we don't do on CI.
-      'import/no-unresolved': 'off',
-    }),
+    'import/no-unresolved': 'off',
 
     // rules we want to enforce
     'array-callback-return': 'error',
@@ -91,7 +87,12 @@ module.exports = {
     'react/no-this-in-sfc': 'error',
     'react/no-will-update-set-state': 'error',
     'react/prefer-stateless-function': 'error',
+    'react/require-default-props': ['error', {
+      forbidDefaultForRequired: true,
+      functions: 'ignore',
+    }],
     'react/sort-comp': 'error',
+    'react/static-property-placement': 'off',
     'react/style-prop-object': 'error',
 
     // accessibility
@@ -116,7 +117,6 @@ module.exports = {
     'jsdoc/check-syntax': 'error',
     'jsdoc/check-tag-names': ['error', { jsxTags: true }],
     'jsdoc/check-types': 'error',
-    'jsdoc/newline-after-description': 'error',
     'jsdoc/valid-types': 'error',
     'jsdoc/check-indentation': ['off'],
   },
@@ -174,6 +174,14 @@ module.exports = {
             name: 'require',
             message: 'Use import instead',
           },
+          {
+            name: 'JSX',
+            message: 'Use h.JSX.Element, ComponentChild, or ComponentChildren from Preact',
+          },
+          {
+            name: 'React',
+            message: 'Import the value instead of relying on global.React.',
+          },
         ],
         'import/extensions': ['error', 'ignorePackages'],
       },
@@ -199,51 +207,7 @@ module.exports = {
         'private/dev/*.js',
         'private/release/*.js',
         'private/remark-lint-uppy/*.js',
-
-        // Packages that have switched to ESM sources:
-        'packages/@uppy/audio/src/**/*.js',
-        'packages/@uppy/aws-s3-multipart/src/**/*.js',
-        'packages/@uppy/aws-s3/src/**/*.js',
-        'packages/@uppy/box/src/**/*.js',
-        'packages/@uppy/companion-client/src/**/*.js',
-        'packages/@uppy/compressor/src/**/*.js',
-        'packages/@uppy/core/src/**/*.js',
-        'packages/@uppy/dashboard/src/**/*.js',
-        'packages/@uppy/drag-drop/src/**/*.js',
-        'packages/@uppy/drop-target/src/**/*.js',
-        'packages/@uppy/dropbox/src/**/*.js',
-        'packages/@uppy/facebook/src/**/*.js',
-        'packages/@uppy/file-input/src/**/*.js',
-        'packages/@uppy/form/src/**/*.js',
-        'packages/@uppy/golden-retriever/src/**/*.js',
-        'packages/@uppy/google-drive/src/**/*.js',
-        'packages/@uppy/image-editor/src/**/*.js',
-        'packages/@uppy/informer/src/**/*.js',
-        'packages/@uppy/instagram/src/**/*.js',
-        'packages/@uppy/locales/src/**/*.js',
-        'packages/@uppy/locales/template.js',
-        'packages/@uppy/onedrive/src/**/*.js',
-        'packages/@uppy/progress-bar/src/**/*.js',
-        'packages/@uppy/provider-views/src/**/*.js',
-        'packages/@uppy/react/src/**/*.js',
-        'packages/@uppy/redux-dev-tools/src/**/*.js',
-        'packages/@uppy/remote-sources/src/**/*.js',
-        'packages/@uppy/screen-capture/src/**/*.js',
-        'packages/@uppy/status-bar/src/**/*.js',
-        'packages/@uppy/store-default/src/**/*.js',
-        'packages/@uppy/store-redux/src/**/*.js',
-        'packages/@uppy/svelte/rollup.config.js',
-        'packages/@uppy/svelte/src/**/*.js',
-        'packages/@uppy/thumbnail-generator/src/**/*.js',
-        'packages/@uppy/transloadit/src/**/*.js',
-        'packages/@uppy/tus/src/**/*.js',
-        'packages/@uppy/unsplash/src/**/*.js',
-        'packages/@uppy/url/src/**/*.js',
-        'packages/@uppy/utils/src/**/*.js',
-        'packages/@uppy/vue/src/**/*.js',
-        'packages/@uppy/webcam/src/**/*.js',
-        'packages/@uppy/xhr-upload/src/**/*.js',
-        'packages/@uppy/zoom/src/**/*.js',
+        'packages/@uppy/!(companion|react-native)/**/*.js',
       ],
       parser: 'espree',
       parserOptions: {
@@ -277,6 +241,14 @@ module.exports = {
           {
             name: 'require',
             message: 'Use import instead',
+          },
+          {
+            name: 'JSX',
+            message: 'Use h.JSX.Element, ComponentChild, or ComponentChildren from Preact',
+          },
+          {
+            name: 'React',
+            message: 'Import the value instead of relying on global.React.',
           },
         ],
         'import/extensions': ['error', 'ignorePackages'],
@@ -462,6 +434,19 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
       ],
       rules: {
+        'no-extra-semi': 'off',
+        'no-restricted-syntax': ['error', {
+          selector: 'ImportDeclaration[source.value=/^@uppy\\x2F[a-z-0-9]+\\x2F/]:not([source.value=/^@uppy\\x2Futils\\x2F/]):not([source.value=/\\.(js|css)$/])',
+          message: 'Use ".js" file extension for import type declarations from a different package',
+        }, {
+          selector: 'ImportDeclaration[source.value=/^@uppy\\x2Futils\\x2Flib\\x2F.+\\.[mc]?[jt]sx?$/]',
+          message: 'Do not use file extension when importing from @uppy/utils',
+        },
+        {
+          selector: 'ImportDeclaration[source.value=/^@uppy\\x2F[a-z-0-9]+\\x2Fsrc\\x2F/]',
+          message: 'Importing from "src/" is not allowed. Import from root or from "lib/" if you must.',
+        }],
+        'import/extensions': ['error', 'ignorePackages'],
         'import/prefer-default-export': 'off',
         '@typescript-eslint/no-empty-function': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
@@ -471,7 +456,7 @@ module.exports = {
       },
     },
     {
-      files: ['packages/@uppy/*/src/**/*.ts', 'packages/@uppy/*/src/**/*.tsx'],
+      files: ['packages/@uppy/*/src/**/*.ts'],
       excludedFiles: ['packages/@uppy/**/*.test.ts', 'packages/@uppy/core/src/mocks/*.ts'],
       rules: {
         '@typescript-eslint/explicit-module-boundary-types': 'error',
@@ -506,6 +491,14 @@ module.exports = {
       },
     },
     {
+      files: [
+        'packages/@uppy/svelte/**',
+      ],
+      parserOptions: {
+        sourceType: 'module',
+      },
+    },
+    {
       files: ['e2e/**/*.ts'],
       extends: ['plugin:cypress/recommended'],
     },
@@ -516,6 +509,12 @@ module.exports = {
         'no-console': 'off',
         'no-only-tests/no-only-tests': 'error',
         'no-unused-expressions': 'off',
+      },
+    },
+    {
+      files: ["packages/@uppy/vue/**"],
+      rules: {
+        'react-hooks/rules-of-hooks': 'off',
       },
     },
   ],

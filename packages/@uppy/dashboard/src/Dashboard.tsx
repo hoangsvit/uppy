@@ -1,14 +1,17 @@
-import {
-  UIPlugin,
-  type UIPluginOptions,
-  type UnknownPlugin,
-  type Uppy,
-  type UploadResult,
-  type State,
-} from '@uppy/core'
 import type { ComponentChild, VNode } from 'preact'
-import type { DefinePluginOpts } from '@uppy/core/lib/BasePlugin.ts'
-import type { Body, Meta, UppyFile } from '@uppy/utils/lib/UppyFile'
+import { UIPlugin } from '@uppy/core'
+import type { LocaleStrings } from '@uppy/utils/lib/Translator'
+import type {
+  Body,
+  Meta,
+  UppyFile,
+  UIPluginOptions,
+  UnknownPlugin,
+  Uppy,
+  UploadResult,
+  State,
+  DefinePluginOpts,
+} from '@uppy/core'
 import StatusBar from '@uppy/status-bar'
 import Informer from '@uppy/informer'
 import ThumbnailGenerator from '@uppy/thumbnail-generator'
@@ -16,17 +19,19 @@ import findAllDOMElements from '@uppy/utils/lib/findAllDOMElements'
 import toArray from '@uppy/utils/lib/toArray'
 import getDroppedFiles from '@uppy/utils/lib/getDroppedFiles'
 import { defaultPickerIcon } from '@uppy/provider-views'
+import type StatusBarLocale from '@uppy/status-bar/lib/locale.js'
 
+import type { TargetedEvent } from 'preact/compat'
 import { nanoid } from 'nanoid/non-secure'
 import memoizeOne from 'memoize-one'
-import * as trapFocus from './utils/trapFocus.ts'
-import createSuperFocus from './utils/createSuperFocus.ts'
-import DashboardUI from './components/Dashboard.tsx'
+import * as trapFocus from './utils/trapFocus.js'
+import createSuperFocus from './utils/createSuperFocus.js'
+import DashboardUI from './components/Dashboard.jsx'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore We don't want TS to generate types for the package.json
 import packageJson from '../package.json'
-import locale from './locale.ts'
+import locale from './locale.js'
 
 type GenericEventCallback = () => void
 export type DashboardFileEditStartCallback<M extends Meta, B extends Body> = (
@@ -96,12 +101,12 @@ interface Target {
   type: string
 }
 
-interface TargetWithRender extends Target {
-  icon: ComponentChild
+export interface TargetWithRender extends Target {
+  icon: () => ComponentChild
   render: () => ComponentChild
 }
 
-interface DashboardState<M extends Meta, B extends Body> {
+export interface DashboardState<M extends Meta, B extends Body> {
   targets: Target[]
   activePickerPanel: Target | undefined
   showAddFilesPanel: boolean
@@ -109,64 +114,81 @@ interface DashboardState<M extends Meta, B extends Body> {
   fileCardFor: string | null
   showFileEditor: boolean
   metaFields?: MetaField[] | ((file: UppyFile<M, B>) => MetaField[])
+  isHidden: boolean
+  isClosing: boolean
+  containerWidth: number
+  containerHeight: number
+  areInsidesReadyToBeVisible: boolean
+  isDraggingOver: boolean
   [key: string]: unknown
 }
 
-export interface DashboardOptions<M extends Meta, B extends Body>
-  extends UIPluginOptions {
+export interface DashboardModalOptions {
+  inline?: false
   animateOpenClose?: boolean
   browserBackButtonClose?: boolean
   closeAfterFinish?: boolean
-  singleFileFullScreen?: boolean
   closeModalOnClickOutside?: boolean
-  disableInformer?: boolean
   disablePageScrollWhenModalOpen?: boolean
+}
+
+export interface DashboardInlineOptions {
+  inline: true
+
+  height?: string | number
+  width?: string | number
+}
+
+interface DashboardMiscOptions<M extends Meta, B extends Body>
+  extends UIPluginOptions {
+  autoOpen?: 'metaEditor' | 'imageEditor' | null
+  defaultPickerIcon?: typeof defaultPickerIcon
+  disabled?: boolean
+  disableInformer?: boolean
+  disableLocalFiles?: boolean
   disableStatusBar?: boolean
   disableThumbnailGenerator?: boolean
-  height?: string | number
-  thumbnailWidth?: number
-  thumbnailHeight?: number
-  thumbnailType?: string
-  nativeCameraFacingMode?: ConstrainDOMString
-  waitForThumbnailsBeforeUpload?: boolean
-  defaultPickerIcon?: typeof defaultPickerIcon
+  doneButtonHandler?: null | (() => void)
+  fileManagerSelectionType?: 'files' | 'folders' | 'both'
   hideCancelButton?: boolean
   hidePauseResumeButton?: boolean
   hideProgressAfterFinish?: boolean
   hideRetryButton?: boolean
   hideUploadButton?: boolean
-  inline?: boolean
   metaFields?: MetaField[] | ((file: UppyFile<M, B>) => MetaField[])
+  nativeCameraFacingMode?: 'user' | 'environment' | ''
   note?: string | null
+  onDragLeave?: (event: DragEvent) => void
+  onDragOver?: (event: DragEvent) => void
+  onDrop?: (event: DragEvent) => void
+  onRequestCloseModal?: () => void
   plugins?: string[]
-  fileManagerSelectionType?: 'files' | 'folders' | 'both'
   proudlyDisplayPoweredByUppy?: boolean
   showLinkToFileUploadResult?: boolean
-  showProgressDetails?: boolean
-  showSelectedFiles?: boolean
-  showRemoveButtonAfterComplete?: boolean
   showNativePhotoCameraButton?: boolean
   showNativeVideoCameraButton?: boolean
+  showProgressDetails?: boolean
+  showRemoveButtonAfterComplete?: boolean
+  showSelectedFiles?: boolean
+  singleFileFullScreen?: boolean
   theme?: 'auto' | 'dark' | 'light'
-  trigger?: string
-  width?: string | number
-  autoOpenFileEditor?: boolean
-  disabled?: boolean
-  disableLocalFiles?: boolean
-  onRequestCloseModal?: () => void
-  doneButtonHandler?: () => void
-  onDragOver?: (event: DragEvent) => void
-  onDragLeave?: (event: DragEvent) => void
-  onDrop?: (event: DragEvent) => void
+  thumbnailHeight?: number
+  thumbnailType?: string
+  thumbnailWidth?: number
+  trigger?: string | Element | null
+  waitForThumbnailsBeforeUpload?: boolean
+  locale?: LocaleStrings<typeof locale> & typeof StatusBarLocale
 }
 
-// set default options, must be kept in sync with packages/@uppy/react/src/DashboardModal.js
+export type DashboardOptions<
+  M extends Meta,
+  B extends Body,
+> = DashboardMiscOptions<M, B> &
+  (DashboardModalOptions | DashboardInlineOptions)
+
 const defaultOptions = {
   target: 'body',
   metaFields: [],
-  inline: false,
-  width: 750,
-  height: 550,
   thumbnailWidth: 280,
   thumbnailType: 'image/jpeg',
   waitForThumbnailsBeforeUpload: false,
@@ -179,45 +201,64 @@ const defaultOptions = {
   hidePauseResumeButton: false,
   hideProgressAfterFinish: false,
   note: null,
-  closeModalOnClickOutside: false,
-  closeAfterFinish: false,
   singleFileFullScreen: true,
   disableStatusBar: false,
   disableInformer: false,
   disableThumbnailGenerator: false,
-  disablePageScrollWhenModalOpen: true,
-  animateOpenClose: true,
   fileManagerSelectionType: 'files',
   proudlyDisplayPoweredByUppy: true,
   showSelectedFiles: true,
   showRemoveButtonAfterComplete: false,
-  browserBackButtonClose: false,
   showNativePhotoCameraButton: false,
   showNativeVideoCameraButton: false,
   theme: 'light',
-  autoOpenFileEditor: false,
+  autoOpen: null,
   disabled: false,
   disableLocalFiles: false,
+  nativeCameraFacingMode: '',
+  onDragLeave: () => {},
+  onDragOver: () => {},
+  onDrop: () => {},
+  plugins: [],
 
   // Dynamic default options, they have to be defined in the constructor (because
   // they require access to the `this` keyword), but we still want them to
   // appear in the default options so TS knows they'll be defined.
-  doneButtonHandler: null as any,
+  doneButtonHandler: undefined as any,
   onRequestCloseModal: null as any,
+
+  // defaultModalOptions
+  inline: false as boolean,
+  animateOpenClose: true,
+  browserBackButtonClose: false,
+  closeAfterFinish: false,
+  closeModalOnClickOutside: false,
+  disablePageScrollWhenModalOpen: true,
+  trigger: null,
+
+  // defaultInlineOptions
+  width: 750,
+  height: 550,
 } satisfies Partial<DashboardOptions<any, any>>
 
 /**
  * Dashboard UI with previews, metadata editing, tabs for various services and more
  */
 export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
-  DefinePluginOpts<DashboardOptions<M, B>, keyof typeof defaultOptions>,
+  DefinePluginOpts<
+    // The options object inside the class is not the discriminated union but and intersection of the different subtypes.
+    DashboardMiscOptions<M, B> &
+      Omit<DashboardInlineOptions, 'inline'> &
+      Omit<DashboardModalOptions, 'inline'> & { inline?: boolean },
+    keyof typeof defaultOptions
+  >,
   M,
   B,
   DashboardState<M, B>
 > {
   static VERSION = packageJson.version
 
-  #disabledNodes: HTMLElement[] | null
+  #disabledNodes!: HTMLElement[] | null
 
   private modalName = `uppy-Dashboard-${nanoid()}`
 
@@ -225,25 +266,24 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
 
   private ifFocusedOnUppyRecently = false
 
-  private dashboardIsDisabled: boolean
+  private dashboardIsDisabled!: boolean
 
-  private savedScrollPosition: number
+  private savedScrollPosition!: number
 
-  private savedActiveElement: HTMLElement
+  private savedActiveElement!: HTMLElement
 
-  private resizeObserver: ResizeObserver
+  private resizeObserver!: ResizeObserver
 
-  private darkModeMediaQuery: MediaQueryList | null
+  private darkModeMediaQuery!: MediaQueryList | null
 
   // Timeouts
-  private makeDashboardInsidesVisibleAnywayTimeout: ReturnType<
+  private makeDashboardInsidesVisibleAnywayTimeout!: ReturnType<
     typeof setTimeout
   >
 
-  private removeDragOverClassTimeout: ReturnType<typeof setTimeout>
-
   constructor(uppy: Uppy<M, B>, opts?: DashboardOptions<M, B>) {
-    super(uppy, { ...defaultOptions, ...opts })
+    const autoOpen = opts?.autoOpen ?? null
+    super(uppy, { ...defaultOptions, ...opts, autoOpen })
     this.id = this.opts.id || 'Dashboard'
     this.title = 'Dashboard'
     this.type = 'orchestrator'
@@ -251,9 +291,13 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
     this.defaultLocale = locale
 
     // Dynamic default options:
-    this.opts.doneButtonHandler ??= () => {
-      this.uppy.clearUploadedFiles()
-      this.requestCloseModal()
+    if (this.opts.doneButtonHandler === undefined) {
+      // `null` means "do not display a Done button", while `undefined` means
+      // "I want the default behavior". For this reason, we need to differentiate `null` and `undefined`.
+      this.opts.doneButtonHandler = () => {
+        this.uppy.clear()
+        this.requestCloseModal()
+      }
     }
     this.opts.onRequestCloseModal ??= () => this.closeModal()
 
@@ -567,7 +611,7 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
     try {
       this.uppy.addFiles(descriptors)
     } catch (err) {
-      this.uppy.log(err)
+      this.uppy.log(err as any)
     }
   }
 
@@ -744,9 +788,11 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
     }
   }
 
-  private handleInputChange = (event: InputEvent) => {
+  private handleInputChange = (
+    event: TargetedEvent<HTMLInputElement, Event>,
+  ) => {
     event.preventDefault()
-    const files = toArray((event.target as HTMLInputElement).files!)
+    const files = toArray(event.currentTarget.files || [])
     if (files.length > 0) {
       this.uppy.log('[Dashboard] Files selected through input')
       this.addFiles(files)
@@ -789,7 +835,6 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
       !this.uppy.getState().allowNewUpload
     ) {
       event.dataTransfer!.dropEffect = 'none' // eslint-disable-line no-param-reassign
-      clearTimeout(this.removeDragOverClassTimeout)
       return
     }
 
@@ -798,31 +843,23 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
     // browser, https://github.com/transloadit/uppy/issues/1978).
     event.dataTransfer!.dropEffect = 'copy' // eslint-disable-line no-param-reassign
 
-    clearTimeout(this.removeDragOverClassTimeout)
     this.setPluginState({ isDraggingOver: true })
 
-    this.opts.onDragOver?.(event)
+    this.opts.onDragOver(event)
   }
 
   private handleDragLeave = (event: DragEvent) => {
     event.preventDefault()
     event.stopPropagation()
 
-    clearTimeout(this.removeDragOverClassTimeout)
-    // Timeout against flickering, this solution is taken from drag-drop library.
-    // Solution with 'pointer-events: none' didn't work across browsers.
-    this.removeDragOverClassTimeout = setTimeout(() => {
-      this.setPluginState({ isDraggingOver: false })
-    }, 50)
+    this.setPluginState({ isDraggingOver: false })
 
-    this.opts.onDragLeave?.(event)
+    this.opts.onDragLeave(event)
   }
 
   private handleDrop = async (event: DragEvent) => {
     event.preventDefault()
     event.stopPropagation()
-
-    clearTimeout(this.removeDragOverClassTimeout)
 
     this.setPluginState({ isDraggingOver: false })
 
@@ -856,7 +893,7 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
       this.addFiles(files)
     }
 
-    this.opts.onDrop?.(event)
+    this.opts.onDrop(event)
   }
 
   private handleRequestThumbnail = (file: UppyFile<M, B>) => {
@@ -939,11 +976,11 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
 
     const { metaFields } = this.getPluginState()
     const isMetaEditorEnabled = metaFields && metaFields.length > 0
-    const isFileEditorEnabled = this.canEditFile(firstFile)
+    const isImageEditorEnabled = this.canEditFile(firstFile)
 
-    if (isMetaEditorEnabled) {
+    if (isMetaEditorEnabled && this.opts.autoOpen === 'metaEditor') {
       this.toggleFileCard(true, firstFile.id)
-    } else if (isFileEditorEnabled) {
+    } else if (isImageEditorEnabled && this.opts.autoOpen === 'imageEditor') {
       this.openFileEditor(firstFile)
     }
   }
@@ -985,7 +1022,7 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
       this.el!.addEventListener('keydown', this.handleKeyDownInInline)
     }
 
-    if (this.opts.autoOpenFileEditor) {
+    if (this.opts.autoOpen) {
       this.uppy.on('files-added', this.#openFileEditorWhenFilesAdded)
     }
   }
@@ -1018,7 +1055,7 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
       this.el!.removeEventListener('keydown', this.handleKeyDownInInline)
     }
 
-    if (this.opts.autoOpenFileEditor) {
+    if (this.opts.autoOpen) {
       this.uppy.off('files-added', this.#openFileEditorWhenFilesAdded)
     }
   }
@@ -1116,7 +1153,7 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
       .map(this.#attachRenderFunctionToTarget)
   })
 
-  render = (state: State<M, B>): JSX.Element => {
+  render = (state: State<M, B>) => {
     const pluginState = this.getPluginState()
     const { files, capabilities, allowNewUpload } = state
     const {
@@ -1130,7 +1167,6 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
 
       isUploadStarted,
       isAllComplete,
-      isAllErrored,
       isAllPaused,
     } = this.uppy.getObjectOfFilesPerState()
 
@@ -1169,7 +1205,6 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
       processingFiles,
       isUploadStarted,
       isAllComplete,
-      isAllErrored,
       isAllPaused,
       totalFileCount: Object.keys(files).length,
       totalProgress: state.totalProgress,
@@ -1225,7 +1260,6 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
       containerWidth: pluginState.containerWidth,
       containerHeight: pluginState.containerHeight,
       areInsidesReadyToBeVisible: pluginState.areInsidesReadyToBeVisible,
-      isTargetDOMEl: this.isTargetDOMEl,
       parentElement: this.el,
       allowedFileTypes: this.uppy.opts.restrictions.allowedFileTypes,
       maxNumberOfFiles: this.uppy.opts.restrictions.maxNumberOfFiles,
@@ -1247,7 +1281,7 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
   }
 
   #addSpecifiedPluginsFromOptions = () => {
-    const plugins = this.opts.plugins || []
+    const { plugins } = this.opts
 
     plugins.forEach((pluginID) => {
       const plugin = this.uppy.getPlugin(pluginID)
@@ -1278,6 +1312,76 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
         ;(plugin as any).mount(this, plugin)
       }
     }
+  }
+
+  #getStatusBarOpts() {
+    const {
+      hideUploadButton,
+      hideRetryButton,
+      hidePauseResumeButton,
+      hideCancelButton,
+      showProgressDetails,
+      hideProgressAfterFinish,
+      locale: l,
+      doneButtonHandler,
+    } = this.opts
+    return {
+      hideUploadButton,
+      hideRetryButton,
+      hidePauseResumeButton,
+      hideCancelButton,
+      showProgressDetails,
+      hideAfterFinish: hideProgressAfterFinish,
+      locale: l,
+      doneButtonHandler,
+    }
+  }
+
+  #getThumbnailGeneratorOpts() {
+    const {
+      thumbnailWidth,
+      thumbnailHeight,
+      thumbnailType,
+      waitForThumbnailsBeforeUpload,
+    } = this.opts
+    return {
+      thumbnailWidth,
+      thumbnailHeight,
+      thumbnailType,
+      waitForThumbnailsBeforeUpload,
+      // If we don't block on thumbnails, we can lazily generate them
+      lazy: !waitForThumbnailsBeforeUpload,
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  #getInformerOpts() {
+    return {
+      // currently no options
+    }
+  }
+
+  setOptions(opts: Partial<DashboardOptions<M, B>>) {
+    super.setOptions(opts)
+    this.uppy
+      .getPlugin(this.#getStatusBarId())
+      ?.setOptions(this.#getStatusBarOpts())
+
+    this.uppy
+      .getPlugin(this.#getThumbnailGeneratorId())
+      ?.setOptions(this.#getThumbnailGeneratorOpts())
+  }
+
+  #getStatusBarId() {
+    return `${this.id}:StatusBar`
+  }
+
+  #getThumbnailGeneratorId() {
+    return `${this.id}:ThumbnailGenerator`
+  }
+
+  #getInformerId() {
+    return `${this.id}:Informer`
   }
 
   install = (): void => {
@@ -1322,35 +1426,24 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
 
     if (!this.opts.disableStatusBar) {
       this.uppy.use(StatusBar, {
-        id: `${this.id}:StatusBar`,
+        id: this.#getStatusBarId(),
         target: this,
-        hideUploadButton: this.opts.hideUploadButton,
-        hideRetryButton: this.opts.hideRetryButton,
-        hidePauseResumeButton: this.opts.hidePauseResumeButton,
-        hideCancelButton: this.opts.hideCancelButton,
-        showProgressDetails: this.opts.showProgressDetails,
-        hideAfterFinish: this.opts.hideProgressAfterFinish,
-        locale: this.opts.locale,
-        doneButtonHandler: this.opts.doneButtonHandler,
+        ...this.#getStatusBarOpts(),
       })
     }
 
     if (!this.opts.disableInformer) {
       this.uppy.use(Informer, {
-        id: `${this.id}:Informer`,
+        id: this.#getInformerId(),
         target: this,
+        ...this.#getInformerOpts(),
       })
     }
 
     if (!this.opts.disableThumbnailGenerator) {
       this.uppy.use(ThumbnailGenerator, {
-        id: `${this.id}:ThumbnailGenerator`,
-        thumbnailWidth: this.opts.thumbnailWidth,
-        thumbnailHeight: this.opts.thumbnailHeight,
-        thumbnailType: this.opts.thumbnailType,
-        waitForThumbnailsBeforeUpload: this.opts.waitForThumbnailsBeforeUpload,
-        // If we don't block on thumbnails, we can lazily generate them
-        lazy: !this.opts.waitForThumbnailsBeforeUpload,
+        id: this.#getThumbnailGeneratorId(),
+        ...this.#getThumbnailGeneratorOpts(),
       })
     }
 
@@ -1394,7 +1487,7 @@ export default class Dashboard<M extends Meta, B extends Body> extends UIPlugin<
       if (thumbnail) this.uppy.removePlugin(thumbnail)
     }
 
-    const plugins = this.opts.plugins || []
+    const { plugins } = this.opts
     plugins.forEach((pluginID) => {
       const plugin = this.uppy.getPlugin(pluginID)
       if (plugin) (plugin as any).unmount()

@@ -1,17 +1,22 @@
 import type { ComponentChild } from 'preact'
-import type { Body, Meta, UppyFile } from '@uppy/utils/lib/UppyFile'
-import type { Uppy, State } from '@uppy/core/src/Uppy.ts'
-import type { DefinePluginOpts } from '@uppy/core/lib/BasePlugin.ts'
+import type {
+  Body,
+  Meta,
+  UppyFile,
+  DefinePluginOpts,
+  Uppy,
+  State,
+} from '@uppy/core'
 import { UIPlugin } from '@uppy/core'
 import emaFilter from '@uppy/utils/lib/emaFilter'
 import getTextDirection from '@uppy/utils/lib/getTextDirection'
-import statusBarStates from './StatusBarStates.ts'
-import StatusBarUI, { type StatusBarUIProps } from './StatusBarUI.tsx'
+import statusBarStates from './StatusBarStates.js'
+import StatusBarUI, { type StatusBarUIProps } from './StatusBarUI.jsx'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore We don't want TS to generate types for the package.json
 import packageJson from '../package.json'
-import locale from './locale.ts'
-import type { StatusBarOptions } from './StatusBarOptions.ts'
+import locale from './locale.js'
+import type { StatusBarOptions } from './StatusBarOptions.js'
 
 const speedFilterHalfLife = 2000
 const ETAFilterHalfLife = 2000
@@ -57,9 +62,7 @@ function getUploadingState(
   return state
 }
 
-// set default options, must be kept in sync with @uppy/react/src/StatusBar.js
 const defaultOptions = {
-  target: 'body',
   hideUploadButton: false,
   hideRetryButton: false,
   hidePauseResumeButton: false,
@@ -80,13 +83,13 @@ export default class StatusBar<M extends Meta, B extends Body> extends UIPlugin<
 > {
   static VERSION = packageJson.version
 
-  #lastUpdateTime: ReturnType<typeof performance.now>
+  #lastUpdateTime!: ReturnType<typeof performance.now>
 
-  #previousUploadedBytes: number | null
+  #previousUploadedBytes!: number | null
 
-  #previousSpeed: number | null
+  #previousSpeed!: number | null
 
-  #previousETA: number | null
+  #previousETA!: number | null
 
   constructor(uppy: Uppy<M, B>, opts?: StatusBarOptions) {
     super(uppy, { ...defaultOptions, ...opts })
@@ -104,11 +107,15 @@ export default class StatusBar<M extends Meta, B extends Body> extends UIPlugin<
 
   #computeSmoothETA(totalBytes: {
     uploaded: number
-    total: number
-    remaining: number
-  }): number {
-    if (totalBytes.total === 0 || totalBytes.remaining === 0) {
-      return 0
+    total: number | null // null means indeterminate
+  }) {
+    if (totalBytes.total == null || totalBytes.total === 0) {
+      return null
+    }
+
+    const remaining = totalBytes.total - totalBytes.uploaded
+    if (remaining <= 0) {
+      return null
     }
 
     // When state is restored, lastUpdateTime is still nullish at this point.
@@ -133,7 +140,7 @@ export default class StatusBar<M extends Meta, B extends Body> extends UIPlugin<
         currentSpeed
       : emaFilter(currentSpeed, this.#previousSpeed, speedFilterHalfLife, dt)
     this.#previousSpeed = filteredSpeed
-    const instantETA = totalBytes.remaining / filteredSpeed
+    const instantETA = remaining / filteredSpeed
 
     const updatedPreviousETA = Math.max(this.#previousETA! - dt, 0)
     const filteredETA =
@@ -169,7 +176,6 @@ export default class StatusBar<M extends Meta, B extends Body> extends UIPlugin<
 
       isUploadStarted,
       isAllComplete,
-      isAllErrored,
       isAllPaused,
       isUploadInProgress,
       isSomeGhost,
@@ -182,17 +188,30 @@ export default class StatusBar<M extends Meta, B extends Body> extends UIPlugin<
     const resumableUploads = !!capabilities.resumableUploads
     const supportsUploadProgress = capabilities.uploadProgress !== false
 
-    let totalSize = 0
+    let totalSize: number | null = null
     let totalUploadedSize = 0
 
-    startedFiles.forEach((file) => {
-      totalSize += file.progress.bytesTotal || 0
-      totalUploadedSize += file.progress.bytesUploaded || 0
-    })
+    // Only if all files have a known size, does it make sense to display a total size
+    if (
+      startedFiles.every(
+        (f) => f.progress.bytesTotal != null && f.progress.bytesTotal !== 0,
+      )
+    ) {
+      totalSize = 0
+      startedFiles.forEach((file) => {
+        totalSize! += file.progress.bytesTotal || 0
+        totalUploadedSize += file.progress.bytesUploaded || 0
+      })
+    } else {
+      // however uploaded size we will always have
+      startedFiles.forEach((file) => {
+        totalUploadedSize += file.progress.bytesUploaded || 0
+      })
+    }
+
     const totalETA = this.#computeSmoothETA({
       uploaded: totalUploadedSize,
       total: totalSize,
-      remaining: totalSize - totalUploadedSize,
     })
 
     return StatusBarUI({
@@ -209,8 +228,6 @@ export default class StatusBar<M extends Meta, B extends Body> extends UIPlugin<
       totalUploadedSize,
       isAllComplete: false,
       isAllPaused,
-      // @ts-expect-error TODO: remove this in 4.x branch
-      isAllErrored,
       isUploadStarted,
       isUploadInProgress,
       isSomeGhost,
@@ -232,8 +249,6 @@ export default class StatusBar<M extends Meta, B extends Body> extends UIPlugin<
       hidePauseResumeButton: this.opts.hidePauseResumeButton,
       hideCancelButton: this.opts.hideCancelButton,
       hideAfterFinish: this.opts.hideAfterFinish,
-      // ts-expect-error TODO: remove this in 4.x branch
-      isTargetDOMEl: this.isTargetDOMEl,
     })
   }
 

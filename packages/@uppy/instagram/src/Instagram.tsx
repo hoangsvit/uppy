@@ -8,32 +8,41 @@ import { UIPlugin, Uppy } from '@uppy/core'
 import { ProviderViews } from '@uppy/provider-views'
 import { h, type ComponentChild } from 'preact'
 
-import type { UppyFile, Body, Meta } from '@uppy/utils/lib/UppyFile'
-import type { UnknownProviderPluginState } from '@uppy/core/lib/Uppy.ts'
-import locale from './locale.ts'
+import type { LocaleStrings } from '@uppy/utils/lib/Translator'
+import type {
+  UppyFile,
+  Body,
+  Meta,
+  AsyncStore,
+  UnknownProviderPlugin,
+  UnknownProviderPluginState,
+} from '@uppy/core'
+import locale from './locale.js'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore We don't want TS to generate types for the package.json
 import packageJson from '../package.json'
 
-export type InstagramOptions = CompanionPluginOptions
+export type InstagramOptions = CompanionPluginOptions & {
+  locale?: LocaleStrings<typeof locale>
+}
 
-export default class Instagram<M extends Meta, B extends Body> extends UIPlugin<
-  InstagramOptions,
-  M,
-  B,
-  UnknownProviderPluginState
-> {
+export default class Instagram<M extends Meta, B extends Body>
+  extends UIPlugin<InstagramOptions, M, B, UnknownProviderPluginState>
+  implements UnknownProviderPlugin<M, B>
+{
   static VERSION = packageJson.version
 
-  icon: () => JSX.Element
+  icon: () => h.JSX.Element
 
   provider: Provider<M, B>
 
-  view: ProviderViews<M, B>
+  view!: ProviderViews<M, B>
 
-  storage: typeof tokenStorage
+  storage: AsyncStore
 
   files: UppyFile<M, B>[]
+
+  rootFolderId: string | null = 'recent'
 
   constructor(uppy: Uppy<M, B>, opts: InstagramOptions) {
     super(uppy, opts)
@@ -90,7 +99,6 @@ export default class Instagram<M extends Meta, B extends Body> extends UIPlugin<
       supportsRefreshToken: false,
     })
 
-    this.onFirstRender = this.onFirstRender.bind(this)
     this.render = this.render.bind(this)
   }
 
@@ -112,13 +120,6 @@ export default class Instagram<M extends Meta, B extends Body> extends UIPlugin<
   uninstall(): void {
     this.view.tearDown()
     this.unmount()
-  }
-
-  async onFirstRender(): Promise<void> {
-    await Promise.all([
-      this.provider.fetchPreAuthToken(),
-      this.view.getFolder('recent'),
-    ])
   }
 
   render(state: unknown): ComponentChild {

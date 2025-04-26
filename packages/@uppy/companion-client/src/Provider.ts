@@ -1,20 +1,19 @@
-import type { Uppy } from '@uppy/core'
-import type { Body, Meta } from '@uppy/utils/lib/UppyFile'
-import type { PluginOpts } from '@uppy/core/lib/BasePlugin.ts'
+import type {
+  Uppy,
+  Body,
+  Meta,
+  PluginOpts,
+  UnknownProviderPlugin,
+} from '@uppy/core'
 import type {
   RequestOptions,
   CompanionClientProvider,
 } from '@uppy/utils/lib/CompanionClientProvider'
-import type { UnknownProviderPlugin } from '@uppy/core/lib/Uppy.ts'
-import RequestClient, { authErrorStatusCode } from './RequestClient.ts'
-import type { CompanionPluginOptions } from '.'
+import RequestClient, { authErrorStatusCode } from './RequestClient.js'
+import type { CompanionPluginOptions } from './index.js'
+import { isOriginAllowed } from './getAllowedHosts.js'
 
-// TODO: remove deprecated options in next major release
 export interface Opts extends PluginOpts, CompanionPluginOptions {
-  /** @deprecated */
-  serverUrl?: string
-  /** @deprecated */
-  serverPattern?: string
   pluginId: string
   name?: string
   supportsRefreshToken?: boolean
@@ -31,29 +30,6 @@ const getName = (id: string) => {
 function getOrigin() {
   // eslint-disable-next-line no-restricted-globals
   return location.origin
-}
-
-function getRegex(value?: string | RegExp) {
-  if (typeof value === 'string') {
-    return new RegExp(`^${value}$`)
-  }
-  if (value instanceof RegExp) {
-    return value
-  }
-  return undefined
-}
-
-function isOriginAllowed(
-  origin: string,
-  allowedOrigin: string | RegExp | Array<string | RegExp> | undefined,
-) {
-  const patterns =
-    Array.isArray(allowedOrigin) ?
-      allowedOrigin.map(getRegex)
-    : [getRegex(allowedOrigin)]
-  return patterns.some(
-    (pattern) => pattern?.test(origin) || pattern?.test(`${origin}/`),
-  ) // allowing for trailing '/'
 }
 
 export default class Provider<M extends Meta, B extends Body>
@@ -87,7 +63,7 @@ export default class Provider<M extends Meta, B extends Body>
     this.tokenKey = `companion-${this.pluginId}-auth-token`
     this.companionKeysParams = this.opts.companionKeysParams
     this.preAuthToken = null
-    this.supportsRefreshToken = opts.supportsRefreshToken ?? true // todo false in next major
+    this.supportsRefreshToken = !!opts.supportsRefreshToken
   }
 
   async headers(): Promise<Record<string, string>> {
@@ -171,6 +147,7 @@ export default class Provider<M extends Meta, B extends Body>
   }): string {
     const params = new URLSearchParams({
       ...query,
+      // This is only used for Companion instances configured to accept multiple origins.
       state: btoa(JSON.stringify({ origin: getOrigin() })),
       ...this.authQuery({ authFormData }),
     })
@@ -324,10 +301,7 @@ export default class Provider<M extends Meta, B extends Body>
         // Once a refresh token operation has started, we need all other request to wait for this operation (atomically)
         this.#refreshingTokenPromise = (async () => {
           try {
-            this.uppy.log(
-              `[CompanionClient] Refreshing expired auth token`,
-              'info',
-            )
+            this.uppy.log(`[CompanionClient] Refreshing expired auth token`)
             const response = await super.request<{ uppyAuthToken: string }>({
               path: this.refreshTokenUrl(),
               method: 'POST',
@@ -371,7 +345,7 @@ export default class Provider<M extends Meta, B extends Body>
   }
 
   list<ResBody>(
-    directory: string | undefined,
+    directory: string | null,
     options: RequestOptions,
   ): Promise<ResBody> {
     return this.get<ResBody>(`${this.id}/list/${directory || ''}`, options)

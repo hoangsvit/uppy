@@ -1,7 +1,12 @@
-import BasePlugin, {
-  type DefinePluginOpts,
-  type PluginOpts,
-} from '@uppy/core/lib/BasePlugin.js'
+import { BasePlugin } from '@uppy/core'
+import type {
+  Uppy,
+  DefinePluginOpts,
+  PluginOpts,
+  Meta,
+  Body,
+  UppyFile,
+} from '@uppy/core'
 import * as tus from 'tus-js-client'
 import EventManager from '@uppy/core/lib/EventManager.js'
 import NetworkError from '@uppy/utils/lib/NetworkError'
@@ -14,22 +19,13 @@ import {
   filterNonFailedFiles,
   filterFilesToEmitUploadStarted,
 } from '@uppy/utils/lib/fileFilters'
-import type { Meta, Body, UppyFile } from '@uppy/utils/lib/UppyFile'
-import type { Uppy } from '@uppy/core'
 import type { RequestClient } from '@uppy/companion-client'
-import getFingerprint from './getFingerprint.ts'
+import getAllowedMetaFields from '@uppy/utils/lib/getAllowedMetaFields'
+import getFingerprint from './getFingerprint.js'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore We don't want TS to generate types for the package.json
 import packageJson from '../package.json'
-
-declare module '@uppy/utils/lib/UppyFile' {
-  // eslint-disable-next-line no-shadow, @typescript-eslint/no-unused-vars
-  export interface UppyFile<M extends Meta, B extends Body> {
-    // TODO: figure out what else is in this type
-    tus?: { uploadUrl?: string | null }
-  }
-}
 
 type RestTusUploadOptions = Omit<
   tus.UploadOptions,
@@ -38,27 +34,33 @@ type RestTusUploadOptions = Omit<
 
 export type TusDetailedError = tus.DetailedError
 
+export type TusBody = { xhr: XMLHttpRequest }
+
 export interface TusOpts<M extends Meta, B extends Body>
   extends PluginOpts,
     RestTusUploadOptions {
-  endpoint: string
+  endpoint?: string
   headers?:
     | Record<string, string>
     | ((file: UppyFile<M, B>) => Record<string, string>)
   limit?: number
   chunkSize?: number
-  onBeforeRequest?: (req: tus.HttpRequest, file: UppyFile<M, B>) => void
+  onBeforeRequest?: (
+    req: tus.HttpRequest,
+    file: UppyFile<M, B>,
+  ) => void | Promise<void>
   onShouldRetry?: (
     err: tus.DetailedError,
     retryAttempt: number,
     options: TusOpts<M, B>,
-    next: (e: tus.DetailedError) => void,
+    next: (e: tus.DetailedError) => boolean,
   ) => boolean
   retryDelays?: number[]
   withCredentials?: boolean
-  allowedMetaFields?: string[]
+  allowedMetaFields?: boolean | string[]
   rateLimitedQueue?: RateLimitedQueue
 }
+export type { TusOpts as TusOptions }
 
 /**
  * Extracted from https://github.com/tus/tus-js-client/blob/master/lib/upload.js#L13
@@ -92,12 +94,20 @@ const defaultOptions = {
   limit: 20,
   retryDelays: tusDefaultOptions.retryDelays,
   withCredentials: false,
+  allowedMetaFields: true,
 } satisfies Partial<TusOpts<any, any>>
 
 type Opts<M extends Meta, B extends Body> = DefinePluginOpts<
   TusOpts<M, B>,
   keyof typeof defaultOptions
 >
+
+declare module '@uppy/utils/lib/UppyFile' {
+  // eslint-disable-next-line no-shadow, @typescript-eslint/no-unused-vars
+  export interface UppyFile<M extends Meta, B extends Body> {
+    tus?: TusOpts<M, B>
+  }
+}
 
 /**
  * Tus resumable file uploader
@@ -145,22 +155,6 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
 
     this.uploaders = Object.create(null)
     this.uploaderEvents = Object.create(null)
-
-    this.handleResetProgress = this.handleResetProgress.bind(this)
-  }
-
-  handleResetProgress(): void {
-    const files = { ...this.uppy.getState().files }
-    Object.keys(files).forEach((fileID) => {
-      // Only clone the file object if it has a Tus `uploadUrl` attached.
-      if (files[fileID]?.tus?.uploadUrl) {
-        const tusState = { ...files[fileID].tus }
-        delete tusState.uploadUrl
-        files[fileID] = { ...files[fileID], tus: tusState }
-      }
-    })
-
-    this.uppy.setState({ files })
   }
 
   /**
@@ -301,7 +295,6 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
         this.resetUploaderReferences(file.id)
         queuedRequest?.abort()
 
-        this.uppy.emit('upload-error', file, err)
         if (typeof opts.onError === 'function') {
           opts.onError(err)
         }
@@ -313,26 +306,33 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
         if (typeof opts.onProgress === 'function') {
           opts.onProgress(bytesUploaded, bytesTotal)
         }
-        this.uppy.emit('upload-progress', this.uppy.getFile(file.id), {
-          // TODO: remove `uploader` in next major
-          // @ts-expect-error untyped
-          uploader: this,
+        const latestFile = this.uppy.getFile(file.id)
+        this.uppy.emit('upload-progress', latestFile, {
+          uploadStarted: latestFile.progress.uploadStarted ?? 0,
           bytesUploaded,
           bytesTotal,
         })
       }
 
-      uploadOptions.onSuccess = () => {
-        const uploadResp = {
+      uploadOptions.onSuccess = (payload) => {
+        const uploadResp: UppyFile<M, B>['response'] = {
           uploadURL: upload.url ?? undefined,
           status: 200,
-          body: {} as B,
+          body: {
+            // We have to put `as XMLHttpRequest` because tus-js-client
+            // returns `any`, as the type differs in Node.js and the browser.
+            // In the browser it's always `XMLHttpRequest`.
+            xhr: payload.lastResponse.getUnderlyingObject() as XMLHttpRequest,
+            // Body extends Record<string, unknown> and thus `xhr` is not known
+            // but we export the `TusBody` type, which people pass as a generic into the Uppy class,
+            // so on the implementer side it works as expected.
+          } as unknown as B,
         }
+
+        this.uppy.emit('upload-success', this.uppy.getFile(file.id), uploadResp)
 
         this.resetUploaderReferences(file.id)
         queuedRequest.done()
-
-        this.uppy.emit('upload-success', this.uppy.getFile(file.id), uploadResp)
 
         if (upload.url) {
           // @ts-expect-error not typed in tus-js-client
@@ -340,7 +340,7 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
           this.uppy.log(`Download ${name} from ${upload.url}`)
         }
         if (typeof opts.onSuccess === 'function') {
-          opts.onSuccess()
+          opts.onSuccess(payload)
         }
 
         resolve(upload)
@@ -360,7 +360,7 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
           }
         } else if (
           status != null &&
-          status > 400 &&
+          status >= 400 &&
           status < 500 &&
           status !== 409 &&
           status !== 423
@@ -427,11 +427,10 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
       // and we also don't care about the type specifically here,
       // we just want to pass the meta fields along.
       const meta: Record<string, string> = {}
-      const allowedMetaFields =
-        Array.isArray(opts.allowedMetaFields) ?
-          opts.allowedMetaFields
-          // Send along all fields by default.
-        : Object.keys(file.meta)
+      const allowedMetaFields = getAllowedMetaFields(
+        opts.allowedMetaFields,
+        file.meta,
+      )
       allowedMetaFields.forEach((item) => {
         // tus type definition for metadata only accepts `Record<string, string>`
         // but in reality (at runtime) it accepts `Record<string, unknown>`
@@ -473,9 +472,8 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
           )
           upload.resumeFromPreviousUpload(previousUpload)
         }
+        queuedRequest = this.requests.run(qRequest)
       })
-
-      queuedRequest = this.requests.run(qRequest)
 
       eventManager.onFileRemove(file.id, (targetFileID) => {
         queuedRequest.abort()
@@ -500,11 +498,9 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
         upload.abort()
       })
 
-      eventManager.onCancelAll(file.id, ({ reason } = {}) => {
-        if (reason === 'user') {
-          queuedRequest.abort()
-          this.resetUploaderReferences(file.id, { abort: !!upload.url })
-        }
+      eventManager.onCancelAll(file.id, () => {
+        queuedRequest.abort()
+        this.resetUploaderReferences(file.id, { abort: !!upload.url })
         resolve(`upload ${file.id} was canceled`)
       })
 
@@ -543,6 +539,10 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
     if (file.tus) {
       // Install file-specific upload overrides.
       Object.assign(opts, file.tus)
+    }
+
+    if (typeof opts.headers === 'function') {
+      opts.headers = opts.headers(file)
     }
 
     return {
@@ -621,8 +621,6 @@ export default class Tus<M extends Meta, B extends Body> extends BasePlugin<
       },
     })
     this.uppy.addUploader(this.#handleUpload)
-
-    this.uppy.on('reset-progress', this.handleResetProgress)
   }
 
   uninstall(): void {

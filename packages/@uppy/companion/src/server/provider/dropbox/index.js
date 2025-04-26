@@ -1,10 +1,11 @@
-const got = require('got').default
-
 const Provider = require('../Provider')
 const adaptData = require('./adapter')
 const { withProviderErrorHandling } = require('../providerErrors')
 const { prepareStream } = require('../../helpers/utils')
 const { MAX_AGE_REFRESH_TOKEN } = require('../../helpers/jwt')
+const logger = require('../../logger')
+
+const gotPromise = require('../../got')
 
 // From https://www.dropbox.com/developers/reference/json-encoding:
 //
@@ -18,23 +19,51 @@ function httpHeaderSafeJson (v) {
     })
 }
 
-const getClient = ({ token }) => got.extend({
-  prefixUrl: 'https://api.dropboxapi.com/2',
-  headers: {
-    authorization: `Bearer ${token}`,
-  },
-})
+async function getUserInfo ({ client }) {
+  return client.post('users/get_current_account', { responseType: 'json' }).json()
+}
 
-const getOauthClient = () => got.extend({
+async function getClient({ token, namespaced }) {
+  const got = await gotPromise
+
+  const makeClient = (namespace) => got.extend({
+    prefixUrl: 'https://api.dropboxapi.com/2',
+    headers: {
+      authorization: `Bearer ${token}`,
+      ...(namespace ? { 'Dropbox-API-Path-Root': JSON.stringify({ '.tag': 'root', 'root': namespace }) } : {}),
+    },
+  })
+
+  let client = makeClient()
+
+  const userInfo = await getUserInfo({ client })
+  // console.log('userInfo', userInfo)
+
+  // https://www.dropboxforum.com/discussions/101000014/how-to-list-the-contents-of-a-team-folder/258310
+  // https://developers.dropbox.com/dbx-team-files-guide#namespaces
+  // https://www.dropbox.com/developers/reference/path-root-header-modes
+  if (namespaced && userInfo.root_info != null &&
+    userInfo.root_info.root_namespace_id !== userInfo.root_info.home_namespace_id) {
+    logger.debug('using root_namespace_id', userInfo.root_info.root_namespace_id)
+    client = makeClient(userInfo.root_info.root_namespace_id)
+  }
+
+  return {
+    client,
+    userInfo,
+  }
+}
+
+const getOauthClient = async () => (await gotPromise).extend({
   prefixUrl: 'https://api.dropboxapi.com/oauth2',
 })
 
-async function list ({ directory, query, token }) {
+async function list ({ client, directory, query }) {
   if (query.cursor) {
-    return getClient({ token }).post('files/list_folder/continue', { json: { cursor: query.cursor }, responseType: 'json' }).json()
+    return client.post('files/list_folder/continue', { json: { cursor: query.cursor }, responseType: 'json' }).json()
   }
 
-  return getClient({ token }).post('files/list_folder', {
+  return client.post('files/list_folder', {
     searchParams: query,
     json: {
       path: `${directory || ''}`,
@@ -46,10 +75,6 @@ async function list ({ directory, query, token }) {
   }).json()
 }
 
-async function userInfo ({ token }) {
-  return getClient({ token }).post('users/get_current_account', { responseType: 'json' }).json()
-}
-
 /**
  * Adapter for API https://www.dropbox.com/developers/documentation/http/documentation
  */
@@ -59,7 +84,7 @@ class DropBox extends Provider {
     this.needsCookieAuth = true
   }
 
-  static get authProvider () {
+  static get oauthProvider () {
     return 'dropbox'
   }
 
@@ -73,19 +98,17 @@ class DropBox extends Provider {
    */
   async list (options) {
     return this.#withErrorHandling('provider.dropbox.list.error', async () => {
-      const responses = await Promise.all([
-        list(options),
-        userInfo(options),
-      ])
-      // @ts-ignore
-      const [stats, { email }] = responses
+      const { client, userInfo } = await getClient({ token: options.token, namespaced: true })
+
+      const stats = await list({ ...options, client })
+      const { email } = userInfo
       return adaptData(stats, email, options.companion.buildURL)
     })
   }
 
   async download ({ id, token }) {
     return this.#withErrorHandling('provider.dropbox.download.error', async () => {
-      const stream = getClient({ token }).stream.post('files/download', {
+      const stream = (await getClient({ token, namespaced: true })).client.stream.post('files/download', {
         prefixUrl: 'https://content.dropboxapi.com/2',
         headers: {
           'Dropbox-API-Arg': httpHeaderSafeJson({ path: String(id) }),
@@ -95,14 +118,14 @@ class DropBox extends Provider {
         responseType: 'json',
       })
 
-      await prepareStream(stream)
-      return { stream }
+      const { size } = await prepareStream(stream)
+      return { stream, size }
     })
   }
 
   async thumbnail ({ id, token }) {
     return this.#withErrorHandling('provider.dropbox.thumbnail.error', async () => {
-      const stream = getClient({ token }).stream.post('files/get_thumbnail_v2', {
+      const stream = (await getClient({ token, namespaced: true })).client.stream.post('files/get_thumbnail_v2', {
         prefixUrl: 'https://content.dropboxapi.com/2',
         headers: { 'Dropbox-API-Arg': httpHeaderSafeJson({ resource: { '.tag': 'path', path: `${id}` }, size: 'w256h256', format: 'jpeg' }) },
         body: Buffer.alloc(0),
@@ -116,21 +139,21 @@ class DropBox extends Provider {
 
   async size ({ id, token }) {
     return this.#withErrorHandling('provider.dropbox.size.error', async () => {
-      const { size } = await getClient({ token }).post('files/get_metadata', { json: { path: id }, responseType: 'json' }).json()
+      const { size } = await (await getClient({ token, namespaced: true })).client.post('files/get_metadata', { json: { path: id }, responseType: 'json' }).json()
       return parseInt(size, 10)
     })
   }
 
   async logout ({ token }) {
     return this.#withErrorHandling('provider.dropbox.logout.error', async () => {
-      await getClient({ token }).post('auth/token/revoke', { responseType: 'json' })
+      await (await getClient({ token, namespaced: false })).client.post('auth/token/revoke', { responseType: 'json' })
       return { revoked: true }
     })
   }
 
   async refreshToken ({ clientId, clientSecret, refreshToken }) {
     return this.#withErrorHandling('provider.dropbox.token.refresh.error', async () => {
-      const { access_token: accessToken } = await getOauthClient().post('token', { form: { refresh_token: refreshToken, grant_type: 'refresh_token', client_id: clientId, client_secret: clientSecret } }).json()
+      const { access_token: accessToken } = await (await getOauthClient()).post('token', { form: { refresh_token: refreshToken, grant_type: 'refresh_token', client_id: clientId, client_secret: clientSecret } }).json()
       return { accessToken }
     })
   }
@@ -140,7 +163,7 @@ class DropBox extends Provider {
     return withProviderErrorHandling({
       fn,
       tag,
-      providerName: DropBox.authProvider,
+      providerName: DropBox.oauthProvider,
       isAuthError: (response) => response.statusCode === 401,
       getJsonErrorMessage: (body) => body?.error_summary,
     })

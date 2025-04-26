@@ -1,4 +1,12 @@
-import BasePlugin, { type DefinePluginOpts } from '@uppy/core/lib/BasePlugin.js'
+import { BasePlugin } from '@uppy/core'
+import type {
+  DefinePluginOpts,
+  UIPluginOptions,
+  Uppy,
+  UppyEventMap,
+  Body,
+  Meta,
+} from '@uppy/core'
 import findDOMElement from '@uppy/utils/lib/findDOMElement'
 import toArray from '@uppy/utils/lib/toArray'
 
@@ -6,8 +14,6 @@ import toArray from '@uppy/utils/lib/toArray'
 // @ts-ignore untyped
 import getFormData from 'get-form-data'
 
-import type { UIPluginOptions, Uppy, UppyEventMap } from '@uppy/core'
-import type { Body, Meta } from '@uppy/utils/lib/UppyFile'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore We don't want TS to generate types for the package.json
 import packageJson from '../package.json'
@@ -50,7 +56,7 @@ export default class Form<M extends Meta, B extends Body> extends BasePlugin<
 > {
   static VERSION = packageJson.version
 
-  form: HTMLFormElement // TODO: make this private (or at least, mark it as readonly)
+  #form!: HTMLFormElement
 
   constructor(uppy: Uppy<M, B>, opts?: FormOptions) {
     super(uppy, { ...defaultOptions, ...opts })
@@ -76,7 +82,12 @@ export default class Form<M extends Meta, B extends Body> extends BasePlugin<
     }
 
     if (this.opts.submitOnSuccess) {
-      this.form.requestSubmit()
+      // Returns true if the element's child controls satisfy their validation constraints.
+      // When false is returned, cancelable invalid events are fired for each invalid child
+      // and validation problems are reported to the user.
+      if (this.#form.reportValidity()) {
+        this.#form.submit()
+      }
     }
   }
 
@@ -120,7 +131,7 @@ export default class Form<M extends Meta, B extends Body> extends BasePlugin<
     this.uppy.log('[Form] Adding result to the original form:')
     this.uppy.log(result)
 
-    let resultInput: HTMLInputElement | null = this.form.querySelector(
+    let resultInput: HTMLInputElement | null = this.#form.querySelector(
       `[name="${this.opts.resultName}"]`,
     )
     if (resultInput) {
@@ -147,11 +158,11 @@ export default class Form<M extends Meta, B extends Body> extends BasePlugin<
     resultInput.type = 'hidden'
     resultInput.value = JSON.stringify([result])
 
-    this.form.appendChild(resultInput)
+    this.#form.appendChild(resultInput)
   }
 
   getMetaFromForm(): void {
-    const formMeta = getFormData(this.form)
+    const formMeta = getFormData(this.#form)
     // We want to exclude meta the the Form plugin itself has added
     // See https://github.com/transloadit/uppy/issues/1637
     delete formMeta[this.opts.resultName]
@@ -159,15 +170,15 @@ export default class Form<M extends Meta, B extends Body> extends BasePlugin<
   }
 
   install(): void {
-    this.form = assertHTMLFormElement(findDOMElement(this.opts.target))
+    this.#form = assertHTMLFormElement(findDOMElement(this.opts.target))
 
-    this.form.addEventListener('submit', this.handleFormSubmit)
+    this.#form.addEventListener('submit', this.handleFormSubmit)
     this.uppy.on('upload', this.handleUploadStart)
     this.uppy.on('complete', this.handleSuccess)
   }
 
   uninstall(): void {
-    this.form.removeEventListener('submit', this.handleFormSubmit)
+    this.#form.removeEventListener('submit', this.handleFormSubmit)
     this.uppy.off('upload', this.handleUploadStart)
     this.uppy.off('complete', this.handleSuccess)
   }

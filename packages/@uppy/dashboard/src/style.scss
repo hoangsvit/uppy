@@ -586,6 +586,14 @@
   }
 }
 
+.uppy-DashboardTab-iconWebdav {
+  color: #111;
+
+  [data-uppy-theme='dark'] & {
+    color: $gray-200;
+  }
+}
+
 .uppy-DashboardTab-iconScreenRec {
   color: #2c3e50;
 
@@ -854,6 +862,8 @@
 .uppy-Dashboard.uppy-Dashboard--isDraggingOver {
   .uppy-Dashboard-dropFilesHereHint {
     visibility: visible;
+    // prevents flickering (https://stackoverflow.com/a/18582960/3192470)
+    pointer-events: none;
   }
 
   .uppy-DashboardContent-bar,

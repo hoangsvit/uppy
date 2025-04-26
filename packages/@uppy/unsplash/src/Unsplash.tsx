@@ -8,29 +8,38 @@ import { UIPlugin, Uppy } from '@uppy/core'
 import { SearchProviderViews } from '@uppy/provider-views'
 import { h, type ComponentChild } from 'preact'
 
-import type { UppyFile, Body, Meta } from '@uppy/utils/lib/UppyFile'
-import type { UnknownSearchProviderPluginState } from '@uppy/core/lib/Uppy.ts'
+import type {
+  UppyFile,
+  Body,
+  Meta,
+  AsyncStore,
+  UnknownSearchProviderPlugin,
+  UnknownSearchProviderPluginState,
+} from '@uppy/core'
+import type { LocaleStrings } from '@uppy/utils/lib/Translator'
+import locale from './locale.js'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore We don't want TS to generate types for the package.json
 import packageJson from '../package.json'
 
-export type UnsplashOptions = CompanionPluginOptions
+export type UnsplashOptions = {
+  utmSource?: string
+  locale?: LocaleStrings<typeof locale>
+} & CompanionPluginOptions
 
-export default class Unsplash<M extends Meta, B extends Body> extends UIPlugin<
-  UnsplashOptions,
-  M,
-  B,
-  UnknownSearchProviderPluginState
-> {
+export default class Unsplash<M extends Meta, B extends Body>
+  extends UIPlugin<UnsplashOptions, M, B, UnknownSearchProviderPluginState>
+  implements UnknownSearchProviderPlugin<M, B>
+{
   static VERSION = packageJson.version
 
-  icon: () => JSX.Element
+  icon: () => h.JSX.Element
 
   provider: SearchProvider<M, B>
 
-  view: SearchProviderViews<M, B>
+  view!: SearchProviderViews<M, B>
 
-  storage: typeof tokenStorage
+  storage: AsyncStore
 
   files: UppyFile<M, B>[]
 
@@ -42,7 +51,10 @@ export default class Unsplash<M extends Meta, B extends Body> extends UIPlugin<
     this.files = []
     this.storage = this.opts.storage || tokenStorage
     this.id = this.opts.id || 'Unsplash'
-    this.title = this.opts.title || 'Unsplash'
+
+    this.defaultLocale = locale
+    this.i18nInit()
+    this.title = this.i18n('pluginNameUnsplash')
 
     this.icon = () => (
       <svg
@@ -85,17 +97,13 @@ export default class Unsplash<M extends Meta, B extends Body> extends UIPlugin<
       provider: this.provider,
       viewType: 'unsplash',
       showFilter: true,
+      utmSource: this.opts.utmSource,
     })
 
     const { target } = this.opts
     if (target) {
       this.mount(target, this)
     }
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  async onFirstRender(): Promise<void> {
-    // do nothing
   }
 
   render(state: unknown): ComponentChild {

@@ -12,6 +12,1556 @@ Please add your entries in this format:
 
 In the current stage we aim to release a new version at least every month.
 
+## 4.15.0
+
+Released: 2025-04-14
+
+| Package              | Version | Package              | Version |
+| -------------------- | ------- | -------------------- | ------- |
+| @uppy/angular        |   0.8.0 | uppy                 |  4.15.0 |
+| @uppy/provider-views |   4.4.3 |                      |         |
+
+- @uppy/provider-views: Fix google photos picker (Mikael Finstad / #5717)
+- meta: build(deps): bump nanoid from 3.3.7 to 5.1.2 (dependabot[bot] / #5664)
+- examples: build(deps-dev): bump vite from 5.4.16 to 5.4.17 (dependabot[bot] / #5707)
+- @uppy/utils: Fix type check ci (Mikael Finstad / #5714)
+- @uppy/angular: Support Angular 19 (#5709) (Arnaud Flaesch / #5715)
+- meta: simplify e2e (Mikael Finstad / #5711)
+- meta: fix ready to commit (Mikael Finstad / #5713)
+
+
+## 4.14.0
+
+Released: 2025-04-08
+
+| Package                    | Version | Package                    | Version |
+| -------------------------- | ------- | -------------------------- | ------- |
+| @uppy/audio                |   2.1.2 | @uppy/locales              |   4.5.2 |
+| @uppy/box                  |   3.2.2 | @uppy/onedrive             |   4.2.3 |
+| @uppy/companion            |   5.6.0 | @uppy/react                |   4.2.3 |
+| @uppy/core                 |   4.4.4 | @uppy/remote-sources       |   2.3.2 |
+| @uppy/dashboard            |   4.3.3 | @uppy/screen-capture       |   4.2.2 |
+| @uppy/drag-drop            |   4.1.2 | @uppy/status-bar           |   4.1.3 |
+| @uppy/dropbox              |   4.2.2 | @uppy/transloadit          |   4.2.2 |
+| @uppy/facebook             |   4.2.2 | @uppy/unsplash             |   4.3.3 |
+| @uppy/file-input           |   4.1.2 | @uppy/url                  |   4.2.3 |
+| @uppy/google-drive         |   4.3.2 | @uppy/utils                |   6.1.3 |
+| @uppy/google-drive-picker  |   0.3.4 | @uppy/webcam               |   4.1.2 |
+| @uppy/google-photos-picker |   0.3.4 | @uppy/webdav               |   0.3.2 |
+| @uppy/image-editor         |   3.3.2 | @uppy/zoom                 |   3.2.2 |
+| @uppy/instagram            |   4.2.2 | uppy                       |  4.14.0 |
+
+- @uppy/core: dry retryAll() and upload() (Mikael Finstad / #5691)
+- @uppy/angular: Revert "Support Angular 19" (Mikael Finstad / #5710)
+- @uppy/angular: Support Angular 19 (Arnaud Flaesch / #5709)
+- @uppy/companion: implement dropbox business teams (Mikael Finstad / #5708)
+- @uppy/utils: add msg mimetype (Merlijn Vos / #5699)
+- @uppy/core: fix locale type for plugins (Merlijn Vos / #5700)
+- examples: build(deps-dev): bump vite from 5.4.14 to 5.4.15 (dependabot[bot] / #5703)
+- @uppy/locales: Update nb_NO.ts (Tore Sinding Bekkedal / #5678)
+- meta: build(deps): bump docker/login-action from 3.3.0 to 3.4.0 (dependabot[bot] / #5689)
+- examples: @uppy-example/aws-nodejs: fix fileType not present in S3 objects (Prakash / #5680)
+- @uppy/core: fix events when retrying with upload() (Prakash / #5696)
+- meta: Fix locales building (Mikael Finstad / #5693)
+- @uppy/google-photos: remove google photos 😢 (Mikael Finstad / #5690)
+- @uppy/locales: Update cs_CZ.ts (David Petrásek / #5658)
+
+
+## 4.13.4
+
+Released: 2025-03-13
+
+| Package     | Version | Package     | Version |
+| ----------- | ------- | ----------- | ------- |
+| @uppy/core  |   4.4.3 | uppy        |  4.13.4 |
+| @uppy/react |   4.2.2 |             |         |
+
+- @uppy/core: make upload() idempotent (Merlijn Vos / #5677)
+- @uppy/react: pass getServerSnapshot to useSyncExternalStoreWithSelector (Merlijn Vos / #5685)
+- meta: Fix BasePlugin export for CDN bundle (Merlijn Vos / #5684)
+- meta: build(deps): bump docker/build-push-action from 6.14.0 to 6.15.0 (dependabot[bot] / #5673)
+- meta: build(deps): bump docker/setup-qemu-action from 3.4.0 to 3.6.0 (dependabot[bot] / #5675)
+- meta: build(deps): bump docker/metadata-action from 5.6.1 to 5.7.0 (dependabot[bot] / #5674)
+
+
+## 4.13.3
+
+Released: 2025-02-25
+
+| Package          | Version | Package          | Version |
+| ---------------- | ------- | ---------------- | ------- |
+| @uppy/companion  |   5.5.2 | @uppy/xhr-upload |   4.3.3 |
+| @uppy/dashboard  |   4.3.2 | uppy             |  4.13.3 |
+| @uppy/status-bar |   4.1.2 |                  |         |
+
+- @uppy/dashboard: do not allow drag&drop of file preview (Merlijn Vos / #5650)
+- @uppy/xhr-upload: fix when responseType is set to JSON (Merlijn Vos / #5651)
+- meta: build(deps): bump akhileshns/heroku-deploy from 3.13.15 to 3.14.15 (dependabot[bot] / #5659)
+- meta: build(deps): bump docker/build-push-action from 6.13.0 to 6.14.0 (dependabot[bot] / #5660)
+- @uppy/status-bar: fix aria-hidden warning (Merlijn Vos / #5663)
+- @uppy/companion: log when tus uploaded size differs (Mikael Finstad / #5647)
+- @uppy/companion: remove redundant HEAD request for file size  (Mikael Finstad / #5648)
+- meta: build(deps): bump elliptic from 6.6.0 to 6.6.1 (dependabot[bot] / #5649)
+- examples: build(deps-dev): bump esbuild from 0.21.5 to 0.25.0 (dependabot[bot] / #5643)
+- meta: build(deps-dev): bump vitest from 1.6.0 to 1.6.1 (dependabot[bot] / #5641)
+- meta: build(deps): bump docker/setup-qemu-action from 3.3.0 to 3.4.0 (dependabot[bot] / #5640)
+
+
+## 4.13.2
+
+Released: 2025-02-03
+
+| Package                    | Version | Package                    | Version |
+| -------------------------- | ------- | -------------------------- | ------- |
+| @uppy/core                 |   4.4.2 | @uppy/provider-views       |   4.4.2 |
+| @uppy/google-drive-picker  |   0.3.3 | @uppy/url                  |   4.2.2 |
+| @uppy/google-photos-picker |   0.3.3 | @uppy/utils                |   6.1.2 |
+| @uppy/locales              |   4.5.1 | uppy                       |  4.13.2 |
+
+- @uppy/utils: do not strip www in getSocketHost (Merlijn Vos / #5621)
+- @uppy/url: skip drag/dropped local files (Merlijn Vos / #5626)
+- @uppy/provider-views: fix google photos picker videos (Mikael Finstad / #5635)
+- @uppy/core,@uppy/google-drive-picker,@uppy/google-photos-picker,@uppy/provider-views:
+  fix google picker i18n (Mikael Finstad / #5632)
+
+
+## 4.13.1
+
+Released: 2025-01-22
+
+| Package         | Version | Package         | Version |
+| --------------- | ------- | --------------- | ------- |
+| @uppy/aws-s3    |   4.2.3 | @uppy/tus       |   4.2.2 |
+| @uppy/companion |   5.5.1 | uppy            |  4.13.1 |
+
+- @uppy/tus: fix resumeFromPreviousUpload race condition (Merlijn Vos / #5616)
+- @uppy/aws-s3: Fixed default shouldUseMultipart (Mika Laitinen / #5613)
+- meta: build(deps): bump docker/build-push-action from 6.11.0 to 6.12.0 (dependabot[bot] / #5611)
+- @uppy/aws-s3: remove console.error (Mikael Finstad / #5607)
+- @uppy/companion: unify http error responses (Mikael Finstad / #5595)
+
+
+## 4.13.0
+
+Released: 2025-01-15
+
+| Package         | Version | Package         | Version |
+| --------------- | ------- | --------------- | ------- |
+| @uppy/aws-s3    |   4.2.2 | @uppy/unsplash  |   4.3.2 |
+| @uppy/companion |   5.5.0 | uppy            |  4.13.0 |
+
+- @uppy/aws-s3: always set S3 meta to UppyFile & include key (Merlijn Vos / #5602)
+- @uppy/companion: fix forcePathStyle boolean conversion (Mikael Finstad / #5308)
+- meta: Fix Webpack CI (Merlijn Vos / #5604)
+- @uppy/aws-s3: allow uploads to fail/succeed independently (Merlijn Vos / #5603)
+- meta: Add types for css files (Merlijn Vos / #5591)
+- @uppy/unsplash: make utmSource optional (Merlijn Vos / #5601)
+- meta: build(deps): bump docker/setup-qemu-action from 3.2.0 to 3.3.0 (dependabot[bot] / #5599)
+- meta: build(deps): bump docker/build-push-action from 6.10.0 to 6.11.0 (dependabot[bot] / #5600)
+- @uppy/companion: add COMPANION_TUS_DEFERRED_UPLOAD_LENGTH (Dominik Schmidt / #5561)
+
+
+## 4.12.2
+
+Released: 2025-01-09
+
+| Package                    | Version | Package                    | Version |
+| -------------------------- | ------- | -------------------------- | ------- |
+| @uppy/audio                |   2.1.1 | @uppy/instagram            |   4.2.1 |
+| @uppy/aws-s3               |   4.2.1 | @uppy/onedrive             |   4.2.2 |
+| @uppy/box                  |   3.2.1 | @uppy/progress-bar         |   4.2.1 |
+| @uppy/companion-client     |   4.4.1 | @uppy/provider-views       |   4.4.1 |
+| @uppy/compressor           |   2.2.1 | @uppy/react                |   4.2.1 |
+| @uppy/core                 |   4.4.1 | @uppy/remote-sources       |   2.3.1 |
+| @uppy/dashboard            |   4.3.1 | @uppy/screen-capture       |   4.2.1 |
+| @uppy/drag-drop            |   4.1.1 | @uppy/status-bar           |   4.1.1 |
+| @uppy/drop-target          |   3.1.1 | @uppy/thumbnail-generator  |   4.1.1 |
+| @uppy/dropbox              |   4.2.1 | @uppy/transloadit          |   4.2.1 |
+| @uppy/facebook             |   4.2.1 | @uppy/tus                  |   4.2.1 |
+| @uppy/file-input           |   4.1.1 | @uppy/unsplash             |   4.3.1 |
+| @uppy/form                 |   4.1.1 | @uppy/url                  |   4.2.1 |
+| @uppy/golden-retriever     |   4.1.1 | @uppy/vue                  |   2.1.1 |
+| @uppy/google-drive         |   4.3.1 | @uppy/webcam               |   4.1.1 |
+| @uppy/google-drive-picker  |   0.3.2 | @uppy/webdav               |   0.3.1 |
+| @uppy/google-photos        |   0.5.1 | @uppy/xhr-upload           |   4.3.2 |
+| @uppy/google-photos-picker |   0.3.2 | @uppy/zoom                 |   3.2.1 |
+| @uppy/image-editor         |   3.3.1 | uppy                       |  4.12.2 |
+| @uppy/informer             |   4.2.1 |                            |         |
+
+- @uppy/provider-views: Import types consistently from @uppy/core (Merlijn Vos / #5589)
+- @uppy/status-bar: fix double upload progress (Mikael Finstad / #5587)
+- @uppy/provider-views: fix incorrect import (Merlijn Vos / #5588)
+
+
+## 4.12.1
+
+Released: 2025-01-08
+
+| Package         | Version | Package         | Version |
+| --------------- | ------- | --------------- | ------- |
+| @uppy/companion |   5.4.1 | uppy            |  4.12.1 |
+
+- @uppy/companion: upgrade express & express-session (Merlijn Vos / #5582)
+
+
+## 4.12.0
+
+Released: 2025-01-08
+
+| Package                    | Version | Package                    | Version |
+| -------------------------- | ------- | -------------------------- | ------- |
+| @uppy/google-drive-picker  |   0.3.1 | @uppy/unsplash             |   4.3.0 |
+| @uppy/google-photos-picker |   0.3.1 | @uppy/utils                |   6.1.1 |
+| @uppy/onedrive             |   4.2.1 | @uppy/xhr-upload           |   4.3.1 |
+| @uppy/provider-views       |   4.4.0 | uppy                       |  4.12.0 |
+| @uppy/svelte               |   4.3.0 |                            |         |
+
+- @uppy/unsplash,@uppy/provider-views: add utmSource option (Merlijn Vos / #5580)
+- @uppy/xhr-upload: allow custom error message in onAfterResponse (Merlijn Vos / #5578)
+- @uppy/onedrive: fix AsyncStore import (Merlijn Vos / #5579)
+- @uppy/google-drive-picker,@uppy/google-photos-picker: Fix Google Picker plugins locale (Merlijn Vos / #5575)
+
+
+## 4.11.0
+
+Released: 2025-01-06
+
+| Package                    | Version | Package                    | Version |
+| -------------------------- | ------- | -------------------------- | ------- |
+| @uppy/audio                |   2.1.0 | @uppy/onedrive             |   4.2.0 |
+| @uppy/aws-s3               |   4.2.0 | @uppy/progress-bar         |   4.2.0 |
+| @uppy/box                  |   3.2.0 | @uppy/provider-views       |   4.3.0 |
+| @uppy/companion-client     |   4.4.0 | @uppy/react                |   4.2.0 |
+| @uppy/compressor           |   2.2.0 | @uppy/remote-sources       |   2.3.0 |
+| @uppy/core                 |   4.4.0 | @uppy/screen-capture       |   4.2.0 |
+| @uppy/dashboard            |   4.3.0 | @uppy/status-bar           |   4.1.0 |
+| @uppy/drag-drop            |   4.1.0 | @uppy/store-default        |   4.2.0 |
+| @uppy/drop-target          |   3.1.0 | @uppy/svelte               |   4.2.0 |
+| @uppy/dropbox              |   4.2.0 | @uppy/thumbnail-generator  |   4.1.0 |
+| @uppy/facebook             |   4.2.0 | @uppy/transloadit          |   4.2.0 |
+| @uppy/file-input           |   4.1.0 | @uppy/tus                  |   4.2.0 |
+| @uppy/form                 |   4.1.0 | @uppy/unsplash             |   4.2.0 |
+| @uppy/golden-retriever     |   4.1.0 | @uppy/url                  |   4.2.0 |
+| @uppy/google-drive         |   4.3.0 | @uppy/utils                |   6.1.0 |
+| @uppy/google-drive-picker  |   0.3.0 | @uppy/vue                  |   2.1.0 |
+| @uppy/google-photos        |   0.5.0 | @uppy/webcam               |   4.1.0 |
+| @uppy/google-photos-picker |   0.3.0 | @uppy/webdav               |   0.3.0 |
+| @uppy/image-editor         |   3.3.0 | @uppy/xhr-upload           |   4.3.0 |
+| @uppy/informer             |   4.2.0 | @uppy/zoom                 |   3.2.0 |
+| @uppy/instagram            |   4.2.0 | uppy                       |  4.11.0 |
+| @uppy/locales              |   4.5.0 |                            |         |
+
+- meta: build(deps): bump docker/metadata-action from 5.5.1 to 5.6.1 (dependabot[bot] / #5525)
+- examples,@uppy/svelte: build(deps-dev): bump @sveltejs/kit from 2.5.17 to 2.8.3 (dependabot[bot] / #5526)
+- meta: build(deps): bump docker/build-push-action from 6.9.0 to 6.10.0 (dependabot[bot] / #5531)
+- meta: build(deps): bump elliptic from 6.5.7 to 6.6.0 (dependabot[bot] / #5498)
+- @uppy/utils: Use .js(x) for all imports instead .ts(x) (Merlijn Vos / #5573)
+- @uppy/angular,@uppy/audio,@uppy/aws-s3,@uppy/box,@uppy/companion-client,@uppy/compressor,@uppy/core,@uppy/dashboard,@uppy/drag-drop,@uppy/drop-target,@uppy/dropbox,@uppy/facebook,@uppy/file-input,@uppy/form,@uppy/golden-retriever,@uppy/google-drive-picker,@uppy/google-drive,@uppy/google-photos-picker,@uppy/google-photos,@uppy/image-editor,@uppy/informer,@uppy/instagram,@uppy/locales,@uppy/onedrive,@uppy/progress-bar,@uppy/provider-views,@uppy/react,@uppy/remote-sources,@uppy/screen-capture,@uppy/status-bar,@uppy/thumbnail-generator,@uppy/transloadit,@uppy/tus,@uppy/unsplash,@uppy/url,@uppy/vue,@uppy/webcam,@uppy/webdav,@uppy/xhr-upload,@uppy/zoom: Remove "paths" from all tsconfig's (Merlijn Vos / #5572)
+- @uppy/tus: fix onBeforeRequest type (Dominik Schmidt / #5566)
+
+
+## 4.10.0
+
+Released: 2025-01-06
+
+| Package              | Version | Package              | Version |
+| -------------------- | ------- | -------------------- | ------- |
+| @uppy/companion      |   5.4.0 | @uppy/store-redux    |   4.0.2 |
+| @uppy/core           |   4.3.2 | @uppy/url            |   4.1.3 |
+| @uppy/dashboard      |   4.2.0 | @uppy/webdav         |   0.2.0 |
+| @uppy/provider-views |   4.2.1 | uppy                 |  4.10.0 |
+| @uppy/react          |   4.1.0 |                      |         |
+
+- @uppy/react: allow React 19 as peer dependency (Shubs / #5556)
+- @uppy/webdav: add plugin icon (Merlijn Vos / #5555)
+- @uppy/companion: pass fetched origins to window.postMessage() (Merlijn Vos / #5529)
+- @uppy/core,@uppy/dashboard,@uppy/provider-views,@uppy/store-redux,@uppy/url: build(deps): bump nanoid from 5.0.7 to 5.0.9 (dependabot[bot] / #5544)
+
+
+## 4.9.0
+
+Released: 2024-12-17
+
+| Package                    | Version | Package                    | Version |
+| -------------------------- | ------- | -------------------------- | ------- |
+| @uppy/companion            |   5.3.0 | @uppy/progress-bar         |   4.1.0 |
+| @uppy/companion-client     |   4.3.0 | @uppy/provider-views       |   4.2.0 |
+| @uppy/core                 |   4.3.1 | @uppy/status-bar           |   4.0.6 |
+| @uppy/google-drive-picker  |   0.2.1 | @uppy/utils                |   6.0.6 |
+| @uppy/google-photos-picker |   0.2.1 | @uppy/webdav               |   0.1.0 |
+| @uppy/locales              |   4.4.0 | uppy                       |   4.9.0 |
+
+- @uppy/webdav: Add @uppy/webdav (Merlijn Vos / #5551)
+- @uppy/google-drive-picker,@uppy/google-photos-picker,@uppy/locales: Add missing Google Picker locale entries (Merlijn Vos / #5552)
+- @uppy/core: bring back validateRestrictions (Merlijn Vos / #5538)
+- @uppy/google-drive-picker,@uppy/google-photos-picker: Fix TS generics on new Google Picker plugins (Merlijn Vos / #5550)
+- @uppy/locales: Add missing French locale entries (Steven SAN / #5549)
+- e2e,@uppy/status-bar,@uppy/utils: Companion stream upload unknown size files (Mikael Finstad / #5489)
+
+
+## 4.8.0
+
+Released: 2024-12-05
+
+| Package                    | Version | Package                    | Version |
+| -------------------------- | ------- | -------------------------- | ------- |
+| @uppy/audio                |   2.0.2 | @uppy/instagram            |   4.1.2 |
+| @uppy/aws-s3               |   4.1.3 | @uppy/locales              |   4.3.1 |
+| @uppy/box                  |   3.1.2 | @uppy/onedrive             |   4.1.2 |
+| @uppy/companion            |   5.2.0 | @uppy/progress-bar         |   4.0.2 |
+| @uppy/companion-client     |   4.2.0 | @uppy/provider-views       |   4.1.0 |
+| @uppy/compressor           |   2.1.1 | @uppy/react                |   4.0.4 |
+| @uppy/core                 |   4.3.0 | @uppy/remote-sources       |   2.2.1 |
+| @uppy/dashboard            |   4.1.3 | @uppy/screen-capture       |   4.1.2 |
+| @uppy/drag-drop            |   4.0.5 | @uppy/status-bar           |   4.0.5 |
+| @uppy/drop-target          |   3.0.2 | @uppy/store-default        |   4.1.2 |
+| @uppy/dropbox              |   4.1.2 | @uppy/thumbnail-generator  |   4.0.2 |
+| @uppy/facebook             |   4.1.2 | @uppy/transloadit          |   4.1.4 |
+| @uppy/file-input           |   4.0.4 | @uppy/tus                  |   4.1.5 |
+| @uppy/form                 |   4.0.2 | @uppy/unsplash             |   4.1.2 |
+| @uppy/golden-retriever     |   4.0.2 | @uppy/url                  |   4.1.2 |
+| @uppy/google-drive         |   4.2.0 | @uppy/utils                |   6.0.5 |
+| @uppy/google-drive-picker  |   0.2.0 | @uppy/vue                  |   2.0.3 |
+| @uppy/google-photos        |   0.4.0 | @uppy/webcam               |   4.0.3 |
+| @uppy/google-photos-picker |   0.2.0 | @uppy/xhr-upload           |   4.2.3 |
+| @uppy/image-editor         |   3.2.1 | @uppy/zoom                 |   3.1.2 |
+| @uppy/informer             |   4.1.2 | uppy                       |   4.8.0 |
+
+- @uppy/companion-client: Fix allowed origins (Mikael Finstad / #5536)
+- meta: Build lib refactor to esm (Mikael Finstad / #5537)
+- @uppy/provider-views: Google picker scope (Mikael Finstad / #5535)
+- @uppy/core,@uppy/provider-views: move useStore out of core (Mikael Finstad / #5533)
+- @uppy/companion,@uppy/google-drive-picker,@uppy/google-photos-picker: Google Picker (Mikael Finstad / #5443)
+- @uppy/aws-s3: console.error instead of throw for missing etag (Merlijn Vos / #5521)
+- docs: Put docs back in uppy.io repository where they belong (Merlijn Vos / #5527)
+- docs: typo (Azhar Rizqullah / #5523)
+- @uppy/audio,@uppy/aws-s3,@uppy/box,@uppy/companion-client,@uppy/compressor,@uppy/core,@uppy/dashboard,@uppy/drag-drop,@uppy/drop-target,@uppy/dropbox,@uppy/facebook,@uppy/file-input,@uppy/form,@uppy/golden-retriever,@uppy/google-drive,@uppy/google-photos,@uppy/image-editor,@uppy/informer,@uppy/instagram,@uppy/locales,@uppy/onedrive,@uppy/progress-bar,@uppy/provider-views,@uppy/react,@uppy/remote-sources,@uppy/screen-capture,@uppy/status-bar,@uppy/store-default,@uppy/thumbnail-generator,@uppy/transloadit,@uppy/tus,@uppy/unsplash,@uppy/url,@uppy/utils,@uppy/vue,@uppy/webcam,@uppy/xhr-upload,@uppy/zoom: cleanup tsconfig (Mikael Finstad / #5520)
+- meta: fix missing lint (Mikael Finstad / #5519)
+- docs: Add Next.js docs (Merlijn Vos / #5502)
+- e2e: try to fix flaky test (Mikael Finstad / #5512)
+- meta: Fix broken lint on CI (Mikael Finstad / #5507)
+
+
+## 4.7.0
+
+Released: 2024-11-11
+
+| Package         | Version | Package         | Version |
+| --------------- | ------- | --------------- | ------- |
+| @uppy/aws-s3    |   4.1.2 | @uppy/tus       |   4.1.4 |
+| @uppy/companion |   5.1.4 | uppy            |   4.7.0 |
+| @uppy/locales   |   4.3.0 |                 |         |
+
+- @uppy/aws-s3: clarify and warn when incorrect buckets settings are used (Mikael Finstad / #5505)
+- @uppy/tus: fix event upload-success response.body.xhr (ItsOnlyBinary / #5503)
+- @uppy/companion: Enable CSRF protection in grant (OAuth2) (Mikael Finstad / #5504)
+- @uppy/locales: Add ms_MY (Malay) locale (Salimi / #5488)
+
+
+## 4.6.0
+
+Released: 2024-10-31
+
+| Package                   | Version | Package                   | Version |
+| ------------------------- | ------- | ------------------------- | ------- |
+| @uppy/aws-s3              |   4.1.1 | @uppy/provider-views      |   4.0.2 |
+| @uppy/box                 |   3.1.1 | @uppy/react               |   4.0.3 |
+| @uppy/companion           |   5.1.3 | @uppy/react-native        |   0.6.1 |
+| @uppy/companion-client    |   4.1.1 | @uppy/redux-dev-tools     |   4.0.1 |
+| @uppy/core                |   4.2.3 | @uppy/screen-capture      |   4.1.1 |
+| @uppy/dashboard           |   4.1.2 | @uppy/status-bar          |   4.0.4 |
+| @uppy/drag-drop           |   4.0.4 | @uppy/store-default       |   4.1.1 |
+| @uppy/dropbox             |   4.1.1 | @uppy/store-redux         |   4.0.1 |
+| @uppy/facebook            |   4.1.1 | @uppy/svelte              |   4.1.1 |
+| @uppy/file-input          |   4.0.3 | @uppy/thumbnail-generator |   4.0.1 |
+| @uppy/form                |   4.0.1 | @uppy/transloadit         |   4.1.3 |
+| @uppy/golden-retriever    |   4.0.1 | @uppy/tus                 |   4.1.3 |
+| @uppy/google-drive        |   4.1.1 | @uppy/unsplash            |   4.1.1 |
+| @uppy/google-photos       |   0.3.1 | @uppy/url                 |   4.1.1 |
+| @uppy/image-editor        |   3.2.0 | @uppy/utils               |   6.0.4 |
+| @uppy/informer            |   4.1.1 | @uppy/vue                 |   2.0.2 |
+| @uppy/instagram           |   4.1.1 | @uppy/webcam              |   4.0.2 |
+| @uppy/locales             |   4.2.1 | @uppy/xhr-upload          |   4.2.2 |
+| @uppy/onedrive            |   4.1.1 | @uppy/zoom                |   3.1.1 |
+| @uppy/progress-bar        |   4.0.1 | uppy                      |   4.6.0 |
+
+- @uppy/xhr-upload: fix stale file references in events (Merlijn Vos / #5499)
+- @uppy/image-editor: upgrade cropperjs (Merlijn Vos / #5497)
+- @uppy/aws-s3,@uppy/box,@uppy/companion-client,@uppy/core,@uppy/dashboard,@uppy/drag-drop,@uppy/dropbox,@uppy/facebook,@uppy/file-input,@uppy/form,@uppy/golden-retriever,@uppy/google-drive,@uppy/google-photos,@uppy/image-editor,@uppy/informer,@uppy/instagram,@uppy/locales,@uppy/onedrive,@uppy/progress-bar,@uppy/provider-views,@uppy/react-native,@uppy/react,@uppy/redux-dev-tools,@uppy/screen-capture,@uppy/status-bar,@uppy/store-default,@uppy/store-redux,@uppy/svelte,@uppy/thumbnail-generator,@uppy/transloadit,@uppy/tus,@uppy/unsplash,@uppy/url,@uppy/utils,@uppy/vue,@uppy/webcam,@uppy/xhr-upload,@uppy/zoom: Fix links (Anthony Veaudry / #5492)
+- docs,@uppy/companion: disallow corsOrigins "*" (Mikael Finstad / #5496)
+
+
+## 4.5.0
+
+Released: 2024-10-15
+
+| Package          | Version | Package          | Version |
+| ---------------- | ------- | ---------------- | ------- |
+| @uppy/companion  |   5.1.2 | @uppy/svelte     |   4.1.0 |
+| @uppy/core       |   4.2.2 | @uppy/tus        |   4.1.2 |
+| @uppy/dashboard  |   4.1.1 | @uppy/utils      |   6.0.3 |
+| @uppy/drag-drop  |   4.0.3 | @uppy/xhr-upload |   4.2.1 |
+| @uppy/file-input |   4.0.2 | uppy             |   4.5.0 |
+| @uppy/locales    |   4.2.0 |                  |         |
+
+- @uppy/dashboard: Dashboard - convert some files to typescript  (Evgenia Karunus / #5367)
+- @uppy/dashboard,@uppy/drag-drop,@uppy/file-input:  `.handleInputChange()` - use `.currentTarget`; clear the input using `''` (Evgenia Karunus / #5381)
+- meta: build(deps): bump @blakeembrey/template from 1.1.0 to 1.2.0 (dependabot[bot] / #5448)
+- @uppy/locales: Update packages/@uppy/locales/src/fr_FR.ts (Zéfyx / #5472)
+- @uppy/svelte: use SvelteKit as the build tool (Merlijn Vos / #5484)
+- @uppy/xhr-upload: add response to upload-error callback (Caleb Hardin / #5486)
+- @uppy/tus: tus: Avoid duplicate `upload-error` event (Marius / #5485)
+- @uppy/companion: Fix redis emitter (Mikael Finstad / #5474)
+- meta: build(deps): bump docker/build-push-action from 6.8.0 to 6.9.0 (dependabot[bot] / #5483)
+
+
+## 4.4.1
+
+Released: 2024-09-30
+
+| Package           | Version | Package           | Version |
+| ----------------- | ------- | ----------------- | ------- |
+| @uppy/core        |   4.2.1 | uppy              |   4.4.1 |
+| @uppy/transloadit |   4.1.2 |                   |         |
+
+- @uppy/transloadit: fix multiple upload batches & run again (Merlijn Vos / #5478)
+- meta: build(deps): bump docker/build-push-action from 6.7.0 to 6.8.0 (dependabot[bot] / #5477)
+- meta: build(deps): bump vite from 5.2.11 to 5.4.8 (dependabot[bot] / #5471)
+- @uppy/svelte: build(deps-dev): bump rollup from 4.18.0 to 4.22.4 (dependabot[bot] / #5470)
+- meta: build(deps): bump vite from 5.2.11 to 5.4.6 (dependabot[bot] / #5466)
+
+
+## 4.4.0
+
+Released: 2024-09-20
+
+| Package           | Version | Package           | Version |
+| ----------------- | ------- | ----------------- | ------- |
+| @uppy/companion   |   5.1.1 | @uppy/tus         |   4.1.1 |
+| @uppy/svelte      |   4.0.2 | @uppy/xhr-upload  |   4.2.0 |
+| @uppy/transloadit |   4.1.1 | uppy              |   4.4.0 |
+
+- @uppy/tus: fix retry check for status code 400 (Merlijn Vos / #5461)
+- meta: Merge branch 'main' of https://github.com/transloadit/uppy (Murderlon)
+- meta: fix AwsS3 endpoint option in private/dev (Murderlon)
+- examples: build(deps): bump body-parser from 1.20.2 to 1.20.3 (dependabot[bot] / #5462)
+- examples: build(deps-dev): bump vite from 5.3.1 to 5.3.6 (dependabot[bot] / #5459)
+- @uppy/tus: set response from tus-js-client (Merlijn Vos / #5456)
+- docs: fix assemblyOptions example for React (Merlijn Vos / #5450)
+- docs: rename Edgly to Smart CDN (Merlijn Vos / #5449)
+- @uppy/tus: correctly type tus on UppyFile (Merlijn Vos / #5454)
+- docs: remove old legacy CDN reference (Murderlon)
+- @uppy/xhr-upload: pass files to onBeforeRequest (Merlijn Vos / #5447)
+- @uppy/svelte: fix generated module to not bundle Svelte (Antoine du Hamel / #5446)
+- examples,@uppy/svelte: Bump svelte from 4.2.18 to 4.2.19 (dependabot[bot] / #5440)
+- meta: bump Yarn to 4.4.1 (Antoine du Hamel / #5445)
+- docs: fix broken links in locale docs (Serghei Cebotari / #5441)
+
+
+## 4.3.0
+
+Released: 2024-08-29
+
+| Package                | Version | Package                | Version |
+| ---------------------- | ------- | ---------------------- | ------- |
+| @uppy/aws-s3           |   4.1.0 | @uppy/informer         |   4.1.0 |
+| @uppy/box              |   3.1.0 | @uppy/instagram        |   4.1.0 |
+| @uppy/companion        |   5.1.0 | @uppy/locales          |   4.1.0 |
+| @uppy/companion-client |   4.1.0 | @uppy/onedrive         |   4.1.0 |
+| @uppy/compressor       |   2.1.0 | @uppy/remote-sources   |   2.2.0 |
+| @uppy/core             |   4.2.0 | @uppy/screen-capture   |   4.1.0 |
+| @uppy/dashboard        |   4.1.0 | @uppy/tus              |   4.1.0 |
+| @uppy/dropbox          |   4.1.0 | @uppy/unsplash         |   4.1.0 |
+| @uppy/facebook         |   4.1.0 | @uppy/url              |   4.1.0 |
+| @uppy/google-drive     |   4.1.0 | @uppy/xhr-upload       |   4.1.0 |
+| @uppy/google-photos    |   0.3.0 | @uppy/zoom             |   3.1.0 |
+| @uppy/image-editor     |   3.1.0 | uppy                   |   4.3.0 |
+
+- @uppy/core,@uppy/dashboard: Pass container to `UIPlugin.render` for non-Preact integration (Merlijn Vos / #5437)
+- @uppy/companion: do not use unsafe call to `JSON.stringify` (Antoine du Hamel / #5422)
+- meta: Fix yarn.lock (Murderlon)
+- @uppy/locales: Fix locale-pack for en_US (Merlijn Vos / #5431)
+- meta: Add tsconfig to packages in private/ (Merlijn Vos / #5432)
+- @uppy/remote-sources: support companionKeysParams (Merlijn Vos / #5434)
+- @uppy/aws-s3,@uppy/box,@uppy/compressor,@uppy/dropbox,@uppy/facebook,@uppy/google-drive,@uppy/google-photos,@uppy/image-editor,@uppy/informer,@uppy/instagram,@uppy/onedrive,@uppy/screen-capture,@uppy/tus,@uppy/unsplash,@uppy/url,@uppy/xhr-upload,@uppy/zoom: export plugin options (Antoine du Hamel / #5433)
+- docs: correctly list exported components (Merlijn Vos / #5417)
+
+
+## 4.2.1
+
+Released: 2024-08-26
+
+| Package     | Version | Package     | Version |
+| ----------- | ------- | ----------- | ------- |
+| @uppy/react |   4.0.2 | uppy        |   4.2.1 |
+
+- @uppy/react: fix `use-sync-external-store` import (Merlijn Vos / #5426)
+- docs: fix Golden Retriever service worker import (mkabatek / #5425)
+
+
+## 4.2.0
+
+Released: 2024-08-20
+
+| Package           | Version | Package           | Version |
+| ----------------- | ------- | ----------------- | ------- |
+| @uppy/core        |   4.1.2 | @uppy/transloadit |   4.1.0 |
+| @uppy/status-bar  |   4.0.3 | uppy              |   4.2.0 |
+| @uppy/svelte      |   4.0.1 |                   |         |
+
+- @uppy/status-bar: show upload button when files are recovered (Merlijn Vos / #5418)
+- meta: Bump docker/build-push-action from 6.6.1 to 6.7.0 (dependabot[bot] / #5413)
+- docs: remove stale reference to plugins page (Merlijn Vos / #5414)
+- @uppy/transloadit: add execution_progress to AssemblyResponse type (Merlijn Vos / #5420)
+- @uppy/svelte: fix exports condition (Merlijn Vos / #5416)
+- @uppy/transloadit: fix check if all files have been removed (Merlijn Vos / #5419)
+- examples: remove `useUppy` from React Native example (Mikael Finstad / #5405)
+
+
+## 4.1.1
+
+Released: 2024-08-15
+
+| Package                | Version | Package                | Version |
+| ---------------------- | ------- | ---------------------- | ------- |
+| @uppy/aws-s3           |   4.0.3 | @uppy/provider-views   |   4.0.1 |
+| @uppy/companion        |   5.0.5 | @uppy/status-bar       |   4.0.2 |
+| @uppy/companion-client |   4.0.1 | @uppy/transloadit      |   4.0.2 |
+| @uppy/core             |   4.1.1 | @uppy/tus              |   4.0.1 |
+| @uppy/dashboard        |   4.0.3 | @uppy/utils            |   6.0.2 |
+| @uppy/drag-drop        |   4.0.2 | @uppy/vue              |   2.0.1 |
+| @uppy/file-input       |   4.0.1 | uppy                   |   4.1.1 |
+| @uppy/image-editor     |   3.0.1 |                        |         |
+
+- @uppy/transloadit: fix issue with `allowMultipleUploadBatches` (Mikael Finstad / #5400)
+- meta: Bump elliptic from 6.5.5 to 6.5.7 (dependabot[bot] / #5410)
+- meta: add back patch for `p-queue` (Antoine du Hamel / #5409)
+- @uppy/transloadit: fix many lurking `TypeError` (Mikael Finstad / #5399)
+- docs: improve `corsOrigins` documentation (Mikael Finstad / #5390)
+- docs: add `ViewEncapsulation` to Angular example (Aaron Russell / #5395)
+- @uppy/companion: fix code for custom providers (Mikael Finstad / #5398)
+- docs: add note about throwing in `cancelAll` and `destroy()` (Mikael Finstad / #5408)
+- meta: Bump docker/login-action from 3.2.0 to 3.3.0 (dependabot[bot] / #5372)
+- meta: Bump docker/setup-qemu-action from 3.1.0 to 3.2.0 (dependabot[bot] / #5370)
+- docs: make hosted Companion more clear (Merlijn Vos / #5394)
+- meta: Bump docker/build-push-action from 6.4.1 to 6.6.1 (dependabot[bot] / #5403)
+- meta: bump p-queue to latest, remove patch (Mikael Finstad / #5391)
+- meta: enforce `.ts` extension for relative import types (Antoine du Hamel / #5393)
+- @uppy/tus: Fix onShouldRetry type signature (Trent Nadeau / #5387)
+- @uppy/dashboard,@uppy/drag-drop,@uppy/file-input: Transform the `accept` prop into a string everywhere (Evgenia Karunus / #5380)
+- docs: fix getTemporarySecurityCredentials in aws-s3 (Merlijn Vos / #5363)
+
+
+## 4.1.0
+
+Released: 2024-07-30
+
+| Package              | Version | Package              | Version |
+| -------------------- | ------- | -------------------- | ------- |
+| @uppy/audio          |   2.0.1 | @uppy/status-bar     |   4.0.1 |
+| @uppy/aws-s3         |   4.0.2 | @uppy/store-default  |   4.1.0 |
+| @uppy/compressor     |   2.0.1 | @uppy/transloadit    |   4.0.1 |
+| @uppy/core           |   4.1.0 | @uppy/utils          |   6.0.1 |
+| @uppy/dashboard      |   4.0.2 | @uppy/webcam         |   4.0.1 |
+| @uppy/remote-sources |   2.1.0 | uppy                 |   4.1.0 |
+
+- @uppy/remote-sources: fix options type (Merlijn Vos / #5364)
+- @uppy/transloadit: do not mark `opts` as mandatory (Antoine du Hamel / #5375)
+- @uppy/compressor: mark `quality` as optional (Antoine du Hamel / #5374)
+- @uppy/aws-s3: improve error when `endpoint` is not provided (Antoine du Hamel / #5361)
+- @uppy/core,@uppy/store-default: export `Store` type (Merlijn Vos / #5373)
+- @uppy/dashboard: make `toggleAddFilesPanel` args consistent (Evgenia Karunus / #5365)
+- @uppy/dashboard: Dashboard - convert some files to typescript (Evgenia Karunus / #5359)
+- @uppy/audio,@uppy/webcam: Don't use `<h1>` in Uppy markup (Evgenia Karunus / #5355)
+- @uppy/status-bar: GoldenRetriever + `hideUploadButton=true` (Evgenia Karunus / #5350)
+- meta: Bump docker/build-push-action from 6.3.0 to 6.4.1 (dependabot[bot] / #5360)
+
+
+## 4.0.5
+
+Released: 2024-07-18
+
+| Package          | Version | Package          | Version |
+| ---------------- | ------- | ---------------- | ------- |
+| @uppy/aws-s3     |   4.0.1 | uppy             |   4.0.5 |
+| @uppy/xhr-upload |   4.0.2 |                  |         |
+
+- @uppy/aws-s3: use default `Body` generic & export `AwsBody` (Merlijn Vos / #5353)
+- @uppy/xhr-upload: bring back getResponseData (Merlijn Vos / #5354)
+- @uppy/aws-s3: only send `PartNumber` and `ETag` in completion request (Antoine du Hamel / #5356)
+
+
+## 4.0.4
+
+Released: 2024-07-15
+
+| Package         | Version | Package         | Version |
+| --------------- | ------- | --------------- | ------- |
+| @uppy/companion |   5.0.4 | uppy            |   4.0.4 |
+| @uppy/locales   |   4.0.3 |                 |         |
+
+- meta: fixup! meta: fix require path in `upload-to-cdn` (Antoine du Hamel / #5343)
+
+
+## 4.0.3
+
+Released: 2024-07-15
+
+| Package          | Version | Package          | Version |
+| ---------------- | ------- | ---------------- | ------- |
+| @uppy/companion  |   5.0.3 | @uppy/xhr-upload |   4.0.1 |
+| @uppy/locales    |   4.0.2 | uppy             |   4.0.3 |
+
+- @uppy/companion: Improve error message when `window.opener == null` (Mikael Finstad / #5340)
+- @uppy/xhr-upload: correctly type xhrUpload meta (Merlijn Vos / #5344)
+- meta: fix require path in `upload-to-cdn` (Antoine du Hamel / #5343)
+
+
+## 4.0.2
+
+Released: 2024-07-15
+
+| Package         | Version | Package         | Version |
+| --------------- | ------- | --------------- | ------- |
+| @uppy/locales   |   4.0.1 | uppy            |   4.0.2 |
+| @uppy/companion |   5.0.2 |                 |         |
+
+- meta: mark `@uppy-dev/upload-to-cdn` as private (Antoine du Hamel / #5341)
+
+
+## 4.0.1
+
+Released: 2024-07-15
+
+| Package           | Version | Package           | Version |
+| ----------------- | ------- | ----------------- | ------- |
+| @uppy/companion   |   5.0.1 | @uppy/drop-target |   3.0.1 |
+| @uppy/core        |   4.0.1 | @uppy/react       |   4.0.1 |
+| @uppy/dashboard   |   4.0.1 | uppy              |   4.0.1 |
+| @uppy/drag-drop   |   4.0.1 |                   |         |
+
+- @uppy/dashboard: propagate `setOptions` to `StatusBar` (Mikael Finstad / #5260)
+- meta: add missing lint rule for `.ts` files (Antoine du Hamel / #5335)
+- @uppy/companion: bump `ws` from 8.17.0 to 8.17.1 (dependabot[bot] / #5324)
+- @uppy/dashboard,@uppy/drag-drop,@uppy/drop-target: `<Dashboard/>`, `<DragDrop/>`, `drop-target` - new anti-flickering solution (Evgenia Karunus / #5326)
+- docs: add css import for url plugin (Tyler Nieman / #5333)
+- meta: Bump fast-loops from 1.1.3 to 1.1.4 (dependabot[bot] / #5327)
+- @uppy/core: make `Meta` generic optional (Merlijn Vos / #5330)
+- meta: update `manual-cdn` workflow (Antoine du Hamel / #5329)
+- docs: Fix lint (Murderlon)
+- docs: Correct mistake in migration guide (Murderlon)
+
+
+## 4.0.0
+
+Released: 2024-07-10
+
+| Package                   | Version | Package                   | Version |
+| ------------------------- | ------- | ------------------------- | ------- |
+| @uppy/angular             |   0.7.0 | @uppy/onedrive            |   4.0.0 |
+| @uppy/audio               |   2.0.0 | @uppy/progress-bar        |   4.0.0 |
+| @uppy/aws-s3              |   4.0.0 | @uppy/provider-views      |   4.0.0 |
+| @uppy/aws-s3-multipart    |   4.0.0 | @uppy/react               |   4.0.0 |
+| @uppy/box                 |   3.0.0 | @uppy/react-native        |   0.6.0 |
+| @uppy/companion           |   5.0.0 | @uppy/redux-dev-tools     |   4.0.0 |
+| @uppy/companion-client    |   4.0.0 | @uppy/remote-sources      |   2.0.0 |
+| @uppy/compressor          |   2.0.0 | @uppy/screen-capture      |   4.0.0 |
+| @uppy/core                |   4.0.0 | @uppy/status-bar          |   4.0.0 |
+| @uppy/dashboard           |   4.0.0 | @uppy/store-default       |   4.0.0 |
+| @uppy/drag-drop           |   4.0.0 | @uppy/store-redux         |   4.0.0 |
+| @uppy/drop-target         |   3.0.0 | @uppy/svelte              |   4.0.0 |
+| @uppy/dropbox             |   4.0.0 | @uppy/thumbnail-generator |   4.0.0 |
+| @uppy/facebook            |   4.0.0 | @uppy/transloadit         |   4.0.0 |
+| @uppy/file-input          |   4.0.0 | @uppy/tus                 |   4.0.0 |
+| @uppy/form                |   4.0.0 | @uppy/unsplash            |   4.0.0 |
+| @uppy/golden-retriever    |   4.0.0 | @uppy/url                 |   4.0.0 |
+| @uppy/google-drive        |   4.0.0 | @uppy/utils               |   6.0.0 |
+| @uppy/google-photos       |   0.2.0 | @uppy/vue                 |   2.0.0 |
+| @uppy/image-editor        |   3.0.0 | @uppy/webcam              |   4.0.0 |
+| @uppy/informer            |   4.0.0 | @uppy/xhr-upload          |   4.0.0 |
+| @uppy/instagram           |   4.0.0 | @uppy/zoom                |   3.0.0 |
+| @uppy/locales             |   4.0.0 | uppy                      |   4.0.0 |
+
+- meta: Bump docker/setup-qemu-action from 3.0.0 to 3.1.0 (dependabot[bot] / #5314)
+- meta: Bump docker/build-push-action from 6.2.0 to 6.3.0 (dependabot[bot] / #5313)
+- @uppy/core: bring back resetProgress (Merlijn Vos / #5320)
+- docs: add note regarding `COMPANION_CLIENT_ORIGINS_REGEX` (Antoine du Hamel / #5322)
+- @uppy/companion: make streaming upload default to `true` (Mikael Finstad / #5315)
+- docs: change slug for aws docs (Merlijn Vos / #5321)
+- @uppy/core: export UppyOptions, UppyFile, Meta, Body (Merlijn Vos / #5319)
+- meta: fix React linter rules (Antoine du Hamel / #5317)
+- meta: enforce use of extension in import type declarations (Antoine du Hamel / #5316)
+- @uppy/companion: remove `oauthOrigin` (Antoine du Hamel / #5311)
+- docs,@uppy/companion-client: don't close socket when pausing (Mikael Finstad / #4821)
+- @uppy/aws-s3: fix signing on client for bucket name with dots (Antoine du Hamel / #5312)
+- @uppy/react: introduce useUppyEvent (Merlijn Vos / #5264)
+- @uppy/companion: do not list Node.js 20.12 as compatible (Antoine du Hamel / #5309)
+- @uppy/provider-views: `.openFolder()` - return progress indication (Evgenia Karunus / #5306)
+- examples,@uppy/companion: Release: uppy@3.27.3 (github-actions[bot] / #5304)
+- @uppy/companion: fix `TypeError` when parsing request (Antoine du Hamel / #5303)
+
+
+## 4.0.0-beta.14
+
+Released: 2024-07-02
+
+| Package                |       Version | Package                |       Version |
+| ---------------------- | ------------- | ---------------------- | ------------- |
+| @uppy/companion        | 5.0.0-beta.12 | @uppy/form             |  4.0.0-beta.6 |
+| @uppy/companion-client |  4.0.0-beta.9 | @uppy/provider-views   | 4.0.0-beta.11 |
+| @uppy/core             | 4.0.0-beta.12 | uppy                   | 4.0.0-beta.14 |
+| @uppy/drag-drop        |  4.0.0-beta.5 |                        |               |
+
+- @uppy/companion: make `oauthOrigin` option required (Mikael Finstad / #5276)
+- @uppy/provider-views: `afterFill()` - add loading progress (Evgenia Karunus / #5288)
+
+
+## 4.0.0-beta.13
+
+Released: 2024-06-27
+
+| Package                |       Version | Package                |       Version |
+| ---------------------- | ------------- | ---------------------- | ------------- |
+| @uppy/audio            |  2.0.0-beta.7 | @uppy/image-editor     |  3.0.0-beta.6 |
+| @uppy/aws-s3           |  4.0.0-beta.8 | @uppy/instagram        |  4.0.0-beta.7 |
+| @uppy/box              |  3.0.0-beta.8 | @uppy/onedrive         |  4.0.0-beta.8 |
+| @uppy/companion        | 5.0.0-beta.11 | @uppy/provider-views   | 4.0.0-beta.10 |
+| @uppy/companion-client |  4.0.0-beta.8 | @uppy/react            |  4.0.0-beta.8 |
+| @uppy/core             | 4.0.0-beta.11 | @uppy/screen-capture   |  4.0.0-beta.6 |
+| @uppy/dashboard        | 4.0.0-beta.11 | @uppy/transloadit      | 4.0.0-beta.10 |
+| @uppy/drop-target      |  3.0.0-beta.6 | @uppy/unsplash         |  4.0.0-beta.8 |
+| @uppy/dropbox          |  4.0.0-beta.9 | @uppy/url              |  4.0.0-beta.8 |
+| @uppy/facebook         |  4.0.0-beta.7 | @uppy/utils            |  6.0.0-beta.9 |
+| @uppy/file-input       |  4.0.0-beta.6 | @uppy/vue              |  2.0.0-beta.4 |
+| @uppy/form             |  4.0.0-beta.5 | @uppy/webcam           |  4.0.0-beta.9 |
+| @uppy/golden-retriever |  4.0.0-beta.6 | @uppy/xhr-upload       |  4.0.0-beta.7 |
+| @uppy/google-drive     |  4.0.0-beta.1 | @uppy/zoom             |  3.0.0-beta.7 |
+| @uppy/google-photos    |  0.2.0-beta.2 | uppy                   | 4.0.0-beta.13 |
+
+- @uppy/companion: implement facebook app secret proof (Mikael Finstad / #5249)
+- @uppy/provider-views: `Loader.tsx` - delete the file (Evgenia Karunus / #5284)
+- @uppy/vue: fix passing of `props` (Antoine du Hamel / #5281)
+- @uppy/google-photos: fix various issues (Mikael Finstad / #5275)
+- @uppy/transloadit: fix strict type errors (Antoine du Hamel / #5271)
+- @uppy/transloadit: simplify plugin to always run a single assembly (Merlijn Vos / #5158)
+- meta: update Yarn version and npm deps (Antoine du Hamel / #5269)
+- docs: prettier: 3.2.5 -> 3.3.2 (Antoine du Hamel / #5270)
+- @uppy/provider-views: Provider views rewrite (.files, .folders => .partialTree) (Evgenia Karunus / #5050)
+- @uppy/react: TS strict mode (Merlijn Vos / #5258)
+- meta: simplify `build:ts` script (Antoine du Hamel / #5262)
+
+
+## 4.0.0-beta.12
+
+Released: 2024-06-18
+
+| Package              |       Version | Package              |       Version |
+| -------------------- | ------------- | -------------------- | ------------- |
+| @uppy/aws-s3         |  4.0.0-beta.7 | @uppy/locales        |  4.0.0-beta.4 |
+| @uppy/box            |  3.0.0-beta.7 | @uppy/onedrive       |  4.0.0-beta.7 |
+| @uppy/companion      | 5.0.0-beta.10 | @uppy/provider-views |  4.0.0-beta.9 |
+| @uppy/core           | 4.0.0-beta.10 | @uppy/react          |  4.0.0-beta.7 |
+| @uppy/dashboard      | 4.0.0-beta.10 | @uppy/remote-sources |  2.0.0-beta.5 |
+| @uppy/dropbox        |  4.0.0-beta.8 | @uppy/transloadit    |  4.0.0-beta.9 |
+| @uppy/google-drive   |  3.6.0-beta.1 | uppy                 | 4.0.0-beta.12 |
+| @uppy/google-photos  |  0.2.0-beta.1 |                      |               |
+
+- meta: ignore `require-default-props` lint rule for function components (Antoine du Hamel / #5253)
+- @uppy/provider-views: Renames & `eslint-disable react/require-default-props` removal (Evgenia Karunus / #5251)
+- @uppy/companion: coalesce options `bucket` and `getKey` (Mikael Finstad / #5169)
+- @uppy/aws-s3: add `endpoint` option (Antoine du Hamel / #5173)
+- @uppy/locales: fix `fa_IR` export (Merlijn Vos / #5241)
+- @uppy/companion: improve companion logging (Mikael Finstad / #5250)
+- @uppy/transloadit: also fix outdated assembly transloadit:result (Merlijn Vos / #5246)
+- docs: fix typo in the url (Evgenia Karunus)
+- examples,@uppy/locales,@uppy/provider-views,@uppy/transloadit: Release: uppy@3.26.1 (github-actions[bot] / #5242)
+- meta: Improve aws-node example readme (Artur Paikin / #4753)
+- @uppy/locales: Added translation string (it_IT) (Samuel / #5237)
+- @uppy/transloadit: fix transloadit:result event (Merlijn Vos / #5231)
+- @uppy/provider-views: fix wrong font for files (Merlijn Vos / #5234)
+
+
+## 4.0.0-beta.11
+
+Released: 2024-06-11
+
+| Package              |       Version | Package              |       Version |
+| -------------------- | ------------- | -------------------- | ------------- |
+| @uppy/aws-s3         |  4.0.0-beta.6 | @uppy/react          |  4.0.0-beta.6 |
+| @uppy/locales        |  4.0.0-beta.3 | @uppy/transloadit    |  4.0.0-beta.8 |
+| @uppy/provider-views |  4.0.0-beta.8 | uppy                 | 4.0.0-beta.11 |
+
+- docs: clarify assemblyOptions for @uppy/transloadit (Merlijn Vos / #5226)
+- @uppy/react: remove `react:` prefix from `id` & allow `id` as a prop (Merlijn Vos / #5228)
+- docs: correct allowedMetaFields (Merlijn Vos / #5227)
+- docs: remove `extraData` note from migration guide (Mikael Finstad / #5219)
+- meta: fix AWS test suite (Antoine du Hamel / #5229)
+
+
+## 4.0.0-beta.10
+
+Released: 2024-06-04
+
+| Package                |       Version | Package                |       Version |
+| ---------------------- | ------------- | ---------------------- | ------------- |
+| @uppy/angular          |  0.7.0-beta.5 | @uppy/instagram        |  4.0.0-beta.6 |
+| @uppy/audio            |  2.0.0-beta.6 | @uppy/locales          |  4.0.0-beta.2 |
+| @uppy/aws-s3           |  4.0.0-beta.5 | @uppy/onedrive         |  4.0.0-beta.6 |
+| @uppy/aws-s3-multipart |  4.0.0-beta.6 | @uppy/provider-views   |  4.0.0-beta.7 |
+| @uppy/box              |  3.0.0-beta.6 | @uppy/status-bar       |  4.0.0-beta.9 |
+| @uppy/companion        |  5.0.0-beta.9 | @uppy/transloadit      |  4.0.0-beta.7 |
+| @uppy/companion-client |  4.0.0-beta.7 | @uppy/tus              |  4.0.0-beta.6 |
+| @uppy/core             |  4.0.0-beta.9 | @uppy/unsplash         |  4.0.0-beta.7 |
+| @uppy/dashboard        |  4.0.0-beta.9 | @uppy/url              |  4.0.0-beta.7 |
+| @uppy/drop-target      |  3.0.0-beta.5 | @uppy/utils            |  6.0.0-beta.8 |
+| @uppy/dropbox          |  4.0.0-beta.7 | @uppy/webcam           |  4.0.0-beta.8 |
+| @uppy/facebook         |  4.0.0-beta.6 | @uppy/xhr-upload       |  4.0.0-beta.6 |
+| @uppy/form             |  4.0.0-beta.4 | @uppy/zoom             |  3.0.0-beta.6 |
+| @uppy/golden-retriever |  4.0.0-beta.5 | uppy                   | 4.0.0-beta.10 |
+| @uppy/google-drive     |  4.0.0-beta.6 |                        |               |
+
+- @uppy/audio: remove unused component props (Antoine du Hamel / #5209)
+- @uppy/angular: fix invalid char in `package.json` (Antoine du Hamel / #5224)
+- meta: use default argument value instead of `defaultProps` (Antoine du Hamel / #5222)
+- @uppy/angular: upgrade to Angular 18 (Antoine du Hamel / #5215)
+- @uppy/utils: remove unused `settle` (Antoine du Hamel / #5210)
+- @uppy/form: move internal property to private field (Antoine du Hamel / #5214)
+- @uppy/dashboard: remove unused component props (Antoine du Hamel / #5213)
+- @uppy/status-bar: remove unused component props (Antoine du Hamel / #5211)
+- @uppy/audio: move internal property to private field (Antoine du Hamel / #5207)
+- @uppy/aws-s3: remove todo (Mikael Finstad / #5200)
+- @uppy/core: remove unnecessary todo (Mikael Finstad / #5200)
+- @uppy/aws-s3: do not expose internal `assertHost` method (Mikael Finstad / #5200)
+- @uppy/aws-s3: make passing `signal` consistent (Mikael Finstad / #5200)
+- @uppy/core: remove `'upload-started'` event (Mikael Finstad / #5200)
+- @uppy/aws-s3: remove `chunkState` getter (Mikael Finstad / #5200)
+- @uppy/drop-target: remove `title` property (Mikael Finstad / #5200)
+- @uppy/golden-retriever: remove unused `ready` setters (Mikael Finstad / #5200)
+- @uppy/dashboard: remove deprecated `autoOpenFileEditor` option (Mikael Finstad / #5200)
+- @uppy/aws-s3: remove `uploaderSockets` (Mikael Finstad / #5200)
+- @uppy/locales: remove hacks for legacy bundle (Mikael Finstad / #5200)
+- @uppy/status-bar: rename `StatusBar` to `StatusBarUI` (Mikael Finstad / #5200)
+- @uppy/url: remove unused error handler (Mikael Finstad / #5200)
+- @uppy/aws-s3,@uppy/tus,@uppy/utils,@uppy/xhr-upload: remove `uploader` from `upload-progress` event (Mikael Finstad / #5200)
+- @uppy/webcam: remove `facingMode` option (Mikael Finstad / #5200)
+- @uppy/companion: invert some internal boolean options (Mikael Finstad / #5198)
+- @uppy/companion: rename `authProvider` to `oauthProvider` (Mikael Finstad / #5198)
+- @uppy/companion: remove unused headers (Mikael Finstad / #5198)
+- @uppy/companion: remove sanitizing of metadata (Mikael Finstad / #5198)
+- @uppy/companion-client: do not allow boolean `RequestOptions` (Mikael Finstad / #5198)
+- @uppy/companion-client: remove deprecated options (Mikael Finstad / #5198)
+- @uppy/companion: remove `error.extraData` (Mikael Finstad / #5198)
+- @uppy/companion-client: make `supportsRefreshToken` default (Mikael Finstad / #5198)
+- @uppy/companion-client: remove optional chaining (Mikael Finstad / #5198)
+- @uppy/companion: capitalize POST (Mikael Finstad / #5198)
+- @uppy/companion: simplify code by using modern Node.js APIs (Mikael Finstad / #5198)
+- @uppy/companion-client: remove `Socket` (Mikael Finstad / #5198)
+- @uppy/companion: rename `getExtraConfig` to `getExtraGrantConfig` (Mikael Finstad / #5198)
+- @uppy/companion: change `COMPANION_ENABLE_URL_ENDPOINT` default (Mikael Finstad / #5198)
+- @uppy/companion: change default value for Redis session prefix (Mikael Finstad / #5198)
+- examples: make React example up-to-date (Merlijn Vos / #5205)
+- @uppy/core: add type tests (Merlijn Vos / #5153)
+- @uppy/provider-views: PartialTree - get rid of `.onFirstRender()` (Evgenia Karunus / #5187)
+- @uppy/core: pass file to events consistently (Merlijn Vos / #5136)
+- docs: assume tree-shaking bundler is the most common case (Antoine du Hamel / #5160)
+- @uppy/core: remove `reason` (Antoine du Hamel / #5159)
+- @uppy/core: remove `resetProgress` and `reset-progress` (Mikael Finstad / #5221)
+
+
+## 4.0.0-beta.9
+
+Released: 2024-05-23
+
+| Package           |      Version | Package           |      Version |
+| ----------------- | ------------ | ----------------- | ------------ |
+| @uppy/companion   | 5.0.0-beta.8 | @uppy/xhr-upload  | 4.0.0-beta.5 |
+| @uppy/transloadit | 4.0.0-beta.6 | uppy              | 4.0.0-beta.9 |
+
+- @uppy/companion: remove `chalk` from dependencies (Antoine du Hamel / #5178)
+- @uppy/transloadit: do not cancel assembly when removing all files (Merlijn Vos / #5191)
+- @uppy/xhr-upload: fix regression for lowercase HTTP methods (Antoine du Hamel / #5179)
+- meta: improve changelog generator (Antoine du Hamel / #5190)
+
+
+## 4.0.0-beta.8
+
+Released: 2024-05-22
+
+| Package              |      Version | Package              |      Version |
+| -------------------- | ------------ | -------------------- | ------------ |
+| @uppy/aws-s3         | 4.0.0-beta.4 | @uppy/status-bar     | 4.0.0-beta.8 |
+| @uppy/companion      | 5.0.0-beta.7 | @uppy/svelte         | 4.0.0-beta.4 |
+| @uppy/compressor     | 2.0.0-beta.8 | @uppy/tus            | 4.0.0-beta.5 |
+| @uppy/core           | 4.0.0-beta.8 | @uppy/utils          | 6.0.0-beta.7 |
+| @uppy/dashboard      | 4.0.0-beta.8 | @uppy/vue            | 2.0.0-beta.3 |
+| @uppy/image-editor   | 3.0.0-beta.5 | @uppy/webcam         | 4.0.0-beta.7 |
+| @uppy/provider-views | 4.0.0-beta.6 | uppy                 | 4.0.0-beta.8 |
+
+- @uppy/core: resolve some (breaking) TODOs (Antoine du Hamel / #4824)
+- @uppy/companion: encode `uploadId` (Mikael Finstad / #5168)
+- @uppy/companion: bump `express-session` (Antoine du Hamel / #5177)
+- @uppy/companion: remove dependency on `express-request-id` (Antoine du Hamel / #5176)
+- @uppy/companion: bump prom to v15 (Antoine du Hamel / #5175)
+- docs: fix linter (Antoine du Hamel)
+- meta: remove `nodemon` from the deps (Antoine du Hamel / #5172)
+- docs: update `@uppy/aws-s3` docs (Antoine du Hamel / #5093)
+- meta: update more dependencies (Antoine du Hamel / #5171)
+- @uppy/companion: upgrade deps (Antoine du Hamel / #5119)
+
+
+## 4.0.0-beta.7
+
+Released: 2024-05-14
+
+| Package                |      Version | Package                |      Version |
+| ---------------------- | ------------ | ---------------------- | ------------ |
+| @uppy/companion        | 5.0.0-beta.6 | @uppy/status-bar       | 4.0.0-beta.7 |
+| @uppy/companion-client | 4.0.0-beta.6 | @uppy/unsplash         | 4.0.0-beta.6 |
+| @uppy/compressor       | 2.0.0-beta.7 | @uppy/url              | 4.0.0-beta.6 |
+| @uppy/core             | 4.0.0-beta.7 | @uppy/utils            | 6.0.0-beta.6 |
+| @uppy/dashboard        | 4.0.0-beta.7 | @uppy/webcam           | 4.0.0-beta.6 |
+| @uppy/dropbox          | 4.0.0-beta.6 | @uppy/xhr-upload       | 4.0.0-beta.4 |
+| @uppy/image-editor     | 3.0.0-beta.4 | uppy                   | 4.0.0-beta.7 |
+| @uppy/screen-capture   | 4.0.0-beta.5 |                        |              |
+
+- @uppy/companion: switch from `node-redis` to `ioredis` (Dominik Schmidt / #4623)
+- meta: Fix headings in xhr.mdx (Merlijn Vos)
+- @uppy/xhr-upload: introduce hooks similar to tus (Merlijn Vos / #5094)
+- @uppy/core: close->destroy, clearUploadedFiles->clear (Merlijn Vos / #5154)
+- @uppy/companion-client,@uppy/dropbox,@uppy/screen-capture,@uppy/unsplash,@uppy/url,@uppy/webcam: Use `title` consistently from locales (Merlijn Vos / #5134)
+
+
+## 4.0.0-beta.6
+
+Released: 2024-05-08
+
+| Package          |      Version | Package          |      Version |
+| ---------------- | ------------ | ---------------- | ------------ |
+| @uppy/compressor | 2.0.0-beta.6 | @uppy/status-bar | 4.0.0-beta.6 |
+| @uppy/core       | 4.0.0-beta.6 | uppy             | 4.0.0-beta.6 |
+| @uppy/dashboard  | 4.0.0-beta.6 |                  |              |
+
+
+
+
+## 4.0.0-beta.5
+
+Released: 2024-05-03
+
+| Package                   |      Version | Package                   |      Version |
+| ------------------------- | ------------ | ------------------------- | ------------ |
+| @uppy/audio               | 2.0.0-beta.5 | @uppy/progress-bar        | 4.0.0-beta.4 |
+| @uppy/aws-s3              | 4.0.0-beta.3 | @uppy/provider-views      | 4.0.0-beta.5 |
+| @uppy/aws-s3-multipart    | 4.0.0-beta.5 | @uppy/react               | 4.0.0-beta.5 |
+| @uppy/box                 | 3.0.0-beta.5 | @uppy/redux-dev-tools     | 4.0.0-beta.2 |
+| @uppy/companion           | 5.0.0-beta.5 | @uppy/remote-sources      | 2.0.0-beta.4 |
+| @uppy/companion-client    | 4.0.0-beta.5 | @uppy/screen-capture      | 4.0.0-beta.4 |
+| @uppy/compressor          | 2.0.0-beta.5 | @uppy/status-bar          | 4.0.0-beta.5 |
+| @uppy/core                | 4.0.0-beta.5 | @uppy/store-default       | 4.0.0-beta.2 |
+| @uppy/dashboard           | 4.0.0-beta.5 | @uppy/store-redux         | 4.0.0-beta.3 |
+| @uppy/drag-drop           | 4.0.0-beta.4 | @uppy/svelte              | 4.0.0-beta.3 |
+| @uppy/dropbox             | 4.0.0-beta.5 | @uppy/thumbnail-generator | 4.0.0-beta.4 |
+| @uppy/facebook            | 4.0.0-beta.5 | @uppy/transloadit         | 4.0.0-beta.5 |
+| @uppy/file-input          | 4.0.0-beta.5 | @uppy/tus                 | 4.0.0-beta.4 |
+| @uppy/form                | 4.0.0-beta.3 | @uppy/unsplash            | 4.0.0-beta.5 |
+| @uppy/golden-retriever    | 4.0.0-beta.4 | @uppy/url                 | 4.0.0-beta.5 |
+| @uppy/google-drive        | 4.0.0-beta.5 | @uppy/utils               | 6.0.0-beta.5 |
+| @uppy/image-editor        | 3.0.0-beta.3 | @uppy/vue                 | 2.0.0-beta.2 |
+| @uppy/informer            | 4.0.0-beta.2 | @uppy/webcam              | 4.0.0-beta.5 |
+| @uppy/instagram           | 4.0.0-beta.5 | @uppy/xhr-upload          | 4.0.0-beta.3 |
+| @uppy/locales             | 4.0.0-beta.1 | @uppy/zoom                | 3.0.0-beta.5 |
+| @uppy/onedrive            | 4.0.0-beta.5 | uppy                      | 4.0.0-beta.5 |
+
+- @uppy/core: make UppyEventMap more readable (Murderlon)
+- @uppy/audio,@uppy/compressor,@uppy/core,@uppy/dashboard,@uppy/remote-sources,@uppy/tus,@uppy/utils: Format (Murderlon)
+- @uppy/aws-s3-multipart: Format (Murderlon)
+- meta: enable prettier for markdown (Merlijn Vos / #5133)
+- @uppy/xhr-upload: do not throw when res is missing url (Merlijn Vos / #5132)
+- @uppy/companion: coerce `requestUrl` to a string (Antoine du Hamel / #5128)
+- meta: enforce use of `.js` extension in `import type` declarations (Antoine du Hamel / #5126)
+- @uppy/core: add instance ID to generated IDs (Merlijn Vos / #5080)
+- @uppy/core: reference updated i18n in Restricter (Merlijn Vos / #5118)
+
+
+## 4.0.0-beta.4
+
+Released: 2024-04-29
+
+| Package                |      Version | Package                |      Version |
+| ---------------------- | ------------ | ---------------------- | ------------ |
+| @uppy/angular          | 0.7.0-beta.4 | @uppy/instagram        | 4.0.0-beta.4 |
+| @uppy/audio            | 2.0.0-beta.4 | @uppy/onedrive         | 4.0.0-beta.4 |
+| @uppy/aws-s3-multipart | 4.0.0-beta.4 | @uppy/provider-views   | 4.0.0-beta.4 |
+| @uppy/box              | 3.0.0-beta.4 | @uppy/react            | 4.0.0-beta.4 |
+| @uppy/companion        | 5.0.0-beta.4 | @uppy/status-bar       | 4.0.0-beta.4 |
+| @uppy/companion-client | 4.0.0-beta.4 | @uppy/store-redux      | 4.0.0-beta.2 |
+| @uppy/compressor       | 2.0.0-beta.4 | @uppy/svelte           | 4.0.0-beta.2 |
+| @uppy/core             | 4.0.0-beta.4 | @uppy/transloadit      | 4.0.0-beta.4 |
+| @uppy/dashboard        | 4.0.0-beta.4 | @uppy/unsplash         | 4.0.0-beta.4 |
+| @uppy/drop-target      | 3.0.0-beta.4 | @uppy/url              | 4.0.0-beta.4 |
+| @uppy/dropbox          | 4.0.0-beta.4 | @uppy/utils            | 6.0.0-beta.4 |
+| @uppy/facebook         | 4.0.0-beta.4 | @uppy/webcam           | 4.0.0-beta.4 |
+| @uppy/file-input       | 4.0.0-beta.4 | @uppy/xhr-upload       | 4.0.0-beta.2 |
+| @uppy/form             | 4.0.0-beta.2 | @uppy/zoom             | 3.0.0-beta.4 |
+| @uppy/google-drive     | 4.0.0-beta.4 | uppy                   | 4.0.0-beta.4 |
+| @uppy/image-editor     | 3.0.0-beta.2 |                        |              |
+
+- meta: Upgrade Yarn to 4.x (Merlijn Vos / #4849)
+- @uppy/utils: fix fetcher export (Murderlon)
+- @uppy/xhr-upload: refactor to use `fetcher` (Merlijn Vos / #5074)
+- docs: use StackBlitz for all examples/issue template (Merlijn Vos / #5125)
+- meta: Update yarn.lock (Murderlon)
+- @uppy/svelte: Add svelte 5 as peer dep (frederikhors / #5122)
+- meta: Bump docker/setup-buildx-action from 2 to 3 (dependabot[bot] / #5124)
+- meta: Bump actions/checkout from 3 to 4 (dependabot[bot] / #5123)
+- @uppy/dashboard,@uppy/provider-views: Remove JSX global type everywhere (Merlijn Vos / #5117)
+- @uppy/utils: improve return type of `dataURItoFile` (Antoine du Hamel / #5112)
+- @uppy/drop-target: change drop event type to DragEvent (Alireza Heydari / #5107)
+- @uppy/image-editor: fix label definitions (Antoine du Hamel / #5111)
+- meta: bump Prettier version (Antoine du Hamel / #5114)
+- @uppy/provider-views: bring back "loaded X files..." (Mikael Finstad / #5097)
+- @uppy/dashboard: fix type of trigger option (Merlijn Vos / #5106)
+- meta: fix linter (Antoine du Hamel)
+- @uppy/companion: bump Node.js version support matrix (Antoine du Hamel / #5035)
+- @uppy/form: fix `submitOnSuccess` and `triggerUploadOnSubmit` combination (Merlijn Vos / #5058)
+- meta: Bump docker/build-push-action from 3 to 5 (dependabot[bot] / #5105)
+- meta: Bump akhileshns/heroku-deploy from 3.12.12 to 3.13.15 (dependabot[bot] / #5102)
+- meta: Bump docker/login-action from 2 to 3 (dependabot[bot] / #5101)
+- meta: Bump actions/download-artifact from 3 to 4 (dependabot[bot])
+- meta: Bump actions/upload-artifact from 3 to 4 (dependabot[bot])
+- @uppy/react: remove `useUppy` & reintroduce `useUppyState` (Merlijn Vos / #5059)
+- meta: docs: add back markdown files (Antoine du Hamel / #5064)
+- meta: fix custom provider example (Merlijn Vos / #5079)
+- @uppy/utils: add fetcher (Merlijn Vos / #5073)
+- meta: Fix prettier (Murderlon)
+- @uppy/dashboard: add missing `x-zip-compress` archive type (Younes / #5081)
+- meta: Bump docker/metadata-action from 4 to 5 (dependabot[bot] / #5086)
+- meta: Bump actions/setup-node from 3 to 4 (dependabot[bot] / #5087)
+- meta: Bump docker/setup-qemu-action from 2 to 3 (dependabot[bot] / #5089)
+- meta: bump supercharge/redis-github-action from 1.4.0 to 1.8.0 (dependabot[bot] / #5090)
+- meta: bump actions/cache from 3 to 4 (dependabot[bot] / #5088)
+- meta: add `dependabot.yml` to keep GHA up-to-date (Antoine du Hamel / #5083)
+- @uppy/core: Release: uppy@3.24.2 (github-actions[bot] / #5084)
+- @uppy/core: fix `setOptions` not re-rendereing plugin UI (Antoine du Hamel / #5082)
+- meta: bump vite from 5.0.12 to 5.0.13 (dependabot[bot] / #5060)
+- meta: bump tar from 6.1.11 to 6.2.1 (dependabot[bot] / #5068)
+- @uppy/companion,@uppy/file-input: Release: uppy@3.24.1 (github-actions[bot] / #5069)
+- @uppy/companion: upgrade redis (Mikael Finstad / #5065)
+- meta: fix `watch:*` scripts (Antoine du Hamel / #5046)
+- meta: include more packages in `compare_diff` CI (Antoine du Hamel / #5044)
+- @uppy/file-input: add missing export (Antoine du Hamel / #5045)
+- meta: Bump express from 4.18.1 to 4.19.2 in /packages/@uppy/companion (dependabot[bot] / #5036)
+- @uppy/companion: Bump express from 4.18.1 to 4.19.2 (dependabot[bot] / #5037)
+
+
+## 4.0.0-beta.3
+
+Released: 2024-04-15
+
+| Package                   |      Version | Package                   |      Version |
+| ------------------------- | ------------ | ------------------------- | ------------ |
+| @uppy/angular             | 0.7.0-beta.3 | @uppy/onedrive            | 4.0.0-beta.3 |
+| @uppy/audio               | 2.0.0-beta.3 | @uppy/progress-bar        | 4.0.0-beta.3 |
+| @uppy/aws-s3-multipart    | 4.0.0-beta.3 | @uppy/provider-views      | 4.0.0-beta.3 |
+| @uppy/box                 | 3.0.0-beta.3 | @uppy/react               | 4.0.0-beta.3 |
+| @uppy/companion           | 5.0.0-beta.3 | @uppy/remote-sources      | 2.0.0-beta.3 |
+| @uppy/companion-client    | 4.0.0-beta.3 | @uppy/screen-capture      | 4.0.0-beta.3 |
+| @uppy/compressor          | 2.0.0-beta.3 | @uppy/status-bar          | 4.0.0-beta.3 |
+| @uppy/core                | 4.0.0-beta.3 | @uppy/thumbnail-generator | 4.0.0-beta.3 |
+| @uppy/dashboard           | 4.0.0-beta.3 | @uppy/transloadit         | 4.0.0-beta.3 |
+| @uppy/drag-drop           | 4.0.0-beta.3 | @uppy/tus                 | 4.0.0-beta.3 |
+| @uppy/drop-target         | 3.0.0-beta.3 | @uppy/unsplash            | 4.0.0-beta.3 |
+| @uppy/dropbox             | 4.0.0-beta.3 | @uppy/url                 | 4.0.0-beta.3 |
+| @uppy/facebook            | 4.0.0-beta.3 | @uppy/utils               | 6.0.0-beta.3 |
+| @uppy/file-input          | 4.0.0-beta.3 | @uppy/webcam              | 4.0.0-beta.3 |
+| @uppy/golden-retriever    | 4.0.0-beta.3 | @uppy/zoom                | 3.0.0-beta.3 |
+| @uppy/google-drive        | 4.0.0-beta.3 | uppy                      | 4.0.0-beta.3 |
+| @uppy/instagram           | 4.0.0-beta.3 |                           |              |
+
+- @uppy/core: fix `setOptions` not re-rendereing plugin UI (Antoine du Hamel / #5082)
+
+
+## 4.0.0-beta.2
+
+Released: 2024-04-11
+
+| Package                   |      Version | Package                   |      Version |
+| ------------------------- | ------------ | ------------------------- | ------------ |
+| @uppy/angular             | 0.7.0-beta.2 | @uppy/instagram           | 4.0.0-beta.2 |
+| @uppy/audio               | 2.0.0-beta.2 | @uppy/onedrive            | 4.0.0-beta.2 |
+| @uppy/aws-s3              | 4.0.0-beta.2 | @uppy/progress-bar        | 4.0.0-beta.2 |
+| @uppy/aws-s3-multipart    | 4.0.0-beta.2 | @uppy/provider-views      | 4.0.0-beta.2 |
+| @uppy/box                 | 3.0.0-beta.2 | @uppy/react               | 4.0.0-beta.2 |
+| @uppy/companion           | 5.0.0-beta.2 | @uppy/remote-sources      | 2.0.0-beta.2 |
+| @uppy/companion-client    | 4.0.0-beta.2 | @uppy/screen-capture      | 4.0.0-beta.2 |
+| @uppy/compressor          | 2.0.0-beta.2 | @uppy/status-bar          | 4.0.0-beta.2 |
+| @uppy/core                | 4.0.0-beta.2 | @uppy/thumbnail-generator | 4.0.0-beta.2 |
+| @uppy/dashboard           | 4.0.0-beta.2 | @uppy/transloadit         | 4.0.0-beta.2 |
+| @uppy/drag-drop           | 4.0.0-beta.2 | @uppy/tus                 | 4.0.0-beta.2 |
+| @uppy/drop-target         | 3.0.0-beta.2 | @uppy/unsplash            | 4.0.0-beta.2 |
+| @uppy/dropbox             | 4.0.0-beta.2 | @uppy/url                 | 4.0.0-beta.2 |
+| @uppy/facebook            | 4.0.0-beta.2 | @uppy/utils               | 6.0.0-beta.2 |
+| @uppy/file-input          | 4.0.0-beta.2 | @uppy/webcam              | 4.0.0-beta.2 |
+| @uppy/golden-retriever    | 4.0.0-beta.2 | @uppy/zoom                | 3.0.0-beta.2 |
+| @uppy/google-drive        | 4.0.0-beta.2 | uppy                      | 4.0.0-beta.2 |
+
+- @uppy/aws-s3: default to multipart depending on the size of input (Antoine du Hamel / #5076)
+- @uppy/aws-s3: remove deprecated `prepareUploadParts` option (Antoine du Hamel / #5075)
+- @uppy/core: use variadic arguments for `uppy.use` (Antoine du Hamel / #4888)
+- @uppy/aws-s3: remove legacy plugin (Antoine du Hamel / #5070)
+- @uppy/locales: do not build `dist/` folder (Merlijn Vos / #5055)
+- @uppy/angular: fix Angular version requirement in peerDeps (Antoine du Hamel / #5067)
+- @uppy/transloadit: remove deprecated options (Merlijn Vos / #5056)
+
+
+## 4.0.0-beta.1
+
+Released: 2024-03-28
+
+| Package                   |      Version | Package                   |      Version |
+| ------------------------- | ------------ | ------------------------- | ------------ |
+| @uppy/angular             | 0.7.0-beta.1 | @uppy/progress-bar        | 4.0.0-beta.1 |
+| @uppy/audio               | 2.0.0-beta.1 | @uppy/provider-views      | 4.0.0-beta.1 |
+| @uppy/aws-s3              | 4.0.0-beta.1 | @uppy/react               | 4.0.0-beta.1 |
+| @uppy/aws-s3-multipart    | 4.0.0-beta.1 | @uppy/redux-dev-tools     | 4.0.0-beta.1 |
+| @uppy/box                 | 3.0.0-beta.1 | @uppy/remote-sources      | 2.0.0-beta.1 |
+| @uppy/companion           | 5.0.0-beta.1 | @uppy/screen-capture      | 4.0.0-beta.1 |
+| @uppy/companion-client    | 4.0.0-beta.1 | @uppy/status-bar          | 4.0.0-beta.1 |
+| @uppy/compressor          | 2.0.0-beta.1 | @uppy/store-default       | 4.0.0-beta.1 |
+| @uppy/core                | 4.0.0-beta.1 | @uppy/store-redux         | 4.0.0-beta.1 |
+| @uppy/dashboard           | 4.0.0-beta.1 | @uppy/svelte              | 4.0.0-beta.1 |
+| @uppy/drag-drop           | 4.0.0-beta.1 | @uppy/thumbnail-generator | 4.0.0-beta.1 |
+| @uppy/drop-target         | 3.0.0-beta.1 | @uppy/transloadit         | 4.0.0-beta.1 |
+| @uppy/dropbox             | 4.0.0-beta.1 | @uppy/tus                 | 4.0.0-beta.1 |
+| @uppy/facebook            | 4.0.0-beta.1 | @uppy/unsplash            | 4.0.0-beta.1 |
+| @uppy/file-input          | 4.0.0-beta.1 | @uppy/url                 | 4.0.0-beta.1 |
+| @uppy/form                | 4.0.0-beta.1 | @uppy/utils               | 6.0.0-beta.1 |
+| @uppy/golden-retriever    | 4.0.0-beta.1 | @uppy/vue                 | 2.0.0-beta.1 |
+| @uppy/google-drive        | 4.0.0-beta.1 | @uppy/webcam              | 4.0.0-beta.1 |
+| @uppy/image-editor        | 3.0.0-beta.1 | @uppy/xhr-upload          | 4.0.0-beta.1 |
+| @uppy/informer            | 4.0.0-beta.1 | @uppy/zoom                | 3.0.0-beta.1 |
+| @uppy/instagram           | 4.0.0-beta.1 | uppy                      | 4.0.0-beta.1 |
+| @uppy/onedrive            | 4.0.0-beta.1 |                           |              |
+
+- @uppy/vue: migrate to Composition API with TS & drop Vue 2 support (Merlijn Vos / #5043)
+- @uppy/angular: upgrade to Angular 17.x and to TS 5.4 (Antoine du Hamel / #5008)
+- @uppy/svelte: remove UMD output and make it use newer types (Antoine du Hamel / #5023)
+- @uppy/companion-client,@uppy/provider-views,@uppy/status-bar: fix type imports (Antoine du Hamel / #5038)
+- @uppy/aws-s3-multipart: mark `opts` as optional (Antoine du Hamel / #5039)
+- e2e: bump Cypress version (Antoine du Hamel / #5034)
+- @uppy/react: remove `prop-types` dependency (Antoine du Hamel / #5031)
+- @uppy/progress-bar: remove default target (Antoine du Hamel / #4971)
+- @uppy/status-bar: remove default target (Antoine du Hamel / #4970)
+- @uppy/react: remove `Wrapper.ts` (Antoine du Hamel / #5032)
+- @uppy/react: refactor to TS (Antoine du Hamel / #5012)
+- @uppy/core: refine type of private variables (Antoine du Hamel / #5028)
+- @uppy/dashboard: refine type of private variables (Antoine du Hamel / #5027)
+- @uppy/drag-drop: refine type of private variables (Antoine du Hamel / #5026)
+- @uppy/status-bar: refine type of private variables (Antoine du Hamel / #5025)
+- @uppy/remote-sources: migrate to TS (Merlijn Vos / #5020)
+- @uppy/dashboard: refine option types (Antoine du Hamel / #5022)
+- @uppy/dashboard: add new `autoOpen` option (Chris Grigg / #5001)
+- @uppy/aws-s3-multipart,@uppy/tus,@uppy/utils,@uppy/xhr-upload: Make `allowedMetaFields` consistent (Merlijn Vos / #5011)
+- @uppy/core: fix some type errors (Antoine du Hamel / #5015)
+- @uppy/audio,@uppy/dashboard,@uppy/drop-target,@uppy/webcam: add missing exports (Antoine du Hamel / #5014)
+- meta: Bump webpack-dev-middleware from 5.3.3 to 5.3.4 (dependabot[bot] / #5013)
+- @uppy/dashboard: refactor to TypeScript (Antoine du Hamel / #4984)
+- @uppy/companion: improve error msg (Mikael Finstad / #5010)
+- @uppy/aws-s3-multipart: refactor to TS (Antoine du Hamel / #4902)
+- @uppy/dashboard: refactor to stable lifecycle method (Antoine du Hamel / #4999)
+- @uppy/companion: crash if trying to set path to / (Mikael Finstad / #5003)
+- @uppy/provider-views: fix `super.toggleCheckbox` bug (Mikael Finstad / #5004)
+- @uppy/aws-s3-multipart: fix escaping issue with client signed request (Hiroki Shimizu / #5006)
+- @uppy/drag-drop,@uppy/progress-bar: add missing exports (Antoine du Hamel / #5009)
+- @uppy/transloadit: migrate to TS (Merlijn Vos / #4987)
+- @uppy/utils: fix `RateLimitedQueue#wrapPromiseFunction` types (Antoine du Hamel / #5007)
+- @uppy/golden-retriever: migrate to TS (Merlijn Vos / #4989)
+- meta: Bump follow-redirects from 1.15.4 to 1.15.6 (dependabot[bot] / #5002)
+- meta: fix `resize-observer-polyfill` types (Antoine du Hamel / #4994)
+- @uppy/core: various type fixes (Antoine du Hamel / #4995)
+- @uppy/utils: fix `findAllDOMElements` type (Antoine du Hamel / #4997)
+- @uppy/status-bar: fix `recoveredState` type (Antoine du Hamel / #4996)
+- @uppy/utils: fix `AbortablePromise` type (Antoine du Hamel / #4988)
+- @uppy/core,@uppy/provider-views: Fix breadcrumbs (Evgenia Karunus / #4986)
+- @uppy/drag-drop: refactor to TypeScript (Antoine du Hamel / #4983)
+- @uppy/webcam: refactor to TypeScript (Antoine du Hamel / #4870)
+- @uppy/url: migrate to TS (Merlijn Vos / #4980)
+- @uppy/zoom: refactor to TypeScript (Murderlon / #4979)
+- @uppy/unsplash: refactor to TypeScript (Murderlon / #4979)
+- @uppy/onedrive: refactor to TypeScript (Murderlon / #4979)
+- @uppy/instagram: refactor to TypeScript (Murderlon / #4979)
+- @uppy/google-drive: refactor to TypeScript (Murderlon / #4979)
+- @uppy/facebook: refactor to TypeScript (Murderlon / #4979)
+- @uppy/dropbox: refactor to TypeScript (Murderlon / #4979)
+- @uppy/box: refactor to TypeScript (Murderlon / #4979)
+- @uppy/utils: migrate RateLimitedQueue to TS (Merlijn Vos / #4981)
+- @uppy/thumbnail-generator: migrate to TS (Merlijn Vos / #4978)
+- @uppy/screen-capture: migrate to TS (Merlijn Vos / #4965)
+- @uppy/companion-client: Replace Provider.initPlugin with composition (Merlijn Vos / #4977)
+- uppy: remove legacy bundle (Antoine du Hamel)
+- meta: include types in npm archive (Antoine du Hamel)
+- @uppy/angular: fix build (Antoine du Hamel)
+- meta: Remove generate types from locale-pack (Murderlon)
+- meta: enable CI on `4.x` branch (Antoine du Hamel)
+- @uppy/vue: [v4.x] remove manual types (Antoine du Hamel / #4803)
+- meta: prepare release workflow for beta versions (Antoine du Hamel)
+
+## 3.27.3
+
+Released: 2024-07-03
+
+| Package         | Version | Package         | Version |
+| --------------- | ------- | --------------- | ------- |
+| @uppy/companion |  4.15.1 | uppy            |  3.27.3 |
+
+- @uppy/companion: fix `TypeError` when parsing request (Antoine du Hamel / #5303)
+
+
+## 3.27.2
+
+Released: 2024-07-02
+
+| Package                | Version | Package                | Version |
+| ---------------------- | ------- | ---------------------- | ------- |
+| @uppy/companion        |  4.15.0 | @uppy/drag-drop        |   3.1.1 |
+| @uppy/companion-client |   3.8.2 | @uppy/form             |   3.2.2 |
+| @uppy/core             |  3.13.1 | uppy                   |  3.27.2 |
+
+- @uppy/form: do not emit `'submit'` event more than once (Merlijn Vos / #5299)
+- @uppy/companion: add `s3.forcePathStyle` option (Nadeem Reinhardt / #5066)
+- meta: fix broken workflow status badges in README (Alexander Zaytsev / #5298)
+- @uppy/core: add `clearUploadedFiles` to type definition (Augustine Smith / #5295)
+- @uppy/companion: add `oauthOrigin` option (Antoine du Hamel / #5297)
+- meta: add dark-mode Transloadit logo in README (Alexander Zaytsev / #5291)
+- docs,@uppy/drag-drop: `uppy.io/docs` - fix typos/broken links (Evgenia Karunus / #5296)
+- meta: Bump docker/build-push-action from 6.1.0 to 6.2.0 (dependabot[bot] / #5290)
+
+
+## 3.27.1
+
+Released: 2024-06-27
+
+| Package          | Version | Package          | Version |
+| ---------------- | ------- | ---------------- | ------- |
+| @uppy/dashboard  |   3.9.1 | uppy             |  3.27.1 |
+| @uppy/xhr-upload |   3.6.8 |                  |         |
+
+- @uppy/xhr-upload: add `'PATCH'` as valid method (Quinn Daley / #5279)
+- @uppy/dashboard: fix handling of `null` for `doneButtonHandler` (Antoine du Hamel / #5283)
+- meta: Bump docker/build-push-action from 5.4.0 to 6.1.0 (dependabot[bot] / #5272)
+- docs: rewrite Instagram dev setup section (Evgenia Karunus / #5274)
+- meta: remove the Zoom section from `CONTRIBUTING.md` (Evgenia Karunus / #5273)
+
+
+## 3.27.0
+
+Released: 2024-06-18
+
+| Package              | Version | Package              | Version |
+| -------------------- | ------- | -------------------- | ------- |
+| @uppy/box            |   2.4.0 | @uppy/onedrive       |   3.4.0 |
+| @uppy/companion      |  4.14.0 | @uppy/provider-views |  3.13.0 |
+| @uppy/core           |  3.13.0 | @uppy/react          |   3.4.0 |
+| @uppy/dashboard      |   3.9.0 | @uppy/remote-sources |   1.3.0 |
+| @uppy/dropbox        |   3.4.0 | @uppy/transloadit    |   3.8.0 |
+| @uppy/google-drive   |   3.6.0 | uppy                 |  3.27.0 |
+| @uppy/google-photos  |   0.1.0 |                      |         |
+
+- @uppy/google-photos: add plugin (Mikael Finstad / #5061)
+- examples: updating aws-nodejs example listParts logic for resuming uploads (Mitchell Rhoads / #5192)
+- meta: Bump docker/login-action from 3.1.0 to 3.2.0 (dependabot\[bot] / #5217)
+- meta: Bump docker/build-push-action from 5.3.0 to 5.4.0 (dependabot\[bot] / #5252)
+- @uppy/transloadit: also fix outdated assembly transloadit:result (Merlijn Vos / #5246)
+- docs: fix typo in the url (Evgenia Karunus)
+- @uppy/companion: Bump ws from 8.8.1 to 8.17.1 (dependabot\[bot] / #5256)
+
+
+## 3.26.1
+
+Released: 2024-06-11
+
+| Package              | Version | Package              | Version |
+| -------------------- | ------- | -------------------- | ------- |
+| @uppy/locales        |   3.5.4 | @uppy/transloadit    |   3.7.1 |
+| @uppy/provider-views |  3.12.1 | uppy                 |  3.26.1 |
+
+- meta: Improve aws-node example readme (Artur Paikin / #4753)
+- @uppy/locales: Added translation string (it_IT) (Samuel / #5237)
+- @uppy/transloadit: fix transloadit:result event (Merlijn Vos / #5231)
+- @uppy/provider-views: fix wrong font for files (Merlijn Vos / #5234)
+
+
+## 3.26.0
+
+Released: 2024-06-04
+
+| Package                | Version | Package                | Version |
+| ---------------------- | ------- | ---------------------- | ------- |
+| @uppy/aws-s3-multipart |  3.12.0 | @uppy/webcam           |   3.4.2 |
+| @uppy/core             |  3.12.0 | uppy                   |  3.26.0 |
+| @uppy/transloadit      |   3.7.0 |                        |         |
+
+- meta: remove Companion's `prepublishOnly` (Mikael Finstad / #5220)
+- docs: document clearUploadedFiles (Merlijn Vos / #5204)
+- @uppy/webcam: add missing types for `recordedVideo` (Antoine du Hamel / #5208)
+- @uppy/core: check capabilities in clearUploadedFiles (Merlijn Vos / #5201)
+- @uppy/core: PartialTree - change the `maxTotalFileSize` error (Evgenia Karunus / #5203)
+- @uppy/transloadit: remove `updateNumberOfFilesInAssembly` (Merlijn Vos / #5202)
+- @uppy/aws-s3: resolve all headers on response (Merlijn Vos / #5195)
+- docs: Improve provider docs: OneDrive (Evgenia Karunus / #5196)
+
+
+## 3.25.5
+
+Released: 2024-05-23
+
+| Package           | Version | Package           | Version |
+| ----------------- | ------- | ----------------- | ------- |
+| @uppy/transloadit |   3.6.2 | uppy              |  3.25.5 |
+| @uppy/xhr-upload  |   3.6.7 |                   |         |
+
+- @uppy/transloadit: do not cancel assembly when removing all files (Merlijn Vos / #5191)
+- @uppy/xhr-upload: fix regression for lowercase HTTP methods (Antoine du Hamel / #5179)
+- meta: improve changelog generator (Antoine du Hamel / #5190)
+
+
+## 3.25.4
+
+Released: 2024-05-22
+
+| Package         | Version | Package         | Version |
+| --------------- | ------- | --------------- | ------- |
+| @uppy/companion |  4.13.3 | @uppy/tus       |   3.5.5 |
+| @uppy/svelte    |   3.1.5 | uppy            |  3.25.4 |
+
+- @uppy/svelte: do not attempt removing plugin before it's created (Antoine du Hamel / #5186)
+- docs: Update `facebook.mdx` (Evgenia Karunus)
+- @uppy/tus: fix no headers passed to companion if argument is a function (netdown / #5182)
+- @uppy/companion: fix google drive gsuite export large size (Milan Nakum / #5144)
+- meta: Improve provider docs: Box & Zoom (Evgenia Karunus / #5166)
+- meta: add MDX file to `lint-staged` list (Antoine du Hamel / #5174)
+- @uppy/companion: handle ws `'error'` event (Mikael Finstad / #5167)
+
+
+## 3.25.3
+
+Released: 2024-05-14
+
+| Package            | Version | Package            | Version |
+| ------------------ | ------- | ------------------ | ------- |
+| @uppy/core         |  3.11.3 | uppy               |  3.25.3 |
+| @uppy/image-editor |   2.4.6 |                    |         |
+
+- @uppy/image-editor: fix tooltips (Avneet Singh Malhotra / #5156)
+- meta: Remove redundant `plugins` prop from examples (Merlijn Vos / #5145)
+- @uppy/image-editor: Remove `target` option from examples and document consistently (Merlijn Vos / #5146)
+- @uppy/core: make getObjectOfFilesPerState more efficient (Merlijn Vos / #5155)
+
+
+## 3.25.2
+
+Released: 2024-05-07
+
+| Package          | Version | Package          | Version |
+| ---------------- | ------- | ---------------- | ------- |
+| @uppy/compressor |   1.1.4 | @uppy/status-bar |   3.3.3 |
+| @uppy/core       |  3.11.2 | uppy             |  3.25.2 |
+| @uppy/dashboard  |   3.8.3 |                  |         |
+
+- @uppy/compressor,@uppy/core,@uppy/dashboard,@uppy/status-bar: Upgrade @transloadit/prettier-bytes (Merlijn Vos / #5150)
+- meta: run Prettier in the release workflow (Antoine du Hamel)
+
+
+## 3.25.1
+
+Released: 2024-05-03
+
+| Package          | Version | Package          | Version |
+| ---------------- | ------- | ---------------- | ------- |
+| @uppy/companion  |  4.13.2 | @uppy/xhr-upload |   3.6.6 |
+| @uppy/core       |  3.11.1 | uppy             |  3.25.1 |
+| @uppy/locales    |   3.5.3 |                  |         |
+
+- @uppy/locales: Update ru_RU locale  (Uladzislau Bodryi / #5120)
+- meta: fix `update-contributors` script (Antoine du Hamel / #5137)
+- meta: fix `bullet` setting for ReMark (Antoine du Hamel)
+- meta: add prettier to `.md` pre-commit hooks (Antoine du Hamel)
+- @uppy/core: make UppyEventMap more readable (Murderlon)
+- meta: enable prettier for markdown (Merlijn Vos / #5133)
+- @uppy/xhr-upload: do not throw when res is missing url (Merlijn Vos / #5132)
+- @uppy/companion: coerce `requestUrl` to a string (Antoine du Hamel / #5128)
+
+
+## 3.25.0
+
+Released: 2024-04-29
+
+| Package                | Version | Package                | Version |
+| ---------------------- | ------- | ---------------------- | ------- |
+| @uppy/audio            |   1.1.9 | @uppy/instagram        |   3.3.1 |
+| @uppy/aws-s3-multipart |  3.11.1 | @uppy/onedrive         |   3.3.1 |
+| @uppy/box              |   2.3.1 | @uppy/provider-views   |  3.12.0 |
+| @uppy/companion-client |   3.8.1 | @uppy/react            |   3.3.1 |
+| @uppy/compressor       |   1.1.3 | @uppy/status-bar       |   3.3.2 |
+| @uppy/core             |  3.11.0 | @uppy/svelte           |   3.1.4 |
+| @uppy/dashboard        |   3.8.2 | @uppy/transloadit      |   3.6.1 |
+| @uppy/drop-target      |   2.1.0 | @uppy/unsplash         |   3.3.1 |
+| @uppy/dropbox          |   3.3.1 | @uppy/url              |   3.6.1 |
+| @uppy/facebook         |   3.3.1 | @uppy/utils            |   5.9.0 |
+| @uppy/file-input       |   3.1.2 | @uppy/webcam           |   3.4.1 |
+| @uppy/form             |   3.2.1 | @uppy/xhr-upload       |   3.6.5 |
+| @uppy/google-drive     |   3.5.1 | @uppy/zoom             |   2.3.1 |
+| @uppy/image-editor     |   2.4.5 | uppy                   |  3.25.0 |
+
+- meta: enforce use of `.js` extension in `import type` declarations (Antoine du Hamel / #5126)
+- @uppy/core: add instance ID to generated IDs (Merlijn Vos / #5080)
+- @uppy/core: reference updated i18n in Restricter (Merlijn Vos / #5118)
+- @uppy/xhr-upload: refactor to use `fetcher` (Merlijn Vos / #5074)
+- meta: docs: use StackBlitz for all examples/issue template (Merlijn Vos / #5125)
+- meta: Update yarn.lock (Murderlon)
+- @uppy/svelte: Add svelte 5 as peer dep (frederikhors / #5122)
+- meta: Bump docker/setup-buildx-action from 2 to 3 (dependabot[bot] / #5124)
+- meta: Bump actions/checkout from 3 to 4 (dependabot[bot] / #5123)
+- @uppy/dashboard,@uppy/provider-views: Remove JSX global type everywhere (Merlijn Vos / #5117)
+- @uppy/utils: improve return type of `dataURItoFile` (Antoine du Hamel / #5112)
+- @uppy/drop-target: change drop event type to DragEvent (Alireza Heydari / #5107)
+- @uppy/image-editor: fix label definitions (Antoine du Hamel / #5111)
+- meta: bump Prettier version (Antoine du Hamel / #5114)
+- @uppy/provider-views: bring back "loaded X files..." (Mikael Finstad / #5097)
+- @uppy/dashboard: fix type of trigger option (Merlijn Vos / #5106)
+- meta: fix linter (Antoine du Hamel)
+- @uppy/form: fix `submitOnSuccess` and `triggerUploadOnSubmit` combination (Merlijn Vos / #5058)
+- meta: Bump docker/build-push-action from 3 to 5 (dependabot[bot] / #5105)
+- meta: Bump akhileshns/heroku-deploy from 3.12.12 to 3.13.15 (dependabot[bot] / #5102)
+- meta: Bump docker/login-action from 2 to 3 (dependabot[bot] / #5101)
+- meta: Bump actions/download-artifact from 3 to 4 (dependabot[bot])
+- meta: Bump actions/upload-artifact from 3 to 4 (dependabot[bot])
+
+
+## 3.24.3
+
+Released: 2024-04-16
+
+| Package         | Version | Package         | Version |
+| --------------- | ------- | --------------- | ------- |
+| @uppy/dashboard |   3.8.1 | uppy            |  3.24.3 |
+| @uppy/utils     |   5.8.0 |                 |         |
+
+- docs: add back markdown files (Antoine du Hamel / #5064)
+- meta: fix custom provider example (Merlijn Vos / #5079)
+- @uppy/utils: add fetcher (Merlijn Vos / #5073)
+- meta: Fix prettier (Murderlon)
+- @uppy/dashboard: add missing `x-zip-compress` archive type (Younes / #5081)
+- meta: Bump docker/metadata-action from 4 to 5 (dependabot[bot] / #5086)
+- meta: Bump actions/setup-node from 3 to 4 (dependabot[bot] / #5087)
+- meta: Bump docker/setup-qemu-action from 2 to 3 (dependabot[bot] / #5089)
+- meta: bump supercharge/redis-github-action from 1.4.0 to 1.8.0 (dependabot[bot] / #5090)
+- meta: bump actions/cache from 3 to 4 (dependabot[bot] / #5088)
+- meta: add `dependabot.yml` to keep GHA up-to-date (Antoine du Hamel / #5083)
+
+
+## 3.24.2
+
+Released: 2024-04-15
+
+| Package    | Version | Package    | Version |
+| ---------- | ------- | ---------- | ------- |
+| @uppy/core |  3.10.1 | uppy       |  3.24.2 |
+
+- @uppy/core: fix `setOptions` not re-rendereing plugin UI (Antoine du Hamel / #5082)
+- meta: bump vite from 5.0.12 to 5.0.13 (dependabot[bot] / #5060)
+- meta: bump tar from 6.1.11 to 6.2.1 (dependabot[bot] / #5068)
+
+
+## 3.24.1
+
+Released: 2024-04-10
+
+| Package          | Version | Package          | Version |
+| ---------------- | ------- | ---------------- | ------- |
+| @uppy/companion  |  4.13.1 | uppy             |  3.24.1 |
+| @uppy/file-input |   3.1.1 |                  |         |
+
+- @uppy/companion: upgrade redis (Mikael Finstad / #5065)
+- meta: fix `watch:*` scripts (Antoine du Hamel / #5046)
+- meta: include more packages in `compare_diff` CI (Antoine du Hamel / #5044)
+- @uppy/file-input: add missing export (Antoine du Hamel / #5045)
+- meta: Bump express from 4.18.1 to 4.19.2 in /packages/@uppy/companion (dependabot[bot] / #5036)
+- @uppy/companion: Bump express from 4.18.1 to 4.19.2 (dependabot[bot] / #5037)
+
+
+## 3.24.0
+
+Released: 2024-03-27
+
+| Package                   | Version | Package                   | Version |
+| ------------------------- | ------- | ------------------------- | ------- |
+| @uppy/audio               |   1.1.8 | @uppy/progress-bar        |   3.1.1 |
+| @uppy/aws-s3-multipart    |  3.11.0 | @uppy/provider-views      |  3.11.0 |
+| @uppy/box                 |   2.3.0 | @uppy/react               |   3.3.0 |
+| @uppy/companion           |  4.13.0 | @uppy/remote-sources      |   1.2.0 |
+| @uppy/companion-client    |   3.8.0 | @uppy/screen-capture      |   3.2.0 |
+| @uppy/compressor          |   1.1.2 | @uppy/status-bar          |   3.3.1 |
+| @uppy/core                |  3.10.0 | @uppy/thumbnail-generator |   3.1.0 |
+| @uppy/dashboard           |   3.8.0 | @uppy/transloadit         |   3.6.0 |
+| @uppy/drag-drop           |   3.1.0 | @uppy/tus                 |   3.5.4 |
+| @uppy/drop-target         |   2.0.5 | @uppy/unsplash            |   3.3.0 |
+| @uppy/dropbox             |   3.3.0 | @uppy/url                 |   3.6.0 |
+| @uppy/facebook            |   3.3.0 | @uppy/utils               |   5.7.5 |
+| @uppy/golden-retriever    |   3.2.0 | @uppy/webcam              |   3.4.0 |
+| @uppy/google-drive        |   3.5.0 | @uppy/zoom                |   2.3.0 |
+| @uppy/instagram           |   3.3.0 | uppy                      |  3.24.0 |
+| @uppy/onedrive            |   3.3.0 |                           |         |
+
+- @uppy/box,@uppy/companion-client,@uppy/provider-views,@uppy/status-bar: fix type imports (Antoine du Hamel / #5038)
+- @uppy/aws-s3-multipart: mark `opts` as optional (Antoine du Hamel / #5039)
+- e2e: bump Cypress version (Antoine du Hamel / #5034)
+- @uppy/react: refactor to TS (Antoine du Hamel / #5012)
+- @uppy/core: refine type of private variables (Antoine du Hamel / #5028)
+- @uppy/dashboard: refine type of private variables (Antoine du Hamel / #5027)
+- @uppy/drag-drop: refine type of private variables (Antoine du Hamel / #5026)
+- @uppy/status-bar: refine type of private variables (Antoine du Hamel / #5025)
+- @uppy/remote-sources: migrate to TS (Merlijn Vos / #5020)
+- @uppy/dashboard: refine option types (Antoine du Hamel / #5022)
+- @uppy/dashboard: add new `autoOpen` option (Chris Grigg / #5001)
+- @uppy/core: fix some type errors (Antoine du Hamel / #5015)
+- @uppy/audio,@uppy/dashboard,@uppy/drop-target,@uppy/webcam: add missing exports (Antoine du Hamel / #5014)
+- meta: Bump webpack-dev-middleware from 5.3.3 to 5.3.4 (dependabot[bot] / #5013)
+- @uppy/dashboard: refactor to TypeScript (Antoine du Hamel / #4984)
+- @uppy/companion: improve error msg (Mikael Finstad / #5010)
+- @uppy/aws-s3-multipart: refactor to TS (Antoine du Hamel / #4902)
+- @uppy/dashboard: refactor to stable lifecycle method (Antoine du Hamel / #4999)
+- @uppy/companion: crash if trying to set path to / (Mikael Finstad / #5003)
+- @uppy/provider-views: fix `super.toggleCheckbox` bug (Mikael Finstad / #5004)
+- @uppy/aws-s3-multipart: fix escaping issue with client signed request (Hiroki Shimizu / #5006)
+- @uppy/drag-drop,@uppy/progress-bar: add missing exports (Antoine du Hamel / #5009)
+- @uppy/transloadit: migrate to TS (Merlijn Vos / #4987)
+- @uppy/utils: fix `RateLimitedQueue#wrapPromiseFunction` types (Antoine du Hamel / #5007)
+- @uppy/golden-retriever: migrate to TS (Merlijn Vos / #4989)
+- meta: Bump follow-redirects from 1.15.4 to 1.15.6 (dependabot[bot] / #5002)
+- meta: fix `resize-observer-polyfill` types (Antoine du Hamel / #4994)
+- @uppy/core: various type fixes (Antoine du Hamel / #4995)
+- @uppy/utils: fix `findAllDOMElements` type (Antoine du Hamel / #4997)
+- @uppy/status-bar: fix `recoveredState` type (Antoine du Hamel / #4996)
+- @uppy/utils: fix `AbortablePromise` type (Antoine du Hamel / #4988)
+- @uppy/core,@uppy/provider-views: Fix breadcrumbs (Evgenia Karunus / #4986)
+- @uppy/drag-drop: refactor to TypeScript (Antoine du Hamel / #4983)
+- @uppy/webcam: refactor to TypeScript (Antoine du Hamel / #4870)
+- @uppy/url: migrate to TS (Merlijn Vos / #4980)
+- @uppy/zoom: refactor to TypeScript (Murderlon / #4979)
+- @uppy/unsplash: refactor to TypeScript (Murderlon / #4979)
+- @uppy/onedrive: refactor to TypeScript (Murderlon / #4979)
+- @uppy/instagram: refactor to TypeScript (Murderlon / #4979)
+- @uppy/google-drive: refactor to TypeScript (Murderlon / #4979)
+- @uppy/facebook: refactor to TypeScript (Murderlon / #4979)
+- @uppy/dropbox: refactor to TypeScript (Murderlon / #4979)
+- @uppy/box: refactor to TypeScript (Murderlon / #4979)
+- @uppy/utils: migrate RateLimitedQueue to TS (Merlijn Vos / #4981)
+- @uppy/thumbnail-generator: migrate to TS (Merlijn Vos / #4978)
+- @uppy/screen-capture: migrate to TS (Merlijn Vos / #4965)
+- @uppy/companion-client: Replace Provider.initPlugin with composition (Merlijn Vos / #4977)
+
+
 ## 3.23.0
 
 Released: 2024-02-28
@@ -2596,7 +4146,7 @@ In this release we’ve improved testing DX and CORS handling in Companion, adde
 - @uppy/aws-s3: removeUploader triggered on uninstall (#2824 / @slawexxx44)
 - @uppy/companion: Add additional Google Drive Metadata (#2795 / @ajh-sr)
 - @uppy/companion: Feature: add redis pubsub scope setting (#2804 / @coreprocess)
-- @uppy/companion: fix running on a subpath (#2841, #2797 / @coreprocess, @goto-bus-stop) 
+- @uppy/companion: fix running on a subpath (#2841, #2797 / @coreprocess, @goto-bus-stop)
 - @uppy/companion: Fix videoMediaMetadata property name (6cb90c613c5d3b256194e039bfce30d6de6a6dac / @goto-bus-stop)
 - @uppy/companion: Improve companion unit testing DX (#2827 / @mifi)
 - @uppy/companion: Use `cors` module instead of custom cors logic (#2823 / @mifi)
@@ -5050,7 +6600,7 @@ Released: 2018-02-11.
 - dashboard: Use more accessible tip lib microtip (#536 / @arturi)
 - docs: Add PHP snippets to XHRUpload docs (#567 / @goto-bus-stop)
 - meta: Added instruction to fork the repo first (#512 / muhammadInam)
-- meta: Automatically host releases on edgly and use that as our main CDN (#558 / @kvz)
+- meta: Automatically host releases on Smart CDN and use that as our main CDN (#558 / @kvz)
 - meta: Dependency version updates (#523 / @goto-bus-stop)
 - meta: Remove unused files from published package (#586 / @goto-bus-stop)
 - s3: Respect `limit` option for upload parameter requests too; fix isXml() check when no content-type is available (#545, #544, #528 / @goto-bus-stop)

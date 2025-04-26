@@ -10,6 +10,7 @@ const providerManager = require('./server/provider')
 const controllers = require('./server/controllers')
 const s3 = require('./server/controllers/s3')
 const url = require('./server/controllers/url')
+const googlePicker = require('./server/controllers/googlePicker')
 const createEmitter = require('./server/emitter')
 const redis = require('./server/redis')
 const jobs = require('./server/jobs')
@@ -79,9 +80,9 @@ module.exports.app = (optionsArg = {}) => {
     providerManager.addCustomProviders(customProviders, providers, grantConfig)
   }
 
-  const getAuthProvider = (providerName) => providers[providerName]?.authProvider
+  const getOauthProvider = (providerName) => providers[providerName]?.oauthProvider
 
-  providerManager.addProviderOptions(options, grantConfig, getAuthProvider)
+  providerManager.addProviderOptions(options, grantConfig, getOauthProvider)
 
   // mask provider secrets from log messages
   logger.setMaskables(getMaskableSecrets(options))
@@ -103,7 +104,7 @@ module.exports.app = (optionsArg = {}) => {
   // override provider credentials at request time
   // Making `POST` request to the `/connect/:provider/:override?` route requires a form body parser middleware:
   // See https://github.com/simov/grant#dynamic-http
-  app.use('/connect/:authProvider/:override?', express.urlencoded({ extended: false }), getCredentialsOverrideMiddleware(providers, options))
+  app.use('/connect/:oauthProvider/:override?', express.urlencoded({ extended: false }), getCredentialsOverrideMiddleware(providers, options))
   app.use(Grant(grantConfig))
 
   app.use((req, res, next) => {
@@ -120,6 +121,7 @@ module.exports.app = (optionsArg = {}) => {
   app.use('*', middlewares.getCompanionMiddleware(options))
   app.use('/s3', s3(options.s3))
   if (options.enableUrlEndpoint) app.use('/url', url())
+  if (options.enableGooglePickerEndpoint) app.use('/google-picker', googlePicker())
 
   app.post('/:providerName/preauth', express.json(), express.urlencoded({ extended: false }), middlewares.hasSessionAndProvider, middlewares.hasBody, middlewares.hasOAuthProvider, controllers.preauth)
   app.get('/:providerName/connect', middlewares.hasSessionAndProvider, middlewares.hasOAuthProvider, controllers.connect)
@@ -150,12 +152,12 @@ module.exports.app = (optionsArg = {}) => {
       logger.info(`Returning dynamic OAuth2 credentials for ${providerName}`)
       // for simplicity, we just return the normal credentials for the provider, but in a real-world scenario,
       // we would query based on parameters
-      const { key, secret } = options.providerOptions[providerName]
+      const { key, secret } = options.providerOptions[providerName] ?? { __proto__: null }
 
       function getRedirectUri() {
-        const authProvider = getAuthProvider(providerName)
-        if (!isOAuthProvider(authProvider)) return undefined
-        return grantConfig[authProvider]?.redirect_uri
+        const oauthProvider = getOauthProvider(providerName)
+        if (!isOAuthProvider(oauthProvider)) return undefined
+        return grantConfig[oauthProvider]?.redirect_uri
       }
 
       res.send({
@@ -163,6 +165,7 @@ module.exports.app = (optionsArg = {}) => {
           key,
           secret,
           redirect_uri: getRedirectUri(),
+          origins: ['http://localhost:5173'],
         },
       })
     })

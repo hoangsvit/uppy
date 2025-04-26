@@ -1,1 +1,2 @@
-export { default } from './Instagram.tsx'
+export { default } from './Instagram.jsx'
+export type { InstagramOptions } from './Instagram.jsx'

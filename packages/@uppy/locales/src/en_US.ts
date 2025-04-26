@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { Locale } from '@uppy/utils/lib/Translator'
 
 const en_US: Locale<0 | 1> = {
   strings: {},
-  pluralize(count) {
-    if (count === 1) {
+  pluralize(n) {
+    if (n === 1) {
       return 0
     }
     return 1
@@ -21,6 +22,8 @@ en_US.strings = {
     '%{count} additional restrictions were not fulfilled',
   addMore: 'Add more',
   addMoreFiles: 'Add more files',
+  aggregateExceedsSize:
+    'You selected %{size} of files, but maximum allowed size is %{sizeAllowed}',
   allFilesFromFolderNamed: 'All files from folder %{name}',
   allowAccessDescription:
     'In order to take pictures or record video with your camera, please allow camera access for this site.',
@@ -32,6 +35,7 @@ en_US.strings = {
   aspectRatioPortrait: 'Crop portrait (9:16)',
   aspectRatioSquare: 'Crop square',
   authAborted: 'Authentication aborted',
+  authenticate: 'Connect',
   authenticateWith: 'Connect to %{pluginName}',
   authenticateWithTitle:
     'Please authenticate with %{pluginName} to select files',
@@ -58,6 +62,7 @@ en_US.strings = {
   dashboardTitle: 'Uppy Dashboard',
   dashboardWindowTitle: 'Uppy Dashboard Window (Press escape to close)',
   dataUploadedOfTotal: '%{complete} of %{total}',
+  dataUploadedOfUnknown: '%{complete} of unknown',
   discardRecordedFile: 'Discard recorded file',
   done: 'Done',
   dropHereOr: 'Drop here or %{browse}',
@@ -70,8 +75,8 @@ en_US.strings = {
   dropPasteImportFiles: 'Drop files here, %{browseFiles} or import from:',
   dropPasteImportFolders: 'Drop files here, %{browseFolders} or import from:',
   editFile: 'Edit file',
-  editImage: 'Edit image',
   editFileWithFilename: 'Edit file %{file}',
+  editImage: 'Edit image',
   editing: 'Editing %{file}',
   emptyFolderAdded: 'No files were added from empty folder',
   encoding: 'Encoding...',
@@ -90,7 +95,7 @@ en_US.strings = {
   },
   filter: 'Filter',
   finishEditingFile: 'Finish editing file',
-  flipHorizontal: 'Flip horizontal',
+  flipHorizontal: 'Flip horizontally',
   folderAdded: {
     '0': 'Added %{smart_count} file from %{folder}',
     '1': 'Added %{smart_count} files from %{folder}',
@@ -103,6 +108,7 @@ en_US.strings = {
   inferiorSize: 'This file is smaller than the allowed size of %{size}',
   loadedXFiles: 'Loaded %{numFiles} files',
   loading: 'Loading...',
+  logIn: 'Log in',
   logOut: 'Log out',
   micDisabled: 'Microphone access denied by user',
   missingRequiredMetaField: 'Missing required meta fields',
@@ -128,15 +134,26 @@ en_US.strings = {
   pause: 'Pause',
   paused: 'Paused',
   pauseUpload: 'Pause upload',
+  pickFiles: 'Pick files',
+  pickPhotos: 'Pick photos',
+  pleaseWait: 'Please wait',
   pluginNameAudio: 'Audio',
   pluginNameBox: 'Box',
   pluginNameCamera: 'Camera',
   pluginNameDropbox: 'Dropbox',
   pluginNameFacebook: 'Facebook',
   pluginNameGoogleDrive: 'Google Drive',
+  pluginNameGoogleDrivePicker: 'Google Drive',
+  pluginNameGooglePhotosPicker: 'Google Photos',
   pluginNameInstagram: 'Instagram',
   pluginNameOneDrive: 'OneDrive',
+  pluginNameScreenCapture: 'Screencast',
+  pluginNameUnsplash: 'Unsplash',
+  pluginNameUrl: 'Link',
+  pluginNameWebdav: 'WebDAV',
   pluginNameZoom: 'Zoom',
+  pluginWebdavInputLabel:
+    'WebDAV URL for a file (e.g. from ownCloud or Nextcloud)',
   poweredBy: 'Powered by %{uppy}',
   processingXFiles: {
     '0': 'Processing %{smart_count} file',
@@ -160,8 +177,8 @@ en_US.strings = {
   resumeUpload: 'Resume upload',
   retry: 'Retry',
   retryUpload: 'Retry upload',
-  revert: 'Revert',
-  rotate: 'Rotate',
+  revert: 'Reset',
+  rotate: 'Rotate 90°',
   save: 'Save',
   saveChanges: 'Save changes',
   search: 'Search',
@@ -185,7 +202,7 @@ en_US.strings = {
   submitRecordedFile: 'Submit recorded file',
   takePicture: 'Take a picture',
   takePictureBtn: 'Take Picture',
-  timedOut: 'Upload stalled for %{seconds} seconds, aborting.',
+  unnamed: 'Unnamed',
   upload: 'Upload',
   uploadComplete: 'Upload complete',
   uploadFailed: 'Upload failed',
@@ -227,10 +244,9 @@ en_US.strings = {
   zoomOut: 'Zoom out',
 }
 
-// TODO: remove this in the next major?
-// @ts-expect-error Uppy can be a global in legacy bundle
+// @ts-ignore untyped
 if (typeof Uppy !== 'undefined') {
-  // @ts-expect-error Uppy can be a global in legacy bundle
+  // @ts-ignore untyped
   globalThis.Uppy.locales.en_US = en_US
 }
 

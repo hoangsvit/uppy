@@ -1,4 +1,4 @@
-import type { FileProgress } from './FileProgress'
+import type { FileProgress } from './FileProgress.js'
 
 export type Meta = Record<string, unknown>
 
@@ -16,7 +16,7 @@ export interface UppyFile<M extends Meta, B extends Body> {
   isRemote: boolean
   isGhost: boolean
   meta: InternalMetadata & M
-  name: string
+  name?: string
   preview?: string
   progress: FileProgress
   missingRequiredMetaFields?: string[]
@@ -51,7 +51,7 @@ export type MinimalRequiredUppyFile<M extends Meta, B extends Body> = Required<
   Partial<
     Omit<UppyFile<M, B>, 'name' | 'data' | 'meta'>
     // We want to omit the 'meta' from UppyFile because of internal metadata
-    // (see InternalMetadata in `UppyFile.ts`), as when adding a new file
+    // (see InternalMetadata in `UppyFile.js`), as when adding a new file
     // that is not required.
   > & { meta?: M; data: { size: number | null } }
 

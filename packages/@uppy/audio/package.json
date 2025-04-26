@@ -1,11 +1,10 @@
 {
   "name": "@uppy/audio",
   "description": "Uppy plugin that records audio using the device’s microphone.",
-  "version": "1.1.7",
+  "version": "2.1.2",
   "license": "MIT",
   "main": "lib/index.js",
   "style": "dist/style.min.css",
-  "types": "types/index.d.ts",
   "keywords": [
     "file uploader",
     "uppy",
@@ -30,7 +29,7 @@
     "preact": "^10.5.13"
   },
   "devDependencies": {
-    "vitest": "^1.2.1"
+    "vitest": "^1.6.1"
   },
   "peerDependencies": {
     "@uppy/core": "workspace:^"

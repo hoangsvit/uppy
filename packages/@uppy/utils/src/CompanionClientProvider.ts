@@ -1,3 +1,5 @@
+import type { CompanionFile } from './CompanionFile.js'
+
 export type RequestOptions = {
   method?: string
   data?: Record<string, unknown>
@@ -23,13 +25,20 @@ export interface CompanionClientProvider {
   provider: string
   login(options?: RequestOptions): Promise<void>
   logout<ResBody>(options?: RequestOptions): Promise<ResBody>
-  list<ResBody>(
-    directory: string | undefined,
+  fetchPreAuthToken(): Promise<void>
+  fileUrl: (a: string) => string
+  list(
+    directory: string | null,
     options: RequestOptions,
-  ): Promise<ResBody>
+  ): Promise<{
+    username: string
+    nextPagePath: string | null
+    items: CompanionFile[]
+  }>
 }
 export interface CompanionClientSearchProvider {
   name: string
   provider: string
+  fileUrl: (a: string) => string
   search<ResBody>(text: string, queries?: string): Promise<ResBody>
 }

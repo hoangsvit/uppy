@@ -85,6 +85,7 @@ cs_CZ.strings = {
   loading: 'Nahrávání...',
   logOut: 'Odhlásit',
   myDevice: 'Moje zařízení',
+  noDuplicates: "Nelze znovu přidat stejný soubor '%{fileName}'",
   noFilesFound: 'Nenalezeny žádné soubory ani adresáře',
   noInternetConnection: 'Nepřipojeno k internetu',
   openFolderNamed: 'Otevřít adresář %{name}',
@@ -103,6 +104,7 @@ cs_CZ.strings = {
   resumeUpload: 'Pokračovat v nahrávání',
   retry: 'Opakovat',
   retryUpload: 'Opakovat nahrávání',
+  save: 'Uložit',
   saveChanges: 'Uložit změny',
   selectFileNamed: 'Vybrat soubor %{name}',
   selectX: {
@@ -160,13 +162,6 @@ cs_CZ.strings = {
     '1': 'Je třeba vybrat alespoň %{smart_count} soubory',
     '2': 'Je třeba vybrat alespoň %{smart_count} souborů',
   },
-}
-
-// TODO: remove this in the next major?
-// @ts-expect-error Uppy can be a global in legacy bundle
-if (typeof Uppy !== 'undefined') {
-  // @ts-expect-error Uppy can be a global in legacy bundle
-  globalThis.Uppy.locales.cs_CZ = cs_CZ
 }
 
 export default cs_CZ

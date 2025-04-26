@@ -1,14 +1,21 @@
-import { UIPlugin, type UIPluginOptions, type Uppy } from '@uppy/core'
-import type { DefinePluginOpts } from '@uppy/core/lib/BasePlugin.js'
+import { UIPlugin } from '@uppy/core'
+import type {
+  UIPluginOptions,
+  Uppy,
+  DefinePluginOpts,
+  Meta,
+  Body,
+  UppyFile,
+} from '@uppy/core'
 import type Cropper from 'cropperjs'
 import { h } from 'preact'
 
-import type { Meta, Body, UppyFile } from '@uppy/utils/lib/UppyFile'
-import Editor from './Editor.tsx'
+import type { LocaleStrings } from '@uppy/utils/lib/Translator'
+import Editor from './Editor.jsx'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore We don't want TS to generate types for the package.json
 import packageJson from '../package.json'
-import locale from './locale.ts'
+import locale from './locale.js'
 
 declare global {
   namespace preact {
@@ -36,7 +43,7 @@ declare module '@uppy/core' {
   }
 }
 
-interface Opts extends UIPluginOptions {
+export interface Opts extends UIPluginOptions {
   quality?: number
   cropperOptions?: Cropper.Options & {
     croppedCanvasOptions?: Cropper.GetCroppedCanvasOptions
@@ -52,6 +59,7 @@ interface Opts extends UIPluginOptions {
     cropWidescreen?: boolean
     cropWidescreenVertical?: boolean
   }
+  locale?: LocaleStrings<typeof locale>
 }
 export type { Opts as ImageEditorOptions }
 
@@ -110,7 +118,7 @@ export default class ImageEditor<
 > extends UIPlugin<InternalImageEditorOpts, M, B, PluginState<M, B>> {
   static VERSION = packageJson.version
 
-  cropper: Cropper
+  cropper!: Cropper
 
   constructor(uppy: Uppy<M, B>, opts?: Opts) {
     super(uppy, {
@@ -155,7 +163,9 @@ export default class ImageEditor<
 
       this.uppy.setFileState(currentImage!.id, {
         // Reinserting image's name and type, because .toBlob loses both.
-        data: new File([blob!], currentImage!.name, { type: blob!.type }),
+        data: new File([blob!], currentImage!.name ?? this.i18n('unnamed'), {
+          type: blob!.type,
+        }),
         size: blob!.size,
         preview: undefined,
       })
@@ -218,7 +228,7 @@ export default class ImageEditor<
     this.unmount()
   }
 
-  render(): JSX.Element | null {
+  render() {
     const { currentImage } = this.getPluginState()
 
     if (currentImage === null || currentImage.isRemote) {

@@ -1,32 +1,36 @@
 import { h } from 'preact'
 
-import { UIPlugin, type UIPluginOptions } from '@uppy/core'
+import { UIPlugin } from '@uppy/core'
 import type {
+  Uppy,
+  UIPluginOptions,
   Body,
   Meta,
   MinimalRequiredUppyFile,
-} from '@uppy/utils/lib/UppyFile'
-import type { Uppy } from '@uppy/core/lib/Uppy.ts'
+} from '@uppy/core'
 
+import type { LocaleStrings } from '@uppy/utils/lib/Translator'
 import getFileTypeExtension from '@uppy/utils/lib/getFileTypeExtension'
-import supportsMediaRecorder from './supportsMediaRecorder.ts'
-import RecordingScreen from './RecordingScreen.tsx'
-import PermissionsScreen from './PermissionsScreen.tsx'
-import locale from './locale.ts'
+import supportsMediaRecorder from './supportsMediaRecorder.js'
+import RecordingScreen from './RecordingScreen.jsx'
+import PermissionsScreen from './PermissionsScreen.jsx'
+import locale from './locale.js'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore We don't want TS to generate types for the package.json
 import packageJson from '../package.json'
 
 export interface AudioOptions extends UIPluginOptions {
   showAudioSourceDropdown?: boolean
+  locale?: LocaleStrings<typeof locale>
 }
 interface AudioState {
   audioReady: boolean
   recordingLengthSeconds: number
+  recordedAudio: string | null | undefined
   hasAudio: boolean
   cameraError: null
   audioSources: MediaDeviceInfo[]
-  currentDeviceId?: null | string | MediaStreamTrack
+  currentDeviceId: string | MediaStreamTrack | null | undefined
   isRecording: boolean
   showAudioSourceDropdown: boolean
   [id: string]: unknown
@@ -43,7 +47,7 @@ export default class Audio<M extends Meta, B extends Body> extends UIPlugin<
 > {
   static VERSION = packageJson.version
 
-  private recordingLengthTimer: ReturnType<typeof setInterval>
+  #recordingLengthTimer?: ReturnType<typeof setInterval>
 
   private icon
 
@@ -130,7 +134,7 @@ export default class Audio<M extends Meta, B extends Body> extends UIPlugin<
         .then((stream) => {
           this.#stream = stream
 
-          let currentDeviceId = null
+          let currentDeviceId: AudioState['currentDeviceId'] = null
           const tracks = stream.getAudioTracks()
 
           if (!options?.deviceId) {
@@ -201,8 +205,7 @@ export default class Audio<M extends Meta, B extends Body> extends UIPlugin<
     this.#recorder.start(500)
 
     // Start the recordingLengthTimer if we are showing the recording length.
-    // TODO: switch this to a private field
-    this.recordingLengthTimer = setInterval(() => {
+    this.#recordingLengthTimer = setInterval(() => {
       const currentRecordingLength = this.getPluginState()
         .recordingLengthSeconds as number
       this.setPluginState({
@@ -222,7 +225,7 @@ export default class Audio<M extends Meta, B extends Body> extends UIPlugin<
       })
       this.#recorder!.stop()
 
-      clearInterval(this.recordingLengthTimer)
+      clearInterval(this.#recordingLengthTimer)
       this.setPluginState({ recordingLengthSeconds: 0 })
     })
 
@@ -289,7 +292,7 @@ export default class Audio<M extends Meta, B extends Body> extends UIPlugin<
         this.#recorder!.addEventListener('stop', resolve, { once: true })
         this.#recorder!.stop()
 
-        clearInterval(this.recordingLengthTimer)
+        clearInterval(this.#recordingLengthTimer)
       })
     }
 
@@ -348,7 +351,7 @@ export default class Audio<M extends Meta, B extends Body> extends UIPlugin<
     })
   }
 
-  render(): JSX.Element {
+  render() {
     if (!this.#audioActive) {
       this.#start()
     }
@@ -369,9 +372,6 @@ export default class Audio<M extends Meta, B extends Body> extends UIPlugin<
       <RecordingScreen
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...audioState}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore TODO: remove unused
-        audioActive={this.#audioActive}
         onChangeSource={this.#changeSource}
         onStartRecording={this.#startRecording}
         onStopRecording={this.#stopRecording}

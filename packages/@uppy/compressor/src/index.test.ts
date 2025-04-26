@@ -3,11 +3,11 @@ import Core from '@uppy/core'
 import getFileNameAndExtension from '@uppy/utils/lib/getFileNameAndExtension'
 import fs from 'node:fs'
 import path from 'node:path'
-import CompressorPlugin from './index.ts'
+import CompressorPlugin from './index.js'
 
 // Compressor uses browser canvas API, so need to mock compress()
 // @ts-expect-error mocked
-CompressorPlugin.prototype.compress = async (blob: Blob) => {
+CompressorPlugin.prototype.compress = async (blob: File) => {
   return {
     name: `${getFileNameAndExtension(blob.name).name}.webp`,
     type: 'image/webp',
@@ -16,8 +16,8 @@ CompressorPlugin.prototype.compress = async (blob: Blob) => {
   }
 }
 
-// eslint-disable-next-line no-restricted-globals
 const sampleImage = fs.readFileSync(
+  // eslint-disable-next-line no-restricted-globals
   path.join(__dirname, '../../../../e2e/cypress/fixtures/images/image.jpg'),
 )
 

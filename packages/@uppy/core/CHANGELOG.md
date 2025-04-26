@@ -1,5 +1,222 @@
 # @uppy/core
 
+## 4.4.4
+
+Released: 2025-04-08
+Included in: Uppy v4.14.0
+
+- @uppy/core: dry retryAll() and upload() (Mikael Finstad / #5691)
+- @uppy/core: fix locale type for plugins (Merlijn Vos / #5700)
+- @uppy/core: fix events when retrying with upload() (Prakash / #5696)
+
+## 4.4.3
+
+Released: 2025-03-13
+Included in: Uppy v4.13.4
+
+- @uppy/core: make upload() idempotent (Merlijn Vos / #5677)
+
+## 4.4.2
+
+Released: 2025-02-03
+Included in: Uppy v4.13.2
+
+- @uppy/core,@uppy/google-drive-picker,@uppy/google-photos-picker,@uppy/provider-views:
+
+## 4.4.0
+
+Released: 2025-01-06
+Included in: Uppy v4.11.0
+
+- @uppy/angular,@uppy/audio,@uppy/aws-s3,@uppy/box,@uppy/companion-client,@uppy/compressor,@uppy/core,@uppy/dashboard,@uppy/drag-drop,@uppy/drop-target,@uppy/dropbox,@uppy/facebook,@uppy/file-input,@uppy/form,@uppy/golden-retriever,@uppy/google-drive-picker,@uppy/google-drive,@uppy/google-photos-picker,@uppy/google-photos,@uppy/image-editor,@uppy/informer,@uppy/instagram,@uppy/locales,@uppy/onedrive,@uppy/progress-bar,@uppy/provider-views,@uppy/react,@uppy/remote-sources,@uppy/screen-capture,@uppy/status-bar,@uppy/thumbnail-generator,@uppy/transloadit,@uppy/tus,@uppy/unsplash,@uppy/url,@uppy/vue,@uppy/webcam,@uppy/webdav,@uppy/xhr-upload,@uppy/zoom: Remove "paths" from all tsconfig's (Merlijn Vos / #5572)
+
+## 4.3.2
+
+Released: 2025-01-06
+Included in: Uppy v4.10.0
+
+- @uppy/core,@uppy/dashboard,@uppy/provider-views,@uppy/store-redux,@uppy/url: build(deps): bump nanoid from 5.0.7 to 5.0.9 (dependabot[bot] / #5544)
+
+## 4.3.1
+
+Released: 2024-12-17
+Included in: Uppy v4.9.0
+
+- @uppy/core: bring back validateRestrictions (Merlijn Vos / #5538)
+
+## 4.3.0
+
+Released: 2024-12-05
+Included in: Uppy v4.8.0
+
+- @uppy/core,@uppy/provider-views: move useStore out of core (Mikael Finstad / #5533)
+- @uppy/audio,@uppy/aws-s3,@uppy/box,@uppy/companion-client,@uppy/compressor,@uppy/core,@uppy/dashboard,@uppy/drag-drop,@uppy/drop-target,@uppy/dropbox,@uppy/facebook,@uppy/file-input,@uppy/form,@uppy/golden-retriever,@uppy/google-drive,@uppy/google-photos,@uppy/image-editor,@uppy/informer,@uppy/instagram,@uppy/locales,@uppy/onedrive,@uppy/progress-bar,@uppy/provider-views,@uppy/react,@uppy/remote-sources,@uppy/screen-capture,@uppy/status-bar,@uppy/store-default,@uppy/thumbnail-generator,@uppy/transloadit,@uppy/tus,@uppy/unsplash,@uppy/url,@uppy/utils,@uppy/vue,@uppy/webcam,@uppy/xhr-upload,@uppy/zoom: cleanup tsconfig (Mikael Finstad / #5520)
+
+## 4.2.3
+
+Released: 2024-10-31
+Included in: Uppy v4.6.0
+
+- @uppy/aws-s3,@uppy/box,@uppy/companion-client,@uppy/core,@uppy/dashboard,@uppy/drag-drop,@uppy/dropbox,@uppy/facebook,@uppy/file-input,@uppy/form,@uppy/golden-retriever,@uppy/google-drive,@uppy/google-photos,@uppy/image-editor,@uppy/informer,@uppy/instagram,@uppy/locales,@uppy/onedrive,@uppy/progress-bar,@uppy/provider-views,@uppy/react-native,@uppy/react,@uppy/redux-dev-tools,@uppy/screen-capture,@uppy/status-bar,@uppy/store-default,@uppy/store-redux,@uppy/svelte,@uppy/thumbnail-generator,@uppy/transloadit,@uppy/tus,@uppy/unsplash,@uppy/url,@uppy/utils,@uppy/vue,@uppy/webcam,@uppy/xhr-upload,@uppy/zoom: Fix links (Anthony Veaudry / #5492)
+
+## 4.2.0
+
+Released: 2024-08-29
+Included in: Uppy v4.3.0
+
+- @uppy/core,@uppy/dashboard: Pass container to `UIPlugin.render` for non-Preact integration (Merlijn Vos / #5437)
+
+## 4.1.0
+
+Released: 2024-07-30
+Included in: Uppy v4.1.0
+
+- @uppy/core,@uppy/store-default: export `Store` type (Merlijn Vos / #5373)
+
+## 4.0.1
+
+Released: 2024-07-15
+Included in: Uppy v4.0.1
+
+- @uppy/core: make `Meta` generic optional (Merlijn Vos / #5330)
+
+## 4.0.0
+
+Released: 2024-07-10
+Included in: Uppy v4.0.0
+
+- @uppy/core: bring back resetProgress (Merlijn Vos / #5320)
+- @uppy/core: export UppyOptions, UppyFile, Meta, Body (Merlijn Vos / #5319)
+
+## 4.0.0-beta.9
+
+Released: 2024-06-04
+Included in: Uppy v4.0.0-beta.10
+
+- @uppy/core: remove unnecessary todo (Mikael Finstad / #5200)
+- @uppy/core: remove `'upload-started'` event (Mikael Finstad / #5200)
+- @uppy/core: add type tests (Merlijn Vos / #5153)
+- @uppy/core: pass file to events consistently (Merlijn Vos / #5136)
+- @uppy/core: remove `reason` (Antoine du Hamel / #5159)
+- @uppy/core: remove `resetProgress` and `reset-progress` (Mikael Finstad / #5221)
+
+## 4.0.0-beta.8
+
+Released: 2024-05-22
+Included in: Uppy v4.0.0-beta.8
+
+- @uppy/core: resolve some (breaking) TODOs (Antoine du Hamel / #4824)
+
+## 4.0.0-beta.7
+
+Released: 2024-05-14
+Included in: Uppy v4.0.0-beta.7
+
+- @uppy/core: close->destroy, clearUploadedFiles->clear (Merlijn Vos / #5154)
+
+## 4.0.0-beta.5
+
+Released: 2024-05-03
+Included in: Uppy v4.0.0-beta.5
+
+- @uppy/core: make UppyEventMap more readable (Murderlon)
+- @uppy/audio,@uppy/compressor,@uppy/core,@uppy/dashboard,@uppy/remote-sources,@uppy/tus,@uppy/utils: Format (Murderlon)
+- @uppy/core: add instance ID to generated IDs (Merlijn Vos / #5080)
+- @uppy/core: reference updated i18n in Restricter (Merlijn Vos / #5118)
+
+## 4.0.0-beta.4
+
+Released: 2024-04-29
+Included in: Uppy v4.0.0-beta.4
+
+- @uppy/core: Release: uppy@3.24.2 (github-actions[bot] / #5084)
+- @uppy/core: fix `setOptions` not re-rendereing plugin UI (Antoine du Hamel / #5082)
+
+## 4.0.0-beta.3
+
+Released: 2024-04-15
+Included in: Uppy v4.0.0-beta.3
+
+- @uppy/core: fix `setOptions` not re-rendereing plugin UI (Antoine du Hamel / #5082)
+
+## 4.0.0-beta.2
+
+Released: 2024-04-11
+Included in: Uppy v4.0.0-beta.2
+
+- @uppy/core: use variadic arguments for `uppy.use` (Antoine du Hamel / #4888)
+
+## 4.0.0-beta.1
+
+Released: 2024-03-28
+Included in: Uppy v4.0.0-beta.1
+
+- @uppy/core: refine type of private variables (Antoine du Hamel / #5028)
+- @uppy/core: fix some type errors (Antoine du Hamel / #5015)
+- @uppy/core: various type fixes (Antoine du Hamel / #4995)
+- @uppy/core,@uppy/provider-views: Fix breadcrumbs (Evgenia Karunus / #4986)
+
+## 3.13.1
+
+Released: 2024-07-02
+Included in: Uppy v3.27.2
+
+- @uppy/core: add `clearUploadedFiles` to type definition (Augustine Smith / #5295)
+
+## 3.12.0
+
+Released: 2024-06-04
+Included in: Uppy v3.26.0
+
+- @uppy/core: check capabilities in clearUploadedFiles (Merlijn Vos / #5201)
+- @uppy/core: PartialTree - change the `maxTotalFileSize` error (Evgenia Karunus / #5203)
+
+## 3.11.3
+
+Released: 2024-05-14
+Included in: Uppy v3.25.3
+
+- @uppy/core: make getObjectOfFilesPerState more efficient (Merlijn Vos / #5155)
+
+## 3.11.2
+
+Released: 2024-05-07
+Included in: Uppy v3.25.2
+
+- @uppy/compressor,@uppy/core,@uppy/dashboard,@uppy/status-bar: Upgrade @transloadit/prettier-bytes (Merlijn Vos / #5150)
+
+## 3.11.1
+
+Released: 2024-05-03
+Included in: Uppy v3.25.1
+
+- @uppy/core: make UppyEventMap more readable (Murderlon)
+
+## 3.11.0
+
+Released: 2024-04-29
+Included in: Uppy v3.25.0
+
+- @uppy/core: add instance ID to generated IDs (Merlijn Vos / #5080)
+- @uppy/core: reference updated i18n in Restricter (Merlijn Vos / #5118)
+
+## 3.10.1
+
+Released: 2024-04-15
+Included in: Uppy v3.24.2
+
+- @uppy/core: fix `setOptions` not re-rendereing plugin UI (Antoine du Hamel / #5082)
+
+## 3.10.0
+
+Released: 2024-03-27
+Included in: Uppy v3.24.0
+
+- @uppy/core: refine type of private variables (Antoine du Hamel / #5028)
+- @uppy/core: fix some type errors (Antoine du Hamel / #5015)
+- @uppy/core: various type fixes (Antoine du Hamel / #4995)
+- @uppy/core,@uppy/provider-views: Fix breadcrumbs (Evgenia Karunus / #4986)
+
 ## 3.9.3
 
 Released: 2024-02-28

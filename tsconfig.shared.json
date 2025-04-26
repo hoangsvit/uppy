@@ -3,11 +3,10 @@
     "composite": true,
     "incremental": true,
     "target": "ESnext",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "module": "preserve",
     "lib": ["dom", "ESnext"],
     "resolveJsonModule": true,
-    "allowImportingTsExtensions": true,
+    "useUnknownInCatchVariables": false,
     "allowJs": false,
     "declaration": true,
     "emitDeclarationOnly": true,
@@ -16,11 +15,9 @@
     "jsxImportSource": "preact",
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "strictNullChecks": true,
+    "strict": true,
     "verbatimModuleSyntax": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strictFunctionTypes": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   }
 }

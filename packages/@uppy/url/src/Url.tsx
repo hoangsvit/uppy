@@ -5,14 +5,16 @@ import {
   type CompanionPluginOptions,
 } from '@uppy/companion-client'
 import toArray from '@uppy/utils/lib/toArray'
-import type { TagFile, Meta, Body } from '@uppy/utils/lib/UppyFile'
-import UrlUI from './UrlUI.tsx'
-import forEachDroppedOrPastedUrl from './utils/forEachDroppedOrPastedUrl.ts'
+import type { Meta, Body } from '@uppy/core'
+import type { TagFile } from '@uppy/utils/lib/UppyFile'
+import type { LocaleStrings } from '@uppy/utils/lib/Translator'
+import UrlUI from './UrlUI.jsx'
+import forEachDroppedOrPastedUrl from './utils/forEachDroppedOrPastedUrl.js'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore We don't want TS to generate types for the package.json
 import packageJson from '../package.json'
-import locale from './locale.ts'
+import locale from './locale.js'
 
 function UrlIcon() {
   return (
@@ -70,7 +72,9 @@ type MetaResponse = {
   statusCode: number
 }
 
-export type UrlOptions = CompanionPluginOptions
+export type UrlOptions = CompanionPluginOptions & {
+  locale?: LocaleStrings<typeof locale>
+}
 
 export default class Url<M extends Meta, B extends Body> extends UIPlugin<
   UrlOptions,
@@ -81,18 +85,17 @@ export default class Url<M extends Meta, B extends Body> extends UIPlugin<
 
   static requestClientId = Url.name
 
-  icon: () => JSX.Element
+  icon: () => h.JSX.Element
 
   hostname: string
 
   client: RequestClient<M, B>
 
-  canHandleRootDrop: typeof canHandleRootDrop
+  canHandleRootDrop!: typeof canHandleRootDrop
 
   constructor(uppy: Uppy<M, B>, opts: UrlOptions) {
     super(uppy, opts)
     this.id = this.opts.id || 'Url'
-    this.title = this.opts.title || 'Link'
     this.type = 'acquirer'
     this.icon = () => <UrlIcon />
 
@@ -100,6 +103,7 @@ export default class Url<M extends Meta, B extends Body> extends UIPlugin<
     this.defaultLocale = locale
 
     this.i18nInit()
+    this.title = this.i18n('pluginNameUrl')
 
     this.hostname = this.opts.companionUrl
 
@@ -121,27 +125,25 @@ export default class Url<M extends Meta, B extends Body> extends UIPlugin<
   }
 
   private getMeta = (url: string): Promise<MetaResponse> => {
-    return this.client.post<MetaResponse>('url/meta', { url }).then((res) => {
-      // TODO: remove this handler in the next major
-      if ((res as any).error) {
-        this.uppy.log('[URL] Error:')
-        this.uppy.log((res as any).error)
-        throw new Error('Failed to fetch the file')
-      }
-      return res
-    })
+    return this.client.post<MetaResponse>('url/meta', { url })
   }
 
   private addFile = async (
     protocollessUrl: string,
     optionalMeta?: M,
   ): Promise<string | undefined> => {
+    // Do not process local files
+    if (protocollessUrl.startsWith('blob')) {
+      return undefined
+    }
     const url = addProtocolToURL(protocollessUrl)
     if (!checkIfCorrectURL(url)) {
       this.uppy.log(`[URL] Incorrect URL entered: ${url}`)
       this.uppy.info(this.i18n('enterCorrectUrl'), 'error', 4000)
       return undefined
     }
+
+    this.uppy.log(`[URL] Adding file from dropped/pasted url: ${url}`)
 
     try {
       const meta = await this.getMeta(url)
@@ -194,14 +196,12 @@ export default class Url<M extends Meta, B extends Body> extends UIPlugin<
 
   private handleRootDrop = (e: DragEvent) => {
     forEachDroppedOrPastedUrl(e.dataTransfer!, 'drop', (url) => {
-      this.uppy.log(`[URL] Adding file from dropped url: ${url}`)
       this.addFile(url)
     })
   }
 
   private handleRootPaste = (e: ClipboardEvent) => {
     forEachDroppedOrPastedUrl(e.clipboardData!, 'paste', (url) => {
-      this.uppy.log(`[URL] Adding file from pasted url: ${url}`)
       this.addFile(url)
     })
   }

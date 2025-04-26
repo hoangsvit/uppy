@@ -1,15 +1,14 @@
-const got = require('got').default
-
 const Provider = require('../Provider')
-const { getURLMeta } = require('../../helpers/request')
 const adaptData = require('./adapter')
 const { withProviderErrorHandling } = require('../providerErrors')
 const { prepareStream } = require('../../helpers/utils')
 const { ProviderApiError } = require('../error')
 
+const got = require('../../got')
+
 const BASE_URL = 'https://api.unsplash.com'
 
-const getClient = ({ token }) => got.extend({
+const getClient = async ({ token }) => (await got).extend({
   prefixUrl: BASE_URL,
   headers: {
     authorization: `Client-ID ${token}`,
@@ -31,19 +30,19 @@ class Unsplash extends Provider {
       const qs = { per_page: 40, query: query.q }
       if (query.cursor) qs.page = query.cursor
 
-      const response = await getClient({ token }).get('search/photos', { searchParams: qs, responseType: 'json' }).json()
+      const response = await (await getClient({ token })).get('search/photos', { searchParams: qs, responseType: 'json' }).json()
       return adaptData(response, query)
     })
   }
 
   async download ({ id, token }) {
     return this.#withErrorHandling('provider.unsplash.download.error', async () => {
-      const client = getClient({ token })
+      const client = await getClient({ token })
 
       const { links: { download: url, download_location: attributionUrl } } = await getPhotoMeta(client, id)
 
-      const stream = got.stream.get(url, { responseType: 'json' })
-      await prepareStream(stream)
+      const stream = (await got).stream.get(url, { responseType: 'json' })
+      const { size } = await prepareStream(stream)
 
       // To attribute the author of the image, we call the `download_location`
       // endpoint to increment the download count on Unsplash.
@@ -51,15 +50,7 @@ class Unsplash extends Provider {
       await client.get(attributionUrl, { prefixUrl: '', responseType: 'json' })
 
       // finally, stream on!
-      return { stream }
-    })
-  }
-
-  async size ({ id, token }) {
-    return this.#withErrorHandling('provider.unsplash.size.error', async () => {
-      const { links: { download: url } } = await getPhotoMeta(getClient({ token }), id)
-      const { size } = await getURLMeta(url, true)
-      return size
+      return { stream, size }
     })
   }
 

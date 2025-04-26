@@ -12,9 +12,14 @@ export type FileProcessingInfo =
   | IndeterminateFileProcessing
   | DeterminateFileProcessing
 
+// TODO explore whether all of these properties need to be optional
 interface FileProgressBase {
   uploadComplete?: boolean
-  percentage?: number
+  percentage?: number // undefined if we don't know the percentage (e.g. for files with `bytesTotal` null)
+  // note that Companion will send `bytesTotal` 0 if unknown size (not `null`).
+  // this is not perfect because some files can actually have a size of 0,
+  // and then we might think those files have an unknown size
+  // todo we should change this in companion
   bytesTotal: number | null
   preprocess?: FileProcessingInfo
   postprocess?: FileProcessingInfo
@@ -28,7 +33,6 @@ export type FileProgressStarted = FileProgressBase & {
 }
 export type FileProgressNotStarted = FileProgressBase & {
   uploadStarted: null
-  // TODO: remove `|0` (or maybe `false|`?)
-  bytesUploaded: false | 0
+  bytesUploaded: false
 }
 export type FileProgress = FileProgressStarted | FileProgressNotStarted

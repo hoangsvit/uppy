@@ -8,32 +8,41 @@ import { UIPlugin, Uppy } from '@uppy/core'
 import { ProviderViews } from '@uppy/provider-views'
 import { h, type ComponentChild } from 'preact'
 
-import type { UppyFile, Body, Meta } from '@uppy/utils/lib/UppyFile'
-import type { UnknownProviderPluginState } from '@uppy/core/lib/Uppy.ts'
-import locale from './locale.ts'
+import type { LocaleStrings } from '@uppy/utils/lib/Translator'
+import type {
+  UppyFile,
+  Body,
+  Meta,
+  AsyncStore,
+  UnknownProviderPlugin,
+  UnknownProviderPluginState,
+} from '@uppy/core'
+import locale from './locale.js'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore We don't want TS to generate types for the package.json
 import packageJson from '../package.json'
 
-export type OneDriveOptions = CompanionPluginOptions
+export type OneDriveOptions = CompanionPluginOptions & {
+  locale?: LocaleStrings<typeof locale>
+}
 
-export default class OneDrive<M extends Meta, B extends Body> extends UIPlugin<
-  OneDriveOptions,
-  M,
-  B,
-  UnknownProviderPluginState
-> {
+export default class OneDrive<M extends Meta, B extends Body>
+  extends UIPlugin<OneDriveOptions, M, B, UnknownProviderPluginState>
+  implements UnknownProviderPlugin<M, B>
+{
   static VERSION = packageJson.version
 
-  icon: () => JSX.Element
+  icon: () => h.JSX.Element
 
   provider: Provider<M, B>
 
-  view: ProviderViews<M, B>
+  view!: ProviderViews<M, B>
 
-  storage: typeof tokenStorage
+  storage: AsyncStore
 
   files: UppyFile<M, B>[]
+
+  rootFolderId: string | null = null
 
   constructor(uppy: Uppy<M, B>, opts: OneDriveOptions) {
     super(uppy, opts)
@@ -89,7 +98,6 @@ export default class OneDrive<M extends Meta, B extends Body> extends UIPlugin<
     this.i18nInit()
     this.title = this.i18n('pluginNameOneDrive')
 
-    this.onFirstRender = this.onFirstRender.bind(this)
     this.render = this.render.bind(this)
   }
 
@@ -97,6 +105,7 @@ export default class OneDrive<M extends Meta, B extends Body> extends UIPlugin<
     this.view = new ProviderViews(this, {
       provider: this.provider,
       loadAllFiles: true,
+      virtualList: true,
     })
 
     const { target } = this.opts
@@ -108,13 +117,6 @@ export default class OneDrive<M extends Meta, B extends Body> extends UIPlugin<
   uninstall(): void {
     this.view.tearDown()
     this.unmount()
-  }
-
-  async onFirstRender(): Promise<void> {
-    await Promise.all([
-      this.provider.fetchPreAuthToken(),
-      this.view.getFolder(),
-    ])
   }
 
   render(state: unknown): ComponentChild {
