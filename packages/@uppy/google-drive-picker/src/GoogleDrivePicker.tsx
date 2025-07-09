@@ -1,20 +1,17 @@
-import { h } from 'preact'
-import { UIPlugin, Uppy } from '@uppy/core'
-import { GooglePickerView } from '@uppy/provider-views'
-import { GoogleDriveIcon } from '@uppy/provider-views/lib/GooglePicker/icons.js'
 import {
-  RequestClient,
   type CompanionPluginOptions,
+  RequestClient,
   tokenStorage,
 } from '@uppy/companion-client'
-
+import type { AsyncStore, BaseProviderPlugin, Body, Meta } from '@uppy/core'
+import { UIPlugin, type Uppy } from '@uppy/core'
+import { GooglePickerView } from '@uppy/provider-views'
 import type { PickedItem } from '@uppy/provider-views/lib/GooglePicker/googlePicker.js'
-import type { Body, Meta, AsyncStore, BaseProviderPlugin } from '@uppy/core'
+import { GoogleDriveIcon } from '@uppy/provider-views/lib/GooglePicker/icons.js'
 import type { LocaleStrings } from '@uppy/utils/lib/Translator'
+import { h } from 'preact'
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore We don't want TS to generate types for the package.json
-import packageJson from '../package.json'
+import packageJson from '../package.json' with { type: 'json' }
 import locale from './locale.js'
 
 export type GoogleDrivePickerOptions = CompanionPluginOptions & {
@@ -76,7 +73,7 @@ export default class GoogleDrivePicker<M extends Meta, B extends Body>
     accessToken: string,
   ) => {
     this.uppy.addFiles(
-      files.map(({ id, mimeType, name, ...rest }) => {
+      files.map(({ id, mimeType, name, platform, ...rest }) => {
         return {
           source: this.id,
           name,
@@ -91,10 +88,14 @@ export default class GoogleDrivePicker<M extends Meta, B extends Body>
             body: {
               fileId: id,
               accessToken,
-              ...rest,
+              platform,
+              ...('url' in rest && { url: rest.url }),
             },
             requestClientId: GoogleDrivePicker.requestClientId,
           },
+          ...(('metadata' in rest && {
+            meta: rest.metadata,
+          }) as Meta), // dunno how to type this
         }
       }),
     )

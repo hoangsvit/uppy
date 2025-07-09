@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { Locale } from '@uppy/utils/lib/Translator'
 
 const en_US: Locale<0 | 1> = {
@@ -63,6 +62,7 @@ en_US.strings = {
   dashboardWindowTitle: 'Uppy Dashboard Window (Press escape to close)',
   dataUploadedOfTotal: '%{complete} of %{total}',
   dataUploadedOfUnknown: '%{complete} of unknown',
+  discardMediaFile: 'Discard Media',
   discardRecordedFile: 'Discard recorded file',
   done: 'Done',
   dropHereOr: 'Drop here or %{browse}',
@@ -202,6 +202,7 @@ en_US.strings = {
   submitRecordedFile: 'Submit recorded file',
   takePicture: 'Take a picture',
   takePictureBtn: 'Take Picture',
+  takeScreenshot: 'Take Screenshot',
   unnamed: 'Unnamed',
   upload: 'Upload',
   uploadComplete: 'Upload complete',

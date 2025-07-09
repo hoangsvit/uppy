@@ -1,6 +1,7 @@
-import { type MutableRef } from 'preact/hooks'
+import type { MutableRef } from 'preact/hooks'
 
 // https://developers.google.com/photos/picker/reference/rest/v1/mediaItems
+// Note that the google api doc is not correct, hence some things are optional here but not in their docs
 export interface MediaItemBase {
   id: string
   createTime: string
@@ -9,8 +10,6 @@ export interface MediaItemBase {
 interface MediaFileMetadataBase {
   width: number
   height: number
-  cameraMake: string
-  cameraModel: string
 }
 
 interface MediaFileBase {
@@ -24,7 +23,9 @@ export interface VideoMediaItem extends MediaItemBase {
   mediaFile: MediaFileBase & {
     mediaFileMetadata: MediaFileMetadataBase & {
       videoMetadata: {
-        fps: number
+        cameraMake?: string
+        cameraModel?: string
+        fps?: number
         processingStatus: 'UNSPECIFIED' | 'PROCESSING' | 'READY' | 'FAILED'
       }
     }
@@ -35,11 +36,13 @@ export interface PhotoMediaItem extends MediaItemBase {
   type: 'PHOTO'
   mediaFile: MediaFileBase & {
     mediaFileMetadata: MediaFileMetadataBase & {
-      photoMetadata: {
-        focalLength: number
-        apertureFNumber: number
-        isoEquivalent: number
-        exposureTime: string
+      photoMetadata?: {
+        cameraMake?: string
+        cameraModel?: string
+        focalLength?: number
+        apertureFNumber?: number
+        isoEquivalent?: number
+        exposureTime?: string
       }
     }
   }
@@ -47,10 +50,14 @@ export interface PhotoMediaItem extends MediaItemBase {
 
 export interface UnspecifiedMediaItem extends MediaItemBase {
   type: 'TYPE_UNSPECIFIED'
-  mediaFile: MediaFileBase
+  mediaFile: MediaFileBase & {
+    mediaFileMetadata: MediaFileMetadataBase
+  }
 }
 
 export type MediaItem = VideoMediaItem | PhotoMediaItem | UnspecifiedMediaItem
+
+export type MediaType = MediaItem['type']
 
 // https://developers.google.com/photos/picker/reference/rest/v1/sessions
 export interface PickingSession {
@@ -77,6 +84,7 @@ export interface PickedDriveItem extends PickedItemBase {
 export interface PickedPhotosItem extends PickedItemBase {
   platform: 'photos'
   url: string
+  metadata?: Record<string, string | number> // I think string and number is OK in Companion
 }
 
 export type PickedItem = PickedPhotosItem | PickedDriveItem
@@ -153,9 +161,9 @@ export async function authorize({
   const response = await new Promise<google.accounts.oauth2.TokenResponse>(
     (resolve, reject) => {
       const scopes =
-        pickerType === 'drive' ?
-          ['https://www.googleapis.com/auth/drive.file']
-        : ['https://www.googleapis.com/auth/photospicker.mediaitems.readonly']
+        pickerType === 'drive'
+          ? ['https://www.googleapis.com/auth/drive.file']
+          : ['https://www.googleapis.com/auth/photospicker.mediaitems.readonly']
 
       const tokenClient = google.accounts.oauth2.initTokenClient({
         client_id: clientId,
@@ -218,11 +226,11 @@ export async function showDrivePicker({
     if (picked.action === google.picker.Action.PICKED) {
       // console.log('Picker response', JSON.stringify(picked, null, 2));
       onFilesPicked(
-        picked['docs'].map((doc) => ({
+        picked.docs.map((doc) => ({
           platform: 'drive',
-          id: doc['id'],
-          name: doc['name'],
-          mimeType: doc['mimeType'],
+          id: doc.id,
+          name: doc.name,
+          mimeType: doc.mimeType,
         })),
         token,
       )
@@ -309,7 +317,7 @@ async function resolvePickedPhotos({
   do {
     const pageSize = 100
     const response = await fetch(
-      `https://photospicker.googleapis.com/v1/mediaItems?${new URLSearchParams({ sessionId: pickingSession.id, pageSize: String(pageSize) }).toString()}`,
+      `https://photospicker.googleapis.com/v1/mediaItems?${new URLSearchParams({ sessionId: pickingSession.id, pageSize: String(pageSize), ...(pageToken && { pageToken }) }).toString()}`,
       { headers, signal },
     )
     if (!response.ok) throw new Error('Failed to get a media items')
@@ -322,33 +330,69 @@ async function resolvePickedPhotos({
     mediaItems.push(...batchMediaItems)
   } while (pageToken)
 
-  // todo show alert instead about invalid picked files?
+  // Filter out items that aren't fully processed or ready
   mediaItems = mediaItems.flatMap((i) =>
-    (
-      i.type === 'PHOTO' ||
-      (i.type === 'VIDEO' &&
-        i.mediaFile.mediaFileMetadata.videoMetadata.processingStatus ===
-          'READY')
-    ) ?
-      [i]
-    : [],
+    i.type === 'PHOTO' ||
+    (i.type === 'VIDEO' &&
+      i.mediaFile.mediaFileMetadata.videoMetadata.processingStatus === 'READY')
+      ? [i]
+      : [],
   )
 
-  return mediaItems.map(
-    ({
+  // Transform media items into picked items with appropriate metadata
+  return mediaItems.map((mediaItem) => {
+    const {
       id,
       type,
-      // we want the original resolution, so we don't append any parameter to the baseUrl
-      // https://developers.google.com/photos/library/guides/access-media-items#base-urls
       mediaFile: { mimeType, filename, baseUrl },
-    }) => ({
+    } = mediaItem
+
+    return {
       platform: 'photos' as const,
       id,
       mimeType,
+      // we want the original resolution, so we don't append any parameter to the baseUrl
+      // https://developers.google.com/photos/library/guides/access-media-items#base-urls
       url: type === 'VIDEO' ? `${baseUrl}=dv` : `${baseUrl}=d`, // dv to download video, d to get original image (non cropped)
       name: filename,
-    }),
-  )
+      metadata: {
+        // Note that metadata keys `filename` and `type` have special meanings in Companion
+        // and should not be overridden
+        googlePhotosFileType: mediaItem.type,
+        createTime: mediaItem.createTime,
+
+        width: mediaItem.mediaFile.mediaFileMetadata.width,
+        height: mediaItem.mediaFile.mediaFileMetadata.height,
+
+        ...(mediaItem.type === 'PHOTO' && {
+          cameraMake:
+            mediaItem.mediaFile.mediaFileMetadata.photoMetadata?.cameraMake,
+          cameraModel:
+            mediaItem.mediaFile.mediaFileMetadata.photoMetadata?.cameraModel,
+          focalLength:
+            mediaItem.mediaFile.mediaFileMetadata.photoMetadata?.focalLength,
+          apertureFNumber:
+            mediaItem.mediaFile.mediaFileMetadata.photoMetadata
+              ?.apertureFNumber,
+          isoEquivalent:
+            mediaItem.mediaFile.mediaFileMetadata.photoMetadata?.isoEquivalent,
+          exposureTime:
+            mediaItem.mediaFile.mediaFileMetadata.photoMetadata?.exposureTime,
+        }),
+
+        ...(mediaItem.type === 'VIDEO' && {
+          cameraMake:
+            mediaItem.mediaFile.mediaFileMetadata.videoMetadata.cameraMake,
+          cameraModel:
+            mediaItem.mediaFile.mediaFileMetadata.videoMetadata.cameraModel,
+          fps: mediaItem.mediaFile.mediaFileMetadata.videoMetadata.fps,
+          processingStatus:
+            mediaItem.mediaFile.mediaFileMetadata.videoMetadata
+              .processingStatus,
+        }),
+      },
+    }
+  })
 }
 
 export async function pollPickingSession({
@@ -407,12 +451,10 @@ export async function pollPickingSession({
             pickingSession,
             signal,
           })
-          // eslint-disable-next-line no-param-reassign
           pickingSessionRef.current = undefined
           onFilesPicked(resolvedPhotos, accessToken)
         }
         if (pickingSession.pollingConfig.timeoutIn === '0s') {
-          // eslint-disable-next-line no-param-reassign
           pickingSessionRef.current = undefined
         }
       }

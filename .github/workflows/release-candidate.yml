@@ -1,7 +1,8 @@
 name: Release candidate
 on:
   push:
-    branches: release
+    branches: 
+      - release
 
 env:
   YARN_ENABLE_GLOBAL_CACHE: false
@@ -14,7 +15,7 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v4
         with:
-          branch: release
+          ref: release
       - name: Rebase
         run: |
           git fetch origin HEAD --depth=1
@@ -48,10 +49,6 @@ jobs:
         run:
           corepack yarn workspace @uppy-dev/release update-changelogs
           releases.json | xargs git add
-      - name: Update contributors table
-        run:
-          corepack yarn contributors:save && corepack yarn remark -foq README.md
-          && corepack yarn prettier -w README.md && git add README.md
       - name: Update CDN URLs
         run:
           corepack yarn workspace @uppy-dev/release update-version-URLs | xargs
@@ -89,6 +86,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Enable Release workflow
-        run: gh workflow enable Release --repo ${{ github.repository }}
+        run: gh workflow enable 15329895 --repo ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

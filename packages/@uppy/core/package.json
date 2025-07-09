@@ -1,7 +1,7 @@
 {
   "name": "@uppy/core",
   "description": "Core module for the extensible JavaScript file upload widget with support for drag&drop, resumable uploads, previews, restrictions, file processing/encoding, remote providers like Instagram, Dropbox, Google Drive, S3 and more :dog:",
-  "version": "4.4.4",
+  "version": "4.4.7",
   "license": "MIT",
   "main": "lib/index.js",
   "style": "dist/style.min.css",
@@ -9,6 +9,10 @@
   "sideEffects": [
     "*.css"
   ],
+  "scripts": {
+    "build": "tsc --build tsconfig.build.json",
+    "build:css": "sass --load-path=../../ src/style.scss dist/style.css && postcss dist/style.css -u cssnano -o dist/style.min.css"
+  },
   "keywords": [
     "file uploader",
     "uppy",
@@ -33,6 +37,11 @@
     "preact": "^10.5.13"
   },
   "devDependencies": {
+    "cssnano": "^7.0.7",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "sass": "^1.89.2",
+    "typescript": "^5.8.3",
     "vitest": "^1.6.1"
   }
 }
